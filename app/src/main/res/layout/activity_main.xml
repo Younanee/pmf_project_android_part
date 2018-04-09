@@ -6,14 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/main_tab"
         android:id="@+id/main_frame">
-
-
-
     </FrameLayout>
 
 
@@ -37,30 +35,31 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
-                android:src="@drawable/tab_home"/>
+                android:src="@drawable/ic_home_black_48dp"/>
             <ImageView
                 android:id="@+id/btn_main_search"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
-                android:src="@drawable/main_search_off"/>
+                android:src="@drawable/ic_search_black_48dp"/>
             <ImageView
                 android:id="@+id/btn_main_add"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
-                android:src="@drawable/main_add_off"/>
+                android:src="@drawable/ic_add_shopping_cart_black_48dp"/>
             <ImageView
+                android:id="@+id/btn_main_favor"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
-                android:src="@drawable/main_news_off"/>
+                android:src="@drawable/ic_favorite_border_black_48dp"/>
             <ImageView
-                android:id="@+id/btn_main_mine"
+                android:id="@+id/btn_main_setting"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
-                android:src="@drawable/tab_mine"/>
+                android:src="@drawable/ic_face_black_48dp"/>
 
         </LinearLayout>
     </RelativeLayout>
