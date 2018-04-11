@@ -7,8 +7,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="40dp"
         android:orientation="vertical">
+        <TextView
+            android:layout_margin="10dp"
+            android:text="오늘의 추천 메뉴!"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp" />
 
 
 
@@ -20,19 +25,76 @@
 
     </View>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-
-
-
-
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:src="@drawable/ic_crop_din_black_48dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"/>
+            <ImageView
+                android:src="@drawable/ic_crop_din_black_48dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"/>
+            <ImageView
+                android:src="@drawable/ic_crop_din_black_48dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"/>
         </LinearLayout>
-    </ScrollView>
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:src="@drawable/ic_crop_din_black_48dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"/>
+            <ImageView
+                android:src="@drawable/ic_crop_din_black_48dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"/>
+            <ImageView
+                android:src="@drawable/ic_crop_din_black_48dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:src="@drawable/ic_crop_din_black_48dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"/>
+            <ImageView
+                android:src="@drawable/ic_crop_din_black_48dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"/>
+            <ImageView
+                android:src="@drawable/ic_crop_din_black_48dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 </LinearLayout>

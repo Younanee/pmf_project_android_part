@@ -49,11 +49,11 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_add_shopping_cart_black_48dp"/>
             <ImageView
-                android:id="@+id/btn_main_favor"
+                android:id="@+id/btn_main_fridge"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_favorite_border_black_48dp"/>
+                android:src="@drawable/ic_kitchen_black_48dp"/>
             <ImageView
                 android:id="@+id/btn_main_setting"
                 android:layout_width="30dp"

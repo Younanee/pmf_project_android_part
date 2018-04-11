@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         btn_main_add.setOnClickListener {
             replaceFragment(AddTab())
         }
-        btn_main_favor.setOnClickListener {
+        btn_main_fridge.setOnClickListener {
             replaceFragment(FavoriteTab())
         }
         btn_main_setting.setOnClickListener {
