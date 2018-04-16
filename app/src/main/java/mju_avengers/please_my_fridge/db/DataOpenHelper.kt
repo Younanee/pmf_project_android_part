@@ -7,9 +7,6 @@ import org.jetbrains.anko.db.*
 object DBManager{
     val Context.database : DataOpenHelper
         get() = DataOpenHelper.getInstance(applicationContext)
-
-
-
 }
 
 

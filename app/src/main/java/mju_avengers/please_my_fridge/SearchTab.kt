@@ -11,4 +11,17 @@ class SearchTab : Fragment(){
         val v = inflater.inflate(R.layout.fragment_search, container, false)
         return v
     }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        addFragment(MainSearchTab())
+
+
+    }
+
+    fun addFragment(fragment: Fragment){
+        val transaction = childFragmentManager.beginTransaction()
+        transaction.add(R.id.search_frame, fragment)
+        transaction.commit()
+    }
 }

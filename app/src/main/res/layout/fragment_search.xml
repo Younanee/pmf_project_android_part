@@ -41,11 +41,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
-        <ImageView
-            android:src="@drawable/ic_local_dining_black_48dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
 
     </LinearLayout>
     <View
@@ -53,6 +48,14 @@
         android:layout_height="1dp"
         android:background="#e2e3e3">
     </View>
+
+    <FrameLayout
+        android:id="@+id/search_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    </FrameLayout>
 
 
 </LinearLayout>
