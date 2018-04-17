@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <EditText
+            android:hint="원하는 식재료를 입력해주세요!"
+            android:textColor="#000000"
+            android:id="@+id/search_grocery_input_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/search_grocery_search_btn"
+            android:src="@drawable/ic_search_black_48dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e2e3e3">
+    </View>
+    
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/grocery_search_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

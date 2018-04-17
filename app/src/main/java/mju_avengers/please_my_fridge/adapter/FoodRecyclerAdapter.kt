@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import mju_avengers.please_my_fridge.R
 import mju_avengers.please_my_fridge.data.testFoodData
@@ -28,6 +29,7 @@ class FoodRecyclerAdapter(val ctx :Context, val testFoodDatas: ArrayList<testFoo
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        holder.thumbnail.setImageResource(testFoodDatas[position].thumbnail)
         holder.foodName.text = testFoodDatas[position].name
         holder.recipe.text = testFoodDatas[position].recipe
         //holder.thumbnail.setImageResource()
@@ -36,7 +38,7 @@ class FoodRecyclerAdapter(val ctx :Context, val testFoodDatas: ArrayList<testFoo
 
     inner class Holder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val foodName : TextView = itemView.findViewById(R.id.food_item_tv_name) as TextView
-        //val thumbnail : ImageView = itemView.findViewById(R.id.food_item_thumbnail_image) as ImageView
+        val thumbnail : ImageView = itemView.findViewById(R.id.food_item_thumbnail_image) as ImageView
         val recipe : TextView = itemView.findViewById(R.id.food_item_tv_recipe) as TextView
 //        fun bind(testFoodData: testFoodData, ctx: Context){
 //            foodName?.text = testFoodData.name

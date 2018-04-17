@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchTab : Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -14,7 +15,15 @@ class SearchTab : Fragment(){
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        addFragment(MainSearchTab())
+        addFragment(GrocerySearchTab())
+
+        search_grocery_btn.setOnClickListener {
+            replaceFragment(GrocerySearchTab())
+        }
+        search_fridge_btn.setOnClickListener {
+            replaceFragment(FridgeSearchTab())
+        }
+
 
 
     }
@@ -22,6 +31,11 @@ class SearchTab : Fragment(){
     fun addFragment(fragment: Fragment){
         val transaction = childFragmentManager.beginTransaction()
         transaction.add(R.id.search_frame, fragment)
+        transaction.commit()
+    }
+    fun replaceFragment(fragment: Fragment){
+        val transaction = childFragmentManager.beginTransaction()
+        transaction.replace(R.id.search_frame, fragment)
         transaction.commit()
     }
 }

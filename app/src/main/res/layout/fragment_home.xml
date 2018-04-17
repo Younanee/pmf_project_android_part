@@ -25,10 +25,77 @@
 
     </View>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/home_tab_recycler_view"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/home_food01_iv"
+                android:scaleType="centerCrop"
+                android:src="@drawable/test01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/home_food01_name_iv"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="간장 수육 덮밥"
+                android:textSize="18sp"
+                android:textColor="#FFFFFF"
+                android:layout_alignBottom="@id/home_food01_iv"
+                android:gravity="right"
+                android:layout_margin="10dp"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/home_food02_iv"
+                android:scaleType="centerCrop"
+                android:src="@drawable/test02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/home_food02_name_iv"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="차돌 감자국"
+                android:textSize="18sp"
+                android:textColor="#FFFFFF"
+                android:layout_alignBottom="@id/home_food02_iv"
+                android:gravity="right"
+                android:layout_margin="10dp"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/home_food03_iv"
+                android:scaleType="centerCrop"
+                android:src="@drawable/test03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/home_food03_name_iv"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="양배추피 만두"
+                android:textSize="18sp"
+                android:textColor="#FFFFFF"
+                android:layout_alignBottom="@id/home_food03_iv"
+                android:gravity="right"
+                android:layout_margin="10dp"/>
+        </RelativeLayout>
+
+
+    </LinearLayout>
 
 
 </LinearLayout>

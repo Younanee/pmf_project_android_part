@@ -1,8 +1,7 @@
 package mju_avengers.please_my_fridge
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import org.jetbrains.anko.toast
+import android.support.v7.app.AppCompatActivity
 
 class FridgeActivity : AppCompatActivity() {
 
@@ -10,7 +9,5 @@ class FridgeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fridge)
 
-        val intent = intent
-        toast(intent.getStringExtra("msg"))
     }
 }
