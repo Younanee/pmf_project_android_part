@@ -1,26 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <EditText
-            android:hint="원하는 식재료를 입력해주세요!"
-            android:textColor="#000000"
-            android:id="@+id/search_grocery_input_et"
-            android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/grocery_search_input_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5">
+            <android.support.design.widget.TextInputEditText
+                android:textColor="#000000"
+                android:id="@+id/grocery_search_input_et"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <ImageView
-            android:id="@+id/search_grocery_search_btn"
-            android:src="@drawable/ic_search_black_48dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="4"/>
+            android:layout_weight="1">
+            <at.markushi.ui.CircleButton
+                android:id="@+id/grocery_search_btn"
+                android:src="@drawable/ic_search_white_24dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cb_color="#aeea00" />
+        </FrameLayout>
+
     </LinearLayout>
 
     <View
@@ -28,7 +45,13 @@
         android:layout_height="1dp"
         android:background="#e2e3e3">
     </View>
-    
+    <TextView
+        android:id="@+id/grocery_search_keyword_tv"
+        android:textAlignment="center"
+        android:textSize="23sp"
+        android:text="식재료 명"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/grocery_search_rv"
         android:layout_width="match_parent"

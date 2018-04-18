@@ -10,17 +10,16 @@
         android:layout_height="40dp"
         android:orientation="vertical">
         <TextView
-            android:layout_margin="10dp"
-            android:text="오늘의 추천 메뉴!"
+            android:textSize="18sp"
+            android:layout_margin="5dp"
+            android:text="오늘의 추천 요리!"
             android:layout_width="wrap_content"
-            android:layout_height="20dp" />
-
-
-
+            android:layout_height="wrap_content"
+            android:gravity="center|left"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="#e2e3e3">
 
     </View>
@@ -41,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/home_food01_name_iv"
+                android:id="@+id/home_food01_name_tv"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:text="간장 수육 덮밥"
@@ -50,11 +49,22 @@
                 android:layout_alignBottom="@id/home_food01_iv"
                 android:gravity="right"
                 android:layout_margin="10dp"/>
+            <TextView
+                android:id="@+id/home_food01_percent_tv"
+                android:text="재료 보유 87%"
+                android:textSize="15sp"
+                android:textColor="#FFFFFF"
+                android:layout_width="match_parent"
+                android:layout_height="23dp"
+                android:gravity="left"
+                android:layout_margin="10dp"
+                android:layout_alignTop="@+id/home_food01_iv"/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
+
             <ImageView
                 android:id="@+id/home_food02_iv"
                 android:scaleType="centerCrop"
@@ -62,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/home_food02_name_iv"
+                android:id="@+id/home_food02_name_tv"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:text="차돌 감자국"
@@ -71,6 +81,17 @@
                 android:layout_alignBottom="@id/home_food02_iv"
                 android:gravity="right"
                 android:layout_margin="10dp"/>
+            <TextView
+                android:id="@+id/home_food02_percent_tv"
+                android:text="재료 보유 79%"
+                android:textSize="15sp"
+                android:textColor="#FFFFFF"
+                android:layout_width="match_parent"
+                android:layout_height="23dp"
+                android:gravity="left"
+                android:layout_margin="10dp"
+                android:layout_alignTop="@+id/home_food02_iv"/>
+
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -83,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/home_food03_name_iv"
+                android:id="@+id/home_food03_name_tv"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:text="양배추피 만두"
@@ -92,6 +113,16 @@
                 android:layout_alignBottom="@id/home_food03_iv"
                 android:gravity="right"
                 android:layout_margin="10dp"/>
+            <TextView
+                android:id="@+id/home_food03_percent_tv"
+                android:text="재료 보유 96%"
+                android:textSize="15sp"
+                android:textColor="#FFFFFF"
+                android:layout_width="match_parent"
+                android:layout_height="23dp"
+                android:gravity="left"
+                android:layout_margin="10dp"
+                android:layout_alignTop="@+id/home_food03_iv"/>
         </RelativeLayout>
 
 

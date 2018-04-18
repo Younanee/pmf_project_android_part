@@ -28,12 +28,10 @@
     </View>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:orientation="horizontal"
-        android:layout_marginVertical="3dp">
+        android:layout_height="40dp"
+        android:orientation="horizontal">
         <RelativeLayout
             android:id="@+id/search_grocery_btn"
-            android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -43,22 +41,15 @@
                 android:textAlignment="center"
                 android:textSize="17sp"
                 android:textColor="#000000"
-                android:text="원하는 식재료 기반"
+                android:text="선택 재료로 검색"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_centerHorizontal="true"/>
-            <ImageView
-                android:layout_toRightOf="@id/search_grocery_tv"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_search_black_48dp"
-                android:layout_width="20dp"
-                android:layout_height="20dp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/search_fridge_btn"
-            android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -68,16 +59,11 @@
                 android:textAlignment="center"
                 android:textSize="17sp"
                 android:textColor="#000000"
-                android:text="기존 식재료 기반"
+                android:text="기존 재료로 검색"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"/>
-            <ImageView
-                android:layout_toRightOf="@id/search_fridge_tv"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_search_black_48dp"
-                android:layout_width="20dp"
-                android:layout_height="20dp" />
+
         </RelativeLayout>
 
 

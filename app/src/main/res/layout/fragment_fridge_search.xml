@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <at.markushi.ui.CircleButton
+        android:id="@+id/fridge_search_btn"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_search_white_24dp"
+        app:cb_color="#64ffda"
+        android:layout_width="64dp"
+        android:layout_height="64dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fridge_search_rv"

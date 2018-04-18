@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import mju_avengers.please_my_fridge.R
-import mju_avengers.please_my_fridge.data.testFoodData
+import mju_avengers.please_my_fridge.data.TestFoodData
 
-class FoodRecyclerAdapter(val ctx :Context, val testFoodDatas: ArrayList<testFoodData>): RecyclerView.Adapter<FoodRecyclerAdapter.Holder>() {
+class FoodRecyclerAdapter(val ctx :Context, val testFoodDatas: ArrayList<TestFoodData>): RecyclerView.Adapter<FoodRecyclerAdapter.Holder>() {
     private lateinit var onItemClick : View.OnClickListener
 
     fun setOnItemClickListener(l : View.OnClickListener){
@@ -31,15 +31,14 @@ class FoodRecyclerAdapter(val ctx :Context, val testFoodDatas: ArrayList<testFoo
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.thumbnail.setImageResource(testFoodDatas[position].thumbnail)
         holder.foodName.text = testFoodDatas[position].name
-        holder.recipe.text = testFoodDatas[position].recipe
-        //holder.thumbnail.setImageResource()
+        holder.percent.text = "재료 보유율 " + testFoodDatas[position].percent.toString() + "%"
     }
 
 
     inner class Holder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val foodName : TextView = itemView.findViewById(R.id.food_item_tv_name) as TextView
-        val thumbnail : ImageView = itemView.findViewById(R.id.food_item_thumbnail_image) as ImageView
-        val recipe : TextView = itemView.findViewById(R.id.food_item_tv_recipe) as TextView
+        val thumbnail : ImageView = itemView.findViewById(R.id.food_item_thumbnail) as ImageView
+        val percent : TextView = itemView.findViewById(R.id.food_item_tv_percent) as TextView
 //        fun bind(testFoodData: testFoodData, ctx: Context){
 //            foodName?.text = testFoodData.name
 //        }
