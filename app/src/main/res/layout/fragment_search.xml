@@ -1,86 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="vertical">
-        <RelativeLayout
-            android:id="@+id/rl_add_message"
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="60dp">
-            <TextView
-                android:textAlignment="center"
-                android:text=" Tip!\n두가지 기반 검색을 통해 요리를 추천받아 보세요!"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e2e3e3">
-    </View>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal">
-        <RelativeLayout
-            android:id="@+id/search_grocery_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/search_grocery_tv"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:textSize="17sp"
-                android:textColor="#000000"
-                android:text="선택 재료로 검색"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_centerHorizontal="true"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/search_fridge_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/search_fridge_tv"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:textSize="17sp"
-                android:textColor="#000000"
-                android:text="기존 재료로 검색"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"/>
-
-        </RelativeLayout>
-
-
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e2e3e3">
-    </View>
 
     <FrameLayout
         android:id="@+id/search_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:layout_above="@+id/search_navi_ll">
 
     </FrameLayout>
 
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/search_navi_ll"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:background="?android:attr/selectableItemBackground"
+            android:id="@+id/search_grocery_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/search_selected_iv"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_mode_edit_black_48dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+            <TextView
+                android:layout_below="@+id/search_selected_iv"
+                android:id="@+id/search_grocery_tv"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:text="선택 재료로 검색"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:background="?android:attr/selectableItemBackground"
+            android:id="@+id/search_fridge_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/search_fridge_iv"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_storage_black_48dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+            <TextView
+                android:layout_below="@+id/search_fridge_iv"
+                android:id="@+id/search_fridge_tv"
+                android:gravity="center"
+
+                android:text="기존 재료로 검색"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

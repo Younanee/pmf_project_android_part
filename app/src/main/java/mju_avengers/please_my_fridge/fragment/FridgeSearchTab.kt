@@ -12,7 +12,6 @@ import mju_avengers.please_my_fridge.DetailedFoodInfoActivity
 import mju_avengers.please_my_fridge.R
 import mju_avengers.please_my_fridge.adapter.FoodRecyclerAdapter
 import mju_avengers.please_my_fridge.data.TestFoodData
-import org.jetbrains.anko.support.v4.intentFor
 import org.jetbrains.anko.support.v4.startActivity
 
 

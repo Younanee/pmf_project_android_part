@@ -28,10 +28,10 @@ class AddTab : Fragment(){
             intent.putExtra("msg", "냉장고로 테스트 메시지 보내기")
             startActivity(intent)
         }
-        btn_write_grocery.setOnClickListener {
+        add_write_btn.setOnClickListener {
             replaceFragment(WriteTab())
         }
-        btn_carmera_scan.setOnClickListener {
+        add_carmera_btn.setOnClickListener {
             toast("카메라 작동 시키기")
         }
 

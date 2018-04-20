@@ -9,10 +9,11 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:layout_marginHorizontal="10dp">
 
         <android.support.design.widget.TextInputLayout
+            android:layout_gravity="bottom"
             android:id="@+id/grocery_search_input_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -27,6 +28,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <FrameLayout
+            android:layout_gravity="bottom"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">

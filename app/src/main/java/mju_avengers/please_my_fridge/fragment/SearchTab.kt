@@ -17,17 +17,12 @@ class SearchTab : Fragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         addFragment(GrocerySearchTab())
-        search_grocery_btn.setBackgroundColor(resources.getColor(R.color.searchButton))
 
 
         search_grocery_btn.setOnClickListener {
-            search_grocery_btn.setBackgroundColor(resources.getColor(R.color.searchButton))
-            search_fridge_btn.setBackgroundColor(resources.getColor(R.color.white))
             replaceFragment(GrocerySearchTab())
         }
         search_fridge_btn.setOnClickListener {
-            search_grocery_btn.setBackgroundColor(resources.getColor(R.color.white))
-            search_fridge_btn.setBackgroundColor(resources.getColor(R.color.searchButton))
             replaceFragment(FridgeSearchTab())
         }
 

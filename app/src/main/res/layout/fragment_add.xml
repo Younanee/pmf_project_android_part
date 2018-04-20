@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/add_notice_ll"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:orientation="vertical">
@@ -38,40 +38,72 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e2e3e3">
-    </View>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:orientation="horizontal"
-        android:layout_marginVertical="3dp">
-        <at.markushi.ui.CircleButton
-            android:id="@+id/btn_write_grocery"
-            android:src="@drawable/ic_border_color_black_48dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <ImageView
-            android:id="@+id/btn_carmera_scan"
-            android:src="@drawable/ic_camera_alt_black_48dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e2e3e3">
-    </View>
 
     <FrameLayout
         android:id="@+id/add_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/add_notice_ll"
+        android:layout_above="@+id/add_navi_ll">
 
-</LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/add_navi_ll"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+        <RelativeLayout
+            android:id="@+id/add_write_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="?android:attr/selectableItemBackground">
+            <ImageView
+                android:layout_centerInParent="true"
+
+                android:id="@+id/add_write_grocery_iv"
+                android:src="@drawable/ic_border_color_black_48dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_centerInParent="true"
+                android:layout_below="@id/add_write_grocery_iv"
+                android:text="텍스트로 추가"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/add_carmera_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="?android:attr/selectableItemBackground">
+            <ImageView
+                android:layout_centerInParent="true"
+
+                android:id="@+id/add_carmera_iv"
+                android:src="@drawable/camera_btn"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_centerInParent="true"
+                android:layout_below="@id/add_carmera_iv"
+                android:text="영수증 인식"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>
