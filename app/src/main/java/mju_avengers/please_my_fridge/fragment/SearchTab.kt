@@ -33,11 +33,13 @@ class SearchTab : Fragment(){
     fun addFragment(fragment: Fragment){
         val transaction = childFragmentManager.beginTransaction()
         transaction.add(R.id.search_frame, fragment)
+        transaction.addToBackStack("")
         transaction.commit()
     }
     fun replaceFragment(fragment: Fragment){
         val transaction = childFragmentManager.beginTransaction()
         transaction.replace(R.id.search_frame, fragment)
+        transaction.addToBackStack("")
         transaction.commit()
     }
 }

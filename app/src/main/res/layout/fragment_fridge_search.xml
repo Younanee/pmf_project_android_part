@@ -7,7 +7,7 @@
     <at.markushi.ui.CircleButton
         android:id="@+id/fridge_search_btn"
         android:layout_gravity="center"
-        android:src="@drawable/ic_search_white_24dp"
+        android:src="@drawable/ic_search_black_24dp"
         app:cb_color="#64ffda"
         android:layout_width="64dp"
         android:layout_height="64dp" />

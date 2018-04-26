@@ -27,7 +27,7 @@
             <ImageView
                 android:id="@+id/search_selected_iv"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_mode_edit_black_48dp"
+                android:src="@drawable/ic_mode_edit_black_24dp"
                 android:layout_width="48dp"
                 android:layout_height="48dp" />
             <TextView
@@ -51,7 +51,7 @@
             <ImageView
                 android:id="@+id/search_fridge_iv"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_storage_black_48dp"
+                android:src="@drawable/ic_format_list_bulleted_black_24dp"
                 android:layout_width="48dp"
                 android:layout_height="48dp" />
             <TextView

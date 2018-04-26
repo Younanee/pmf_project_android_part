@@ -10,7 +10,7 @@ class DetailedFoodInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detailed_food_info)
 
-        val name = intent.getStringExtra("name")
-        detail_food_name_tv.text = name
+        val foodName = intent.getStringExtra("foodName")
+        detail_food_name_tv.text = foodName
     }
 }

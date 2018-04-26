@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.fragment_fridge_search.*
 import mju_avengers.please_my_fridge.DetailedFoodInfoActivity
 import mju_avengers.please_my_fridge.R
@@ -18,8 +17,8 @@ import org.jetbrains.anko.support.v4.startActivity
 class FridgeSearchTab : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         val idx : Int = fridge_search_rv.getChildAdapterPosition(v)
-        val name : String = testFoodDatas[idx].name
-        startActivity<DetailedFoodInfoActivity>("name" to name)
+        val foodName : String = testFoodDatas[idx].name
+        startActivity<DetailedFoodInfoActivity>("foodName" to foodName)
     }
 
     lateinit var testFoodDatas: ArrayList<TestFoodData>
