@@ -10,13 +10,13 @@
         android:layout_height="48dp"
         android:orientation="vertical">
         <TextView
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:layout_marginLeft="16dp"
-            android:text="오늘의 추천 요리!"
+            android:layout_marginTop="10dp"
+            android:text="Today's Food"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center|left"
-            android:textColor="#212121"/>
+            android:gravity="center|left" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"

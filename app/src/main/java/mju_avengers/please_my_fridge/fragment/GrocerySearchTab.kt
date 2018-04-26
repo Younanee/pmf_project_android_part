@@ -3,15 +3,14 @@ package mju_avengers.please_my_fridge.fragment
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import kotlinx.android.synthetic.main.fragment_grocery_search.*
 import mju_avengers.please_my_fridge.DetailedFoodInfoActivity
 import mju_avengers.please_my_fridge.R
 import mju_avengers.please_my_fridge.adapter.FoodRecyclerAdapter
 import mju_avengers.please_my_fridge.data.TestFoodData
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.toast
 
 class GrocerySearchTab : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
@@ -28,11 +27,11 @@ class GrocerySearchTab : Fragment(), View.OnClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        grocery_search_input_layout.hint = "식재료를 입력해주세요."
 
         grocery_search_btn.setOnClickListener {
-            var keyword : String = grocery_search_input_et.text.toString()
-            grocery_search_keyword_tv.text = "\""+keyword+"\""
+            var keyword = grocery_search_sv.query.toString()
+
+            if(keyword == "안녕") toast(keyword)
             testDataSet()
         }
 
@@ -49,5 +48,9 @@ class GrocerySearchTab : Fragment(), View.OnClickListener {
         foodDataAdapter.setOnItemClickListener(this)
         grocery_search_rv.layoutManager = LinearLayoutManager(context)
         grocery_search_rv.adapter = foodDataAdapter
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }

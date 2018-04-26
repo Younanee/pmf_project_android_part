@@ -4,28 +4,25 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <android.support.v7.widget.SearchView
+        android:id="@+id/grocery_search_sv"
+        android:background="@drawable/boxs"
+        android:elevation="2dp"
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:queryHint="식재료 입력">
+
+    </android.support.v7.widget.SearchView>
 
 
     <LinearLayout
+
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginHorizontal="10dp">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_gravity="bottom"
-            android:id="@+id/grocery_search_input_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5">
-            <android.support.design.widget.TextInputEditText
-                android:textColor="#000000"
-                android:id="@+id/grocery_search_input_et"
-                android:inputType="text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </android.support.design.widget.TextInputLayout>
 
         <FrameLayout
             android:layout_gravity="bottom"
@@ -47,13 +44,6 @@
         android:layout_height="1dp"
         android:background="#e2e3e3">
     </View>
-    <TextView
-        android:id="@+id/grocery_search_keyword_tv"
-        android:textAlignment="center"
-        android:textSize="23sp"
-        android:text="식재료 명"
-        android:layout_width="match_parent"
-        android:layout_height="40dp" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/grocery_search_rv"
         android:layout_width="match_parent"
