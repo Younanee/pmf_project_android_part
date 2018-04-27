@@ -18,14 +18,9 @@ class SearchTab : Fragment(){
         super.onActivityCreated(savedInstanceState)
         addFragment(GrocerySearchTab())
 
-
-        search_grocery_btn.setOnClickListener {
-            replaceFragment(GrocerySearchTab())
-        }
         search_fridge_btn.setOnClickListener {
-            replaceFragment(FridgeSearchTab())
-        }
 
+        }
 
 
     }

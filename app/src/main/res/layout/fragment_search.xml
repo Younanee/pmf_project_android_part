@@ -7,67 +7,33 @@
         android:id="@+id/search_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/search_navi_ll">
+        android:layout_above="@+id/search_fridge_btn">
 
     </FrameLayout>
 
 
-    <LinearLayout
-        android:id="@+id/search_navi_ll"
-        android:layout_alignParentBottom="true"
+    <RelativeLayout
+        android:id="@+id/search_fridge_btn"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:orientation="horizontal">
-        <RelativeLayout
-            android:background="?android:attr/selectableItemBackground"
-            android:id="@+id/search_grocery_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-            <ImageView
-                android:id="@+id/search_selected_iv"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_mode_edit_black_24dp"
-                android:layout_width="48dp"
-                android:layout_height="48dp" />
-            <TextView
-                android:layout_below="@+id/search_selected_iv"
-                android:id="@+id/search_grocery_tv"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:text="선택 재료로 검색"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_centerHorizontal="true" />
-        </RelativeLayout>
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center">
 
-        <RelativeLayout
-            android:background="?android:attr/selectableItemBackground"
-            android:id="@+id/search_fridge_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-            <ImageView
-                android:id="@+id/search_fridge_iv"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_format_list_bulleted_black_24dp"
-                android:layout_width="48dp"
-                android:layout_height="48dp" />
-            <TextView
-                android:layout_below="@+id/search_fridge_iv"
-                android:id="@+id/search_fridge_tv"
-                android:gravity="center"
+        <ImageView
+            android:id="@+id/search_fridge_iv"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_format_list_bulleted_black_24dp" />
 
-                android:text="기존 재료로 검색"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"/>
-        </RelativeLayout>
-    </LinearLayout>
-
-
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/search_fridge_iv"
+            android:layout_centerInParent="true"
+            android:text="기존 재료로 검색" />
+    </RelativeLayout>
 
 
 </RelativeLayout>

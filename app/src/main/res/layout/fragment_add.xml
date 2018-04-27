@@ -1,109 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/add_notice_ll"
-        android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:orientation="vertical">
-        <RelativeLayout
-            android:id="@+id/rl_add_message"
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="70dp">
-            <TextView
-                android:text="잠깐!"
-                android:textAlignment="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"/>
-            <TextView
 
-                android:layout_alignParentBottom="true"
-                android:textAlignment="center"
-                android:text="혹시 식재료 체크해보셨나요?\n다 먹은, 다 떨어져가는 식재료 등을 자주 관리해서\n 좀 더 효율적으로 앱을 사용해보세요!"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <Button
-            android:id="@+id/btn_add_frigde"
-            android:textColor="#FFFFFF"
-            android:background="#039be5"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginVertical="7dp"
-            android:text="식재료 체크하기"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/add_frame"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/add_notice_ll"
-        android:layout_above="@+id/add_navi_ll">
+        android:layout_above="@+id/add_carmera_btn">
+        <LinearLayout
+            android:id="@+id/add_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    </FrameLayout>
+        </LinearLayout>
+    </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/add_navi_ll"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
+
+
+    <RelativeLayout
+        android:id="@+id/add_carmera_btn"
         android:layout_width="match_parent"
-        android:layout_height="80dp">
-        <RelativeLayout
-            android:id="@+id/add_write_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:background="?android:attr/selectableItemBackground">
-            <ImageView
-                android:layout_centerInParent="true"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center">
 
-                android:id="@+id/add_write_grocery_iv"
-                android:src="@drawable/ic_playlist_add_black_24dp"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"/>
-            <TextView
-                android:layout_centerInParent="true"
-                android:layout_below="@id/add_write_grocery_iv"
-                android:text="텍스트로 추가"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/add_carmera_iv"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_camera_black_24dp" />
 
-        <RelativeLayout
-            android:id="@+id/add_carmera_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:background="?android:attr/selectableItemBackground">
-            <ImageView
-                android:layout_centerInParent="true"
-
-                android:id="@+id/add_carmera_iv"
-                android:src="@drawable/ic_camera_black_24dp"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"/>
-            <TextView
-                android:layout_centerInParent="true"
-                android:layout_below="@id/add_carmera_iv"
-                android:text="영수증 인식"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-
-    </LinearLayout>
-
-
-
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/add_carmera_iv"
+            android:layout_centerInParent="true"
+            android:text="영수증 인식" />
+    </RelativeLayout>
 
 </RelativeLayout>
