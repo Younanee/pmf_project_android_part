@@ -3,8 +3,11 @@ package mju_avengers.please_my_fridge
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import mju_avengers.please_my_fridge.adapter.TabPagerAdapter
+import org.jetbrains.anko.design.longSnackbar
+import org.jetbrains.anko.toast
 
 
 class MainActivity : AppCompatActivity() {
@@ -14,6 +17,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         configureTabLayout()
+        val user = FirebaseAuth.getInstance().currentUser
+        longSnackbar(main_ll,user.toString(), "확인", { view ->
+            toast("dmd?")
+        }).setDuration(10000).show()
+
     }
 
     private fun configureTabLayout() {

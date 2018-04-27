@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
 import mju_avengers.please_my_fridge.DetailedFoodInfoActivity
 import mju_avengers.please_my_fridge.R
@@ -23,6 +24,7 @@ class HomeTab : Fragment(), View.OnClickListener{
 
     lateinit var homeFoodItems : ArrayList<HomeFoodData>
     lateinit var homeFoodDataAdapter : HomeFoodRecyclerAdapter
+    lateinit var hoomAnimationAdapter : AlphaInAnimationAdapter
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,8 +52,11 @@ class HomeTab : Fragment(), View.OnClickListener{
     fun setHomeFoodAdapter(){
         homeFoodDataAdapter = HomeFoodRecyclerAdapter(context!!, homeFoodItems)
         homeFoodDataAdapter.setOnItemClickListener(this)
+        hoomAnimationAdapter = AlphaInAnimationAdapter(homeFoodDataAdapter)
+
+
         home_food_rv.layoutManager = LinearLayoutManager(context)
-        home_food_rv.adapter = homeFoodDataAdapter
+        home_food_rv.adapter = hoomAnimationAdapter
 
     }
 

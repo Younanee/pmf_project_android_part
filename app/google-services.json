@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "699102357071",
+    "firebase_url": "https://please-my-fridge-60186.firebaseio.com",
+    "project_id": "please-my-fridge-60186",
+    "storage_bucket": "please-my-fridge-60186.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:699102357071:android:9b2c1c2e8ab6be77",
+        "android_client_info": {
+          "package_name": "mju_avengers.please_my_fridge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "699102357071-dtqtmdf5gpr9463n1hi4v46auac74lpl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mju_avengers.please_my_fridge",
+            "certificate_hash": "4eda3f6105b00d2dc27f1638d171dacb2bd56d52"
+          }
+        },
+        {
+          "client_id": "699102357071-r88olhnhklhfqa5gk3dge5rjt0ctfg7i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAjfrQnzsOYk-HEvMnSnE3RFlCl7jhvBM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "699102357071-r88olhnhklhfqa5gk3dge5rjt0ctfg7i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
