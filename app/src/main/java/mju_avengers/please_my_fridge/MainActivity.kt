@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         val user = FirebaseAuth.getInstance().currentUser
         longSnackbar(main_ll,user.toString(), "확인", { view ->
             toast("dmd?")
-        }).setDuration(10000).show()
+        }).setDuration(5000).show()
 
     }
 
