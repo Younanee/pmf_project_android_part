@@ -23,12 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-
-        </activity>
-        <activity android:name=".FridgeActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".DetailedFoodInfoActivity" />
-
+        <activity android:name=".GroceryCategoryActivity" />
+        <activity android:name=".AddActivity"></activity>
     </application>
 
 </manifest>

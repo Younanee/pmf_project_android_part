@@ -10,9 +10,8 @@ class TabPagerAdapter(var tabCount : Int, fm : FragmentManager) : FragmentStateP
         when (position){
             0 -> return HomeTab()
             1 -> return SearchTab()
-            2 -> return AddTab()
-            3 -> return FavoriteTab()
-            4 -> return SettingTab()
+            2 -> return FridgeTab()
+            3 -> return SettingTab()
             else -> return null
         }
     }

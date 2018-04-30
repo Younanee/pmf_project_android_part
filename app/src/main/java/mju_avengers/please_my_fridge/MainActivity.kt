@@ -26,10 +26,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun configureTabLayout() {
         main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_home_unclicked_black_24dp), 0)
+        main_tabLayout.getTabAt(0)!!.icon!!.alpha = 255
         main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_search_black_24dp), 1)
-        main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_add_shopping_cart_black_24dp), 2)
-        main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_kitchen_black_24dp), 3)
-        main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_person_black_24dp), 4)
+        main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_kitchen_black_24dp), 2)
+        main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_person_black_24dp), 3)
 
         val tabAdapter = TabPagerAdapter(main_tabLayout.tabCount, supportFragmentManager)
         main_pager.adapter = tabAdapter
