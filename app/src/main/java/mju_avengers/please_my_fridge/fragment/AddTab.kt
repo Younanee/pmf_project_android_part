@@ -19,10 +19,6 @@ class AddTab : Fragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        add_carmera_btn.setOnClickListener {
-            toast("카메라 작동 시키기")
-        }
-
 
     }
 

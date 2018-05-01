@@ -1,6 +1,7 @@
 package mju_avengers.please_my_fridge.fragment
 
 import android.os.Bundle
+import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +20,8 @@ class FridgeTab : Fragment(){
         super.onActivityCreated(savedInstanceState)
 
         fridge_grocery_add_btn.setOnClickListener {
-            //추가버튼 구현
+            val dialog : DialogFragment = SelectedAddOptionDialog()
+            dialog.show(childFragmentManager, "SelectedAddOption")
         }
 
         fridge_category_meat_btn.setOnClickListener {
@@ -34,8 +36,11 @@ class FridgeTab : Fragment(){
         fridge_category_fruit_btn.setOnClickListener {
             startActivity<GroceryCategoryActivity>("CategoryName" to "fruit")
         }
-        fridge_category_source_btn.setOnClickListener {
-            startActivity<GroceryCategoryActivity>("CategoryName" to "source")
+        fridge_category_sauce_btn.setOnClickListener {
+            startActivity<GroceryCategoryActivity>("CategoryName" to "sauce")
+        }
+        fridge_category_grain_btn.setOnClickListener {
+            startActivity<GroceryCategoryActivity>("CategoryName" to "grain")
         }
         fridge_category_etc_btn.setOnClickListener {
             startActivity<GroceryCategoryActivity>("CategoryName" to "etc")

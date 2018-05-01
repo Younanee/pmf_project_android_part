@@ -1,9 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddActivity">
+    <TextView
+        android:id="@+id/add_notice_tv"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:text="아래 추가 버튼을 눌러주세요!"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/add_grocery_item_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/add_navi_ll">
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/add_navi_ll"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
+        <TextView
+            android:id="@+id/add_grocery_add_btn"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center"
+            android:text="추가"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"/>
+        <TextView
+            android:id="@+id/add_grocery_finish_btn"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center"
+            android:text="냉장고에 식료품들 넣기"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+
+
+</RelativeLayout>

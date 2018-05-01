@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         configureTabLayout()
         val user = FirebaseAuth.getInstance().currentUser
         longSnackbar(main_ll,user.toString(), "확인", { view ->
-            toast("dmd?")
+            toast("test")
         }).setDuration(5000).show()
 
     }
