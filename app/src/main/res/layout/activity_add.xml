@@ -12,10 +12,12 @@
         android:text="아래 추가 버튼을 눌러주세요!"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/add_grocery_item_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
         android:layout_above="@+id/add_navi_ll">
 
     </android.support.v7.widget.RecyclerView>

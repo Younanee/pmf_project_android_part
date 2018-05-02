@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import kotlinx.android.synthetic.main.activity_add.*
+import kotlinx.android.synthetic.main.grocery_item.*
 import mju_avengers.please_my_fridge.adapter.AddGroceryRecyclerAdapter
 import mju_avengers.please_my_fridge.data.GroceryCategory
 import mju_avengers.please_my_fridge.data.GroceryData
@@ -12,7 +13,7 @@ import org.jetbrains.anko.*
 
 class AddActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
-
+        var idx : Int = add_grocery_item_rv.getChildAdapterPosition(v)
     }
 
     lateinit var groceryDatas : ArrayList<GroceryData>
@@ -26,8 +27,10 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
             alert{
                 title = "식료품 추가하기"
                 positiveButton("추가"){
-                    addGroceryDataAdapter.addGrocery(GroceryData("고기", GroceryCategory.MEAT), groceryDatas.size)
-                    //if ( ) 0이면 textview제거
+                    addGroceryDataAdapter.addGrocery(GroceryData(groceryDatas.size.toString(), GroceryCategory.MEAT))
+                    if (groceryDatas.size > 0) {
+                        add_notice_tv.visibility = View.INVISIBLE
+                    }
                 }
             }.show()
         }
