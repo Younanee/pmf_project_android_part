@@ -43,6 +43,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
         add_grocery_item_rv.layoutManager = LinearLayoutManager(applicationContext)
         add_grocery_item_rv.adapter = addGroceryDataAdapter
+
     }
 
 

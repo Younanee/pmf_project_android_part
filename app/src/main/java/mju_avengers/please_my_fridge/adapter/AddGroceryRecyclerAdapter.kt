@@ -34,7 +34,7 @@ class AddGroceryRecyclerAdapter(val ctx : Context, val groceryDatas : ArrayList<
         holder.category.text = "#"+groceryDatas[position].category.toString()
         holder.foodName.text = groceryDatas[position].name
         holder.removeBtn.setOnClickListener {
-
+            removeGrocery(position)
         }
     }
 
@@ -45,6 +45,7 @@ class AddGroceryRecyclerAdapter(val ctx : Context, val groceryDatas : ArrayList<
     fun removeGrocery(position: Int){
         groceryDatas.removeAt(position)
         notifyItemRemoved(position)
+        notifyItemRangeChanged(position, groceryDatas.size)
     }
 
 

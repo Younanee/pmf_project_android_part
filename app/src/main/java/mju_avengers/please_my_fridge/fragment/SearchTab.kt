@@ -30,7 +30,9 @@ class SearchTab : Fragment(), View.OnClickListener{
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        testDataSet()
+        grocery_search_sv.setOnClickListener {
+            testDataSet()
+        }
     }
     fun testDataSet(){
         testFoodDatas = ArrayList()

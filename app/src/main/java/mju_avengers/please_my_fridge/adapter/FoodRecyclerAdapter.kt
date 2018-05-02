@@ -39,8 +39,5 @@ class FoodRecyclerAdapter(val ctx :Context, val testFoodDatas: ArrayList<TestFoo
         val foodName : TextView = itemView.findViewById(R.id.food_item_tv_name) as TextView
         val thumbnail : ImageView = itemView.findViewById(R.id.food_item_thumbnail) as ImageView
         val percent : TextView = itemView.findViewById(R.id.food_item_tv_percent) as TextView
-//        fun bind(testFoodData: testFoodData, ctx: Context){
-//            foodName?.text = testFoodData.name
-//        }
     }
 }
