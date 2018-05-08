@@ -1,18 +1,20 @@
 package mju_avengers.please_my_fridge.fragment
 
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_fridge_search.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import mju_avengers.please_my_fridge.DetailedFoodInfoActivity
 import mju_avengers.please_my_fridge.R
 import mju_avengers.please_my_fridge.adapter.FoodRecyclerAdapter
 import mju_avengers.please_my_fridge.data.TestFoodData
+import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.toast
 
 class SearchTab : Fragment(), View.OnClickListener{
     override fun onClick(v: View?) {
@@ -30,9 +32,33 @@ class SearchTab : Fragment(), View.OnClickListener{
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        grocery_search_sv.setOnClickListener {
-            testDataSet()
+        search_bottom_navi.setOnNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.action_grocery -> {
+                    toast("식재료 기반")
+                    true
+                }
+                R.id.action_fridge -> {
+                    toast("냉장고 기반")
+                    true
+                }
+                R.id.action_info -> {
+                    alert {
+                        title = "검색 방법 소개"
+                        message = "식재료 기반 : \n 냉장고 기반 :"
+                        negativeButton("닫기", {
+
+                        })
+                    }.show()
+                    true
+                }
+
+                else -> {
+                    false
+                }
+            }
         }
+
     }
     fun testDataSet(){
         testFoodDatas = ArrayList()
@@ -50,5 +76,7 @@ class SearchTab : Fragment(), View.OnClickListener{
         search_food_rv.layoutManager = LinearLayoutManager(context)
         search_food_rv.adapter = foodDataAdapter
     }
+
+
 
 }

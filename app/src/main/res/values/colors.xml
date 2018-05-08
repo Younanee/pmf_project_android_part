@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#757575</color>
+    <color name="colorPrimary">#eeeeee</color>
+    <color name="colorPrimaryDark">#bcbcbc</color>
+    <color name="colorPrimaryLight">#ffffff</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="searchButton">#757575</color>
+    <color name="searchButton">#494949</color>
     <color name="white">#FFFFFF</color>
-    <color name="custom_light_gray">#e2e3e3</color>
+    <color name="custom_light_gray">#fafafa</color>
+    <color name="custom_dark_gray">#eeeeee</color>
 
-
-    <color name="fabPrimary">#bdbdbd</color>
-    <color name="fabPressed">#e2e3e3</color>
-    <color name="fabRipple">#efefef</color>
+    <color name="fabPrimary">#494949</color>
+    <color name="fabPressed">#eeeeee</color>
+    <color name="fabRipple">#e2e3e3</color>
+    <color name="delimiter">#c2c2c2</color>
 
 </resources>

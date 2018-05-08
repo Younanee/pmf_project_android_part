@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".AddActivity">
     <RelativeLayout
-        android:background="@color/custom_light_gray"
+        android:background="@color/colorPrimary"
         android:id="@+id/add_top_navi_ll"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
