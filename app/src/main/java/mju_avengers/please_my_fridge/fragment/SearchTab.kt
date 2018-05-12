@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.afollestad.materialdialogs.MaterialDialog
 import kotlinx.android.synthetic.main.fragment_search.*
 import mju_avengers.please_my_fridge.DetailedFoodInfoActivity
 import mju_avengers.please_my_fridge.R
@@ -43,13 +44,12 @@ class SearchTab : Fragment(), View.OnClickListener{
                     true
                 }
                 R.id.action_info -> {
-                    alert {
-                        title = "검색 방법 소개"
-                        message = "식재료 기반 : \n 냉장고 기반 :"
-                        negativeButton("닫기", {
-
-                        })
-                    }.show()
+                    MaterialDialog.Builder(activity!!)
+                            .title("기반 검색 설명")
+                            .checkBoxPrompt("a",true, null)
+                            .items(arrayListOf("a","b","c"))
+                            .negativeText("닫기")
+                            .show()
                     true
                 }
 

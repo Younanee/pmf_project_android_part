@@ -3,14 +3,18 @@ package mju_avengers.please_my_fridge
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
+import com.afollestad.materialdialogs.MaterialDialog
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import mju_avengers.please_my_fridge.adapter.TabPagerAdapter
 import org.jetbrains.anko.design.longSnackbar
+import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
 
 
 class MainActivity : AppCompatActivity() {
+    private val FINISH_INTERVAL_TIME : Long = 2000
+    private var backPressedTime : Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,9 +22,8 @@ class MainActivity : AppCompatActivity() {
 
         configureTabLayout()
         val user = FirebaseAuth.getInstance().currentUser
-        longSnackbar(main_ll,user.toString(), "확인", { view ->
-            toast("test")
-        }).setDuration(5000).show()
+//        longSnackbar(main_ll,user.toString(), "확인", { view ->
+//        }).setDuration(5000).show()
 
     }
 
@@ -54,5 +57,16 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        var tempTime : Long = System.currentTimeMillis()
+        var intervalTime : Long = tempTime - backPressedTime
 
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime){
+            super.onBackPressed()
+        } else {
+            backPressedTime = tempTime
+            longToast("한번 더 뒤로가기를 누르면 종료됩니다.")
+        }
+
+    }
 }

@@ -49,6 +49,9 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.0'
     implementation 'com.android.support:design:27.1.0'
 
+    //material dialog
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+
     //기타 라이브러리
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.github.markushi:circlebutton:1.1'

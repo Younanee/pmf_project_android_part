@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">please_my_fridge</string>
 
+
+
+    <string-array name="grocery_category">
+        <item>MEAT</item>
+        <item>SEAFOOD</item>
+        <item>VEGETABLE</item>
+        <item>FRUIT</item>
+        <item>SAUCE</item>
+        <item>GRAIN</item>
+        <item>ETC</item>
+    </string-array>
+
+    <string name="example_prompt">Example check prompt</string>
 </resources>
