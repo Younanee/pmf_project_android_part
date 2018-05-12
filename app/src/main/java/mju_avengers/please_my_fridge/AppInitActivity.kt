@@ -26,7 +26,11 @@ class AppInitActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join)
         mAuth = FirebaseAuth.getInstance()
-        startSignIn()
+        app_init_test_btn.setOnClickListener {
+            var intent = Intent(applicationContext, MainActivity::class.java)
+            startActivity(intent)
+        }
+        //startSignIn()
 
     }
 
@@ -59,8 +63,6 @@ class AppInitActivity : AppCompatActivity() {
 
                 var intent = Intent(applicationContext, MainActivity::class.java)
                 startActivity(intent)
-
-
 
             } else {
                 //로그인 실패

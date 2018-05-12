@@ -6,7 +6,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".AppInitActivity">
-
+    <Button
+        android:id="@+id/app_init_test_btn"
+        android:text="화면 넘김 임시 테스트 버튼"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
     <ImageView
         android:id="@+id/app_init_start_iv"
         android:src="@mipmap/started_app_init_food_image"

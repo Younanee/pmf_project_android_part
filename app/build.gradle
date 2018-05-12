@@ -59,6 +59,9 @@ dependencies {
     implementation 'com.android.support:cardview-v7:27.1.0'
     implementation 'jp.wasabeef:recyclerview-animators:2.3.0'
 
+    //몽고DB 연동
+    implementation 'org.mongodb:mongodb-driver-sync:3.8.0-beta2'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
