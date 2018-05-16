@@ -10,20 +10,20 @@ import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
 import mju_avengers.please_my_fridge.DetailedFoodInfoActivity
 import mju_avengers.please_my_fridge.R
-import mju_avengers.please_my_fridge.adapter.HomeFoodRecyclerAdapter
-import mju_avengers.please_my_fridge.data.HomeFoodData
+import mju_avengers.please_my_fridge.adapter.FoodInfoRecyclerAdapter
+import mju_avengers.please_my_fridge.data.FoodData
 import org.jetbrains.anko.support.v4.startActivity
 
 class HomeTab : Fragment(), View.OnClickListener{
     override fun onClick(v: View?) {
         val idx : Int = home_food_rv.getChildAdapterPosition(v)
-        val foodName : String = homeFoodItems[idx].name
-        startActivity<DetailedFoodInfoActivity>("foodName" to foodName)
+        val foodName : String = foodItems[idx].title
+        startActivity<DetailedFoodInfoActivity>("title" to foodName)
     }
 
 
-    lateinit var homeFoodItems : ArrayList<HomeFoodData>
-    lateinit var homeFoodDataAdapter : HomeFoodRecyclerAdapter
+    lateinit var foodItems : ArrayList<FoodData>
+    lateinit var foodInfoDataAdapter : FoodInfoRecyclerAdapter
     lateinit var hoomAnimationAdapter : AlphaInAnimationAdapter
 
 
@@ -35,24 +35,24 @@ class HomeTab : Fragment(), View.OnClickListener{
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        homeFoodItems = setTestFoodData()
+        foodItems = setTestFoodData()
         setHomeFoodAdapter()
 
 
     }
 
-    fun setTestFoodData() : ArrayList<HomeFoodData>{
-        val mainFoodItems = ArrayList<HomeFoodData>()
-        mainFoodItems.add(HomeFoodData(R.drawable.test01, "삼겹살 덮밥",95, 4.5.toFloat()))
-        mainFoodItems.add(HomeFoodData(R.drawable.test02, "차돌박이 찌개",82, 4.toFloat()))
-        mainFoodItems.add(HomeFoodData(R.drawable.test03, "양배추피 만두",79, 3.7.toFloat()))
+    fun setTestFoodData() : ArrayList<FoodData>{
+        val mainFoodItems = ArrayList<FoodData>()
+        mainFoodItems.add(FoodData("null",R.drawable.test01, "삼겹살 덮밥",95, 4.5.toFloat(), ArrayList(), ArrayList()))
+        mainFoodItems.add(FoodData("null",R.drawable.test02, "차돌박이 찌개",82, 4.toFloat(), ArrayList(), ArrayList()))
+        mainFoodItems.add(FoodData("null",R.drawable.test03, "양배추피 만두",79, 3.7.toFloat(), ArrayList(), ArrayList()))
         return mainFoodItems
     }
 
     fun setHomeFoodAdapter(){
-        homeFoodDataAdapter = HomeFoodRecyclerAdapter(context!!, homeFoodItems)
-        homeFoodDataAdapter.setOnItemClickListener(this)
-        hoomAnimationAdapter = AlphaInAnimationAdapter(homeFoodDataAdapter)
+        foodInfoDataAdapter = FoodInfoRecyclerAdapter(context!!, foodItems)
+        foodInfoDataAdapter.setOnItemClickListener(this)
+        hoomAnimationAdapter = AlphaInAnimationAdapter(foodInfoDataAdapter)
 
 
         home_food_rv.layoutManager = LinearLayoutManager(context)

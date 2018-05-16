@@ -26,7 +26,7 @@ class DataOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "MyDB", null, 
     override fun onCreate(db: SQLiteDatabase) {
         db.createTable("foodTable", true,
                 "id" to INTEGER + PRIMARY_KEY + UNIQUE,
-                "name" to TEXT,
+                "title" to TEXT,
                 "photo" to TEXT,
                 "content" to TEXT)
     }

@@ -18,7 +18,7 @@ class FridgeSearchTab : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         val idx : Int = fridge_search_rv.getChildAdapterPosition(v)
         val foodName : String = testFoodDatas[idx].name
-        startActivity<DetailedFoodInfoActivity>("foodName" to foodName)
+        startActivity<DetailedFoodInfoActivity>("title" to foodName)
     }
 
     lateinit var testFoodDatas: ArrayList<TestFoodData>
