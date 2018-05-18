@@ -18,6 +18,12 @@ class FoodInfoRecyclerAdapter(val ctx: Context, val foodData: ArrayList<FoodData
 
     }
 
+    fun clear(){
+        var size = foodData.size
+        foodData.clear()
+        notifyItemRangeRemoved(0, size)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(ctx).inflate(R.layout.main_food_item, parent, false)
         view.setOnClickListener(onItemClick)

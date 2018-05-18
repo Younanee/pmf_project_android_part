@@ -8,6 +8,8 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_join.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
@@ -60,7 +62,6 @@ class AppInitActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK){
                 //로그인 성공
                 val user = FirebaseAuth.getInstance().currentUser
-
                 var intent = Intent(applicationContext, MainActivity::class.java)
                 startActivity(intent)
 

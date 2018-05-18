@@ -4,6 +4,12 @@ package mju_avengers.please_my_fridge.data
 data class TestFoodData(var thumbnail : Int, var name: String, var percent : Int)
 data class RecipeData(val index : Int, val content : String)
 
+data class SimpleFoodData(var id : String,
+                          var thumbnail: String,
+                          var title: String,
+                          var percent: Int,
+                          var starRate : Float)
+
 data class FoodData(var id : String,
                     var thumbnail: Int,
                     var title: String,

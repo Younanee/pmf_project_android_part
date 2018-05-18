@@ -40,4 +40,6 @@ class FoodRecyclerAdapter(val ctx :Context, val testFoodDatas: ArrayList<TestFoo
         val thumbnail : ImageView = itemView.findViewById(R.id.food_item_thumbnail) as ImageView
         val percent : TextView = itemView.findViewById(R.id.food_item_tv_percent) as TextView
     }
+
+
 }

@@ -5,7 +5,6 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +15,8 @@ import mju_avengers.please_my_fridge.DetailedFoodInfoActivity
 import mju_avengers.please_my_fridge.R
 import mju_avengers.please_my_fridge.adapter.FoodInfoRecyclerAdapter
 import mju_avengers.please_my_fridge.data.FoodData
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.onComplete
-import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
-import org.jetbrains.anko.uiThread
+
 
 class SearchTab : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
@@ -39,7 +35,7 @@ class SearchTab : Fragment(), View.OnClickListener {
     lateinit var mFoodDatabase: DatabaseReference
 
 
-    lateinit var foodItems: ArrayList<FoodData>
+    var foodItems: ArrayList<FoodData> = ArrayList()
     lateinit var foodInfoDataAdapter: FoodInfoRecyclerAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,45 +46,18 @@ class SearchTab : Fragment(), View.OnClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        foodItems = ArrayList()
+        //최상위
         mFoodDatabase = FirebaseDatabase.getInstance().reference
-        getFoodData("3")
-        getFoodData("692")
-        getFoodData("3299")
-        getFoodData("299")
-        getFoodData("99")
-        getFoodData("35")
-        setFoodDataAdapter()
 
         search_bottom_navi.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.action_grocery -> {
-                    //addFoodItems(arrayListOf("22"))
-//                    getFoodData("0")
-//                    getFoodData("692")
-//                    getFoodData("3299")
-//                    setFoodDataAdapter()
-                    doAsync {
-
-                        uiThread {
-                            search_progressbar.visibility = View.VISIBLE
-
-                        }
-                        Thread.sleep(5000)
-
-                        onComplete {
-                            search_progressbar.visibility = View.GONE
-                        }
-                    }
+                    toast("식재료 기반")
                     true
                 }
                 R.id.action_fridge -> {
                     toast("냉장고 기반")
-                    //clearRecyclerView()
-
-                    getFoodData("35")
-                    setFoodDataAdapter()
-
+                    ReadDatabaseTask().execute(arrayListOf("2","22","222"))
                     true
                 }
                 R.id.action_info -> {
@@ -100,20 +69,19 @@ class SearchTab : Fragment(), View.OnClickListener {
                             .show()
                     true
                 }
-
                 else -> {
                     false
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
 
     }
 
-    private fun clearRecyclerView(){
-        var size = foodItems.size
-        foodItems.clear()
-        foodInfoDataAdapter.notifyItemRangeRemoved(0, size)
-    }
+
 
     private fun setFoodDataAdapter() {
         foodInfoDataAdapter = FoodInfoRecyclerAdapter(context!!, foodItems)
@@ -122,62 +90,52 @@ class SearchTab : Fragment(), View.OnClickListener {
         search_food_rv.adapter = foodInfoDataAdapter
     }
 
-    private fun addFoodItems(ids: ArrayList<String>) {
-        foodItems.clear()
-    }
-
-    private fun getFoodData(id: String) {
+    private fun getFoodItem(id: String){
         mFoodDatabase.child(id).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError?) {
                 toast("해당 데이터가 없습니다.")
             }
-
             override fun onDataChange(data: DataSnapshot?) {
-                val components = data!!.child("components").children
-                components.forEach {
-                    Log.d(it.key, it.value.toString())
+                if (data != null) {
+                    setFoodItems(data)
                 }
-                val id = data!!.child("id").value.toString()
-                val url = 0
-                val title = data!!.child("title").value.toString()
-                val percent = 100
-                val starRate = 4.5.toFloat()
-                val ingredients: ArrayList<String> = ArrayList()
-                data!!.child("ingredients").children.forEach {
-                    ingredients.add(it.value.toString())
-                }
-                val directions: ArrayList<String> = ArrayList()
-                data!!.child("directions").children.forEach {
-                    directions.add(it.value.toString())
-                }
-
-                foodItems.add(FoodData(id, url, title, percent, starRate, ingredients, directions))
             }
         })
     }
-//    private inner class ReadDatabaseTask : AsyncTask<Void, Void, String>() {
-//        override fun onProgressUpdate(vararg values: Void?) {
-//            super.onProgressUpdate(*values)
-//        }
-//
-//        override fun onPostExecute(result: String?) {
-//            super.onPostExecute(result)
-//        }
-//
-//        override fun onCancelled(result: String?) {
-//            super.onCancelled(result)
-//        }
-//
-//        override fun onCancelled() {
-//            super.onCancelled()
-//        }
-//
-//        override fun onPreExecute() {
-//            super.onPreExecute()
-//        }
-//
-//        override fun doInBackground(vararg params: Void?): String {
-//            return ""
-//        }
-//    }
+    private fun setFoodItems(data : DataSnapshot){
+        var id = data!!.child("id").value.toString()
+        var url = 0
+        var title = data!!.child("title").value.toString()
+        var percent = 100
+        var starRate = 4.5.toFloat()
+        var ingredients: ArrayList<String> = ArrayList()
+        data!!.child("ingredients").children.forEach {
+            ingredients.add(it.value.toString())
+        }
+        var directions: ArrayList<String> = ArrayList()
+        data!!.child("directions").children.forEach {
+            directions.add(it.value.toString())
+        }
+        foodItems.add(FoodData(id, url, title, percent, starRate, ingredients, directions))
+    }
+    private inner class ReadDatabaseTask : AsyncTask<ArrayList<String>, String, Boolean>() {
+        override fun onPreExecute() {
+            super.onPreExecute()
+            search_progressbar.visibility = View.VISIBLE
+        }
+
+        override fun doInBackground(vararg params: ArrayList<String>): Boolean {
+            val temp : ArrayList<String> = params[0]
+            for (id_str in temp) {
+                getFoodItem(id_str)
+            }
+            return true
+        }
+
+        override fun onPostExecute(result: Boolean?) {
+            super.onPostExecute(result)
+            setFoodDataAdapter()
+            search_progressbar.visibility = View.GONE
+        }
+    }
 }
