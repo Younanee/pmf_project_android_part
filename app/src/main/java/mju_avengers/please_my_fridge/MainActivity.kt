@@ -5,6 +5,8 @@ import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import mju_avengers.please_my_fridge.adapter.TabPagerAdapter
 import org.jetbrains.anko.design.longSnackbar
@@ -15,6 +17,7 @@ import org.jetbrains.anko.toast
 class MainActivity : AppCompatActivity() {
     private val FINISH_INTERVAL_TIME : Long = 2000
     private var backPressedTime : Long = 0
+    val mFoodDatabase = FirebaseDatabase.getInstance().reference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +27,6 @@ class MainActivity : AppCompatActivity() {
         val user = FirebaseAuth.getInstance().currentUser
 //        longSnackbar(main_ll,user.toString(), "확인", { view ->
 //        }).setDuration(5000).show()
-
     }
 
     private fun configureTabLayout() {
@@ -55,6 +57,9 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+    }
+    fun getFoodDataBase(): DatabaseReference{
+        return mFoodDatabase
     }
 
     override fun onBackPressed() {

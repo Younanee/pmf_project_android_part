@@ -42,12 +42,12 @@ class AddGroceryRecyclerAdapter(val ctx : Context, val groceryDatas : ArrayList<
         groceryDatas.add(data)
         notifyItemInserted(groceryDatas.size)
     }
-    fun removeGrocery(position: Int){
+    private fun removeGrocery(position: Int){
         groceryDatas.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, groceryDatas.size)
     }
-
+    fun getCurrentGroceryDatas() : ArrayList<GroceryData> = groceryDatas
 
     inner class Holder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val category : TextView = itemView.findViewById(R.id.grocery_item_category_tv) as TextView

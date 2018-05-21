@@ -32,7 +32,7 @@ class AppInitActivity : AppCompatActivity() {
             var intent = Intent(applicationContext, MainActivity::class.java)
             startActivity(intent)
         }
-        //startSignIn()
+        startSignIn()
 
     }
 

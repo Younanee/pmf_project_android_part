@@ -18,11 +18,24 @@ class FoodInfoRecyclerAdapter(val ctx: Context, val foodData: ArrayList<FoodData
 
     }
 
-    fun clear(){
+//    fun clear(){
+//        var size = foodData.size
+//        foodData.clear()
+//        notifyItemRangeRemoved(0, size)
+//
+//    }
+
+    fun addDatas(newDatas : ArrayList<FoodData>){
         var size = foodData.size
         foodData.clear()
-        notifyItemRangeRemoved(0, size)
+        notifyItemRangeRemoved(0,size)
+
+        foodData.addAll(newDatas)
+        notifyItemInserted(foodData.size)
+        //notifyItemRangeChanged(0, foodData.size)
+        //notifyItemInserted(foodData.size)
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(ctx).inflate(R.layout.main_food_item, parent, false)

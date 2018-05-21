@@ -3,6 +3,7 @@ package mju_avengers.please_my_fridge
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.RadioButton
@@ -12,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_add.*
 import mju_avengers.please_my_fridge.adapter.AddGroceryRecyclerAdapter
 import mju_avengers.please_my_fridge.data.GroceryCategory
 import mju_avengers.please_my_fridge.data.GroceryData
+import mju_avengers.please_my_fridge.db.DataOpenHelper
 import org.jetbrains.anko.*
 
 class AddActivity : AppCompatActivity(), View.OnClickListener {
@@ -38,7 +40,10 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
                         if(  groceryName.text.isNotEmpty()){
                             var selectedRadioButton : RadioButton = groceryCatagory.findViewById(groceryCatagory.checkedRadioButtonId) as RadioButton
-                            addGroceryDataAdapter.addGrocery(GroceryData(groceryName.text.toString(), selectedRadioButton.text.toString()))
+                            addGroceryDataAdapter.addGrocery(GroceryData(-1, selectedRadioButton.text.toString(), groceryName.text.toString()))
+
+                            //이거추가하면?! 지워도되긴함.
+                            addGroceryDataAdapter.notifyDataSetChanged()
                         }
                         if (groceryDatas.size > 0) {
                             add_notice_tv.visibility = View.INVISIBLE
@@ -46,9 +51,17 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
                     }.show()
 
         }
+        add_grocery_finish_btn.setOnClickListener {
+            saveGroceryDatas()
+            finish()
+        }
     }
-
-    fun setGroceryDataAdapter(){
+    private fun saveGroceryDatas(){
+        DataOpenHelper.getInstance(applicationContext).insertGroceryDatas(addGroceryDataAdapter.getCurrentGroceryDatas())
+        //성공!!!
+        //Log.e("식료품 데이터들 뭐가 들었나?", addGroceryDataAdapter.getGrocetyDatas().toString())
+    }
+    private fun setGroceryDataAdapter(){
         groceryDatas = ArrayList()
         addGroceryDataAdapter = AddGroceryRecyclerAdapter(this, groceryDatas)
         addGroceryDataAdapter.setOnItemClickListener(this)
@@ -68,6 +81,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
                     .negativeText("바로 닫기")
                     .negativeColor(resources.getColor(R.color.colorPrimaryDark))
                     .onPositive { dialog, which ->
+                        saveGroceryDatas()
                         toast("저장 완료")
                         super.onBackPressed()
                     }

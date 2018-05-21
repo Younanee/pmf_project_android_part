@@ -19,27 +19,39 @@
             android:background="?android:selectableItemBackground"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:gravity="center">
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:layout_weight="1">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
                     android:gravity="left|center"
-                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginLeft="16dp"
                     android:text="육류"
                     android:textSize="16sp"
                     android:textColor="#000000"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/fridge_category_meat_count_tv"
-                    android:gravity="left|center"
-                    android:layout_marginHorizontal="16dp"
-                    android:text="보유 식재료 개수 : 0"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="16dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:gravity="left|center"
+                        android:text="보유 식재료 개수 : "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/fridge_category_meat_count_tv"
+                        android:gravity="left|center"
+                        android:text="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
         <View
@@ -52,27 +64,38 @@
             android:background="?android:selectableItemBackground"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:gravity="center">
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:layout_weight="1">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
                     android:gravity="left|center"
-                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginLeft="16dp"
                     android:text="어패류"
                     android:textSize="16sp"
                     android:textColor="#000000"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/fridge_category_seafood_count_tv"
-                    android:gravity="left|center"
-                    android:layout_marginHorizontal="16dp"
-                    android:text="보유 식재료 개수 : 0"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="16dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:gravity="left|center"
+                        android:text="보유 식재료 개수 : "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/fridge_category_seafood_count_tv"
+                        android:gravity="left|center"
+                        android:text="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
         <View
@@ -85,8 +108,9 @@
             android:background="?android:selectableItemBackground"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:gravity="center">
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:layout_weight="1">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -99,13 +123,24 @@
                     android:textColor="#000000"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/fridge_category_vegetable_count_tv"
-                    android:gravity="left|center"
-                    android:layout_marginHorizontal="16dp"
-                    android:text="보유 식재료 개수 : 0"
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="16dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:gravity="left|center"
+                        android:text="보유 식재료 개수 : "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/fridge_category_vegetable_count_tv"
+                        android:gravity="left|center"
+                        android:text="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
         <View
@@ -118,8 +153,9 @@
             android:background="?android:selectableItemBackground"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:gravity="center">
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:layout_weight="1">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -132,13 +168,24 @@
                     android:textColor="#000000"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/fridge_category_fruit_count_tv"
-                    android:gravity="left|center"
-                    android:layout_marginHorizontal="16dp"
-                    android:text="보유 식재료 개수 : 0"
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="16dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:gravity="left|center"
+                        android:text="보유 식재료 개수 : "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/fridge_category_fruit_count_tv"
+                        android:gravity="left|center"
+                        android:text="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
         <View
@@ -151,8 +198,9 @@
             android:background="?android:selectableItemBackground"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:gravity="center">
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:layout_weight="1">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -160,18 +208,28 @@
                 <TextView
                     android:gravity="left|center"
                     android:layout_marginHorizontal="16dp"
-                    android:text="소스"
+                    android:text="소스류"
                     android:textSize="16sp"
                     android:textColor="#000000"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/fridge_category_sauce_count_tv"
-                    android:gravity="left|center"
-                    android:layout_marginHorizontal="16dp"
-                    android:text="보유 식재료 개수 : 0"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="16dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:gravity="left|center"
+                        android:text="보유 식재료 개수 : "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/fridge_category_sauce_count_tv"
+                        android:gravity="left|center"
+                        android:text="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
         <View
@@ -184,8 +242,9 @@
             android:background="?android:selectableItemBackground"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:gravity="center">
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:layout_weight="1">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -198,13 +257,23 @@
                     android:textColor="#000000"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/fridge_category_grain_count_tv"
-                    android:gravity="left|center"
-                    android:layout_marginHorizontal="16dp"
-                    android:text="보유 식재료 개수 : 0"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="16dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:gravity="left|center"
+                        android:text="보유 식재료 개수 : "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/fridge_category_grain_count_tv"
+                        android:gravity="left|center"
+                        android:text="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
         <View
@@ -217,8 +286,9 @@
             android:background="?android:selectableItemBackground"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:gravity="center">
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:layout_weight="1">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -231,13 +301,23 @@
                     android:textColor="#000000"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/fridge_category_etc_count_tv"
-                    android:gravity="left|center"
-                    android:layout_marginHorizontal="16dp"
-                    android:text="보유 식재료 개수 : 0"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="16dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:gravity="left|center"
+                        android:text="보유 식재료 개수 : "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/fridge_category_etc_count_tv"
+                        android:gravity="left|center"
+                        android:text="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
         <View
@@ -245,7 +325,6 @@
             android:layout_height="1dp"
             android:background="#e2e3e3">
         </View>
-
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
