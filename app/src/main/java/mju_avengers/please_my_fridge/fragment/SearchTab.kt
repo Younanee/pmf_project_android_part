@@ -5,7 +5,6 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +15,8 @@ import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import kotlinx.android.synthetic.main.fragment_search.*
 import mju_avengers.please_my_fridge.DetailedFoodInfoActivity
 import mju_avengers.please_my_fridge.R
-import mju_avengers.please_my_fridge.adapter.FoodInfoRecyclerAdapter
+import mju_avengers.please_my_fridge.adapter.SearchFoodRecyclerAdapter
 import mju_avengers.please_my_fridge.data.FoodData
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.toast
 
 
@@ -28,7 +26,7 @@ class SearchTab : Fragment(), View.OnClickListener {
         val foodItem: FoodData = foodItems[idx]
         val intent = Intent(context, DetailedFoodInfoActivity::class.java)
         intent.putExtra("title", foodItem.title)
-        intent.putExtra("url", foodItem.thumbnail)
+        intent.putExtra("url", foodItem.urls)
         intent.putExtra("ingredients", foodItem.ingredients)
         intent.putExtra("directions", foodItem.directions)
         startActivity(intent)
@@ -39,7 +37,7 @@ class SearchTab : Fragment(), View.OnClickListener {
 
     //recyclerView
     lateinit var foodItems: ArrayList<FoodData>
-    lateinit var foodInfoDataAdapter: FoodInfoRecyclerAdapter
+    lateinit var searchFoodRecyclerAdapter: SearchFoodRecyclerAdapter
     lateinit var slideInfoRecyclerAdapter : SlideInLeftAnimationAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -87,12 +85,6 @@ class SearchTab : Fragment(), View.OnClickListener {
             }
         }
     }
-
-    override fun onStart() {
-        super.onStart()
-
-    }
-
     private fun clearRecyclerView(){
         var size = foodItems.size
         foodItems.clear()
@@ -102,9 +94,9 @@ class SearchTab : Fragment(), View.OnClickListener {
 
     private fun setFoodDataAdapter() {
         foodItems = ArrayList()
-        foodInfoDataAdapter = FoodInfoRecyclerAdapter(context!!, foodItems)
-        foodInfoDataAdapter.setOnItemClickListener(this)
-        slideInfoRecyclerAdapter = SlideInLeftAnimationAdapter(foodInfoDataAdapter)
+        searchFoodRecyclerAdapter = SearchFoodRecyclerAdapter(context!!, foodItems)
+        searchFoodRecyclerAdapter.setOnItemClickListener(this)
+        slideInfoRecyclerAdapter = SlideInLeftAnimationAdapter(searchFoodRecyclerAdapter)
         search_food_rv.layoutManager = LinearLayoutManager(context)
         search_food_rv.itemAnimator = SlideInLeftAnimator()
         search_food_rv.adapter = slideInfoRecyclerAdapter
@@ -123,7 +115,11 @@ class SearchTab : Fragment(), View.OnClickListener {
     }
     private fun setFoodItem(data : DataSnapshot){
         var id = data!!.child("id").value.toString()
-        var url = 0
+        var urls : ArrayList<String> = ArrayList()
+        data!!.child("url").children.forEach {
+            urls.add(it.value.toString())
+        }
+
         var title = data!!.child("title").value.toString()
         var percent = 100
         var starRate = 4.5.toFloat()
@@ -135,7 +131,7 @@ class SearchTab : Fragment(), View.OnClickListener {
         data!!.child("directions").children.forEach {
             directions.add(it.value.toString())
         }
-        foodItems.add(FoodData(id, url, title, percent, starRate, ingredients, directions))
+        foodItems.add(FoodData(id, urls, title, percent, starRate, ingredients, directions))
     }
     private inner class ReadDatabaseTask : AsyncTask<ArrayList<String>, String, Boolean>() {
         override fun onPreExecute() {

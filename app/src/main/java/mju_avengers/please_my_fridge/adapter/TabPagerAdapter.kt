@@ -15,7 +15,6 @@ class TabPagerAdapter(var tabCount : Int, fm : FragmentManager) : FragmentStateP
             else -> return null
         }
     }
-
     override fun getCount(): Int {
         return tabCount
     }

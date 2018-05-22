@@ -4,12 +4,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/search_food_rv"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:id="@+id/search_tab_title_tv"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="8dp"
+            android:textSize="16sp"
+            android:gravity="center|left"
+            android:text="추천 리스트"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/search_food_rv"
+            android:layout_below="@+id/search_tab_title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+
+
     <ProgressBar
         android:id="@+id/search_progressbar"
         android:theme="@style/Widget.AppCompat.ProgressBar"
@@ -31,11 +46,5 @@
         app:itemTextColor="#000000"
         app:menu="@menu/search_bottom_navi_item"
         app:layout_behavior="mju_avengers.please_my_fridge.behavior.BottomNavigationBehavior">
-
-
     </android.support.design.widget.BottomNavigationView>
-
-
-
-
 </android.support.design.widget.CoordinatorLayout>

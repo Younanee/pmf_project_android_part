@@ -242,3 +242,4 @@ public final class BottomNavigationBehavior<V extends View> extends VerticalScro
         }
     }
 }
+

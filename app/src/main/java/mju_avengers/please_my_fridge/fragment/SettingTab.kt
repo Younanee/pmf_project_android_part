@@ -68,7 +68,7 @@ class SettingTab : Fragment(), View.OnClickListener{
 
     private fun setFoodItem(data : DataSnapshot){
         var id = data!!.child("id").value.toString()
-        var url = 0
+        var urls = arrayListOf("aaa", "aaaa")
         var title = data!!.child("title").value.toString()
         var percent = 100
         var starRate = 4.5.toFloat()
@@ -80,6 +80,6 @@ class SettingTab : Fragment(), View.OnClickListener{
         data!!.child("directions").children.forEach {
             directions.add(it.value.toString())
         }
-        foodDatas.add(FoodData(id, url, title, percent, starRate, ingredients, directions))
+        foodDatas.add(FoodData(id, urls, title, percent, starRate, ingredients, directions))
     }
 }
