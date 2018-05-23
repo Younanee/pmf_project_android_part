@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_join.*
 import mju_avengers.please_my_fridge.data.FoodData
+import mju_avengers.please_my_fridge.data.SimpleFoodData
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.toast
@@ -25,15 +26,22 @@ class AppInitActivity : AppCompatActivity() {
     }
 
     private lateinit var mAuth: FirebaseAuth
+    lateinit var mFoodDatabase: DatabaseReference
+    lateinit var simpleFoodItems: ArrayList<SimpleFoodData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join)
         mAuth = FirebaseAuth.getInstance()
+        mFoodDatabase = FirebaseDatabase.getInstance().reference
+        simpleFoodItems = ArrayList()
+
+        //테스트
         app_init_test_btn.setOnClickListener {
             var intent = Intent(applicationContext, MainActivity::class.java)
             startActivity(intent)
         }
+
         startSignIn()
 
     }
@@ -50,8 +58,6 @@ class AppInitActivity : AppCompatActivity() {
                 .build()
         startActivityForResult(intent, RC_SIGN_IN)
     }
-
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

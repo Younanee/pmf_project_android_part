@@ -12,23 +12,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import mju_avengers.please_my_fridge.R
 import mju_avengers.please_my_fridge.data.FoodData
+import mju_avengers.please_my_fridge.data.SimpleFoodData
 
-class FoodInfoRecyclerAdapter(val ctx: Context, val foodData: ArrayList<FoodData>) : RecyclerView.Adapter<FoodInfoRecyclerAdapter.Holder>() {
+class FoodInfoRecyclerAdapter(val ctx: Context, val simpleFoodData: ArrayList<SimpleFoodData>) : RecyclerView.Adapter<FoodInfoRecyclerAdapter.Holder>() {
     private lateinit var onItemClick : View.OnClickListener
 
     fun setOnItemClickListener(l : View.OnClickListener){
         onItemClick = l
 
-    }
-    fun addDatas(newDatas : ArrayList<FoodData>){
-        var size = foodData.size
-        foodData.clear()
-        notifyItemRangeRemoved(0,size)
-
-        foodData.addAll(newDatas)
-        notifyItemInserted(foodData.size)
-        //notifyItemRangeChanged(0, foodData.size)
-        //notifyItemInserted(foodData.size)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(ctx).inflate(R.layout.main_food_item, parent, false)
@@ -37,7 +28,7 @@ class FoodInfoRecyclerAdapter(val ctx: Context, val foodData: ArrayList<FoodData
     }
 
     override fun getItemCount(): Int {
-        return foodData.size
+        return simpleFoodData.size
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
@@ -47,11 +38,11 @@ class FoodInfoRecyclerAdapter(val ctx: Context, val foodData: ArrayList<FoodData
         //requestOptions.centerCrop()
         Glide.with(ctx)
                 .setDefaultRequestOptions(requestOptions)
-                .load(foodData[position].urls[0])
+                .load(simpleFoodData[position].url)
                 .into(holder.url)
-        holder.title.text = foodData[position].title
-        holder.percent.text = "재료 보유율 " + foodData[position].percent.toString() + "%"
-        holder.starRate.text = "별점 "+foodData[position].starRate.toString()
+        holder.title.text = simpleFoodData[position].title
+        holder.percent.text = "재료 보유율 " + simpleFoodData[position].percent.toString() + "%"
+        holder.starRate.text = "별점 "+simpleFoodData[position].starRate.toString()
     }
 
 

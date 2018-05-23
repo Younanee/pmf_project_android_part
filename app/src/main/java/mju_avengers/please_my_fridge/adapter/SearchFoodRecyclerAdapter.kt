@@ -10,9 +10,9 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import mju_avengers.please_my_fridge.R
-import mju_avengers.please_my_fridge.data.FoodData
+import mju_avengers.please_my_fridge.data.SimpleFoodData
 
-class SearchFoodRecyclerAdapter(val ctx : Context, var datas : ArrayList<FoodData>): RecyclerView.Adapter<SearchFoodRecyclerAdapter.Holder>() {
+class SearchFoodRecyclerAdapter(val ctx : Context, var simpleFoodItems : ArrayList<SimpleFoodData>): RecyclerView.Adapter<SearchFoodRecyclerAdapter.Holder>() {
     private lateinit var onItemClick : View.OnClickListener
 
     fun setOnItemClickListener(l : View.OnClickListener){
@@ -21,12 +21,12 @@ class SearchFoodRecyclerAdapter(val ctx : Context, var datas : ArrayList<FoodDat
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(ctx).inflate(R.layout.search_food_item, parent, false)
-        setOnItemClickListener(onItemClick)
+        view.setOnClickListener(onItemClick)
         return Holder(view)
     }
 
     override fun getItemCount(): Int {
-        return datas.size
+        return simpleFoodItems.size
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
@@ -36,12 +36,12 @@ class SearchFoodRecyclerAdapter(val ctx : Context, var datas : ArrayList<FoodDat
         requestOptions.centerCrop()
         Glide.with(ctx)
                 .setDefaultRequestOptions(requestOptions)
-                .load(datas[position].urls[0])
+                .load(simpleFoodItems[position].url)
                 .thumbnail(0.5f)
                 .into(holder.url)
-        holder.name.text = datas[position].title
-        holder.percent.text = "재료 보유율 " + datas[position].percent.toString() + "%"
-        holder.starRate.text = "별점 "+datas[position].starRate.toString()    }
+        holder.name.text = simpleFoodItems[position].title
+        holder.percent.text = "재료 보유율 " + simpleFoodItems[position].percent.toString() + "%"
+        holder.starRate.text = "별점 "+simpleFoodItems[position].starRate.toString()    }
 
 
     inner class Holder(itemView : View) : RecyclerView.ViewHolder(itemView){

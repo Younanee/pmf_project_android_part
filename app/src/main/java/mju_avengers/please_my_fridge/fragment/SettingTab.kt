@@ -2,6 +2,7 @@ package mju_avengers.please_my_fridge.fragment
 
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -16,18 +17,18 @@ import kotlinx.android.synthetic.main.fragment_setting.*
 import mju_avengers.please_my_fridge.R
 import mju_avengers.please_my_fridge.adapter.FoodInfoRecyclerAdapter
 import mju_avengers.please_my_fridge.data.FoodData
+import mju_avengers.please_my_fridge.data.SimpleFoodData
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.support.v4.toast
 
 
 class SettingTab : Fragment(), View.OnClickListener{
+    lateinit var mFoodDatabase: DatabaseReference
+    lateinit var simpleFoodItems: ArrayList<SimpleFoodData>
+
     override fun onClick(v: View?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
-    lateinit var foodDatas : ArrayList<FoodData>
-    lateinit var foodInfoDataAdapter: FoodInfoRecyclerAdapter
-    lateinit var mFoodDatabase: DatabaseReference
-    lateinit var slideInfoRecyclerAdapter : SlideInLeftAnimationAdapter
-
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,50 +37,50 @@ class SettingTab : Fragment(), View.OnClickListener{
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setFoodDataAdapter()
-        mFoodDatabase = FirebaseDatabase.getInstance().reference
-
-
         setting_test_btn.setOnClickListener {
-            mFoodDatabase.child("241").addListenerForSingleValueEvent(object : ValueEventListener{
+            mFoodDatabase = FirebaseDatabase.getInstance().reference
+            simpleFoodItems = ArrayList()
+            mFoodDatabase.child("213").addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onCancelled(p0: DatabaseError?) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
 
                 override fun onDataChange(p0: DataSnapshot?) {
                     setFoodItem(p0!!)
-                    setting_test_rv.adapter.notifyDataSetChanged()
+                    toast(simpleFoodItems.toString())
                 }
             })
+
         }
 
     }
-    private fun setFoodDataAdapter() {
-
-        foodDatas = ArrayList()
-        foodInfoDataAdapter = FoodInfoRecyclerAdapter(context!!, foodDatas)
-        foodInfoDataAdapter.setOnItemClickListener(this)
-        slideInfoRecyclerAdapter = SlideInLeftAnimationAdapter(foodInfoDataAdapter)
-        setting_test_rv.layoutManager = LinearLayoutManager(context)
-//        setting_test_rv.itemAnimator = OvershootInLeftAnimator()
-//        setting_test_rv.itemAnimator.addDuration = 500
-        setting_test_rv.adapter = slideInfoRecyclerAdapter
-        //search_food_rv.adapter.
-    }
-
+//    private fun setFoodDataAdapter() {
+//
+//        foodDatas = ArrayList()
+//        foodInfoDataAdapter = FoodInfoRecyclerAdapter(context!!, foodDatas)
+//        foodInfoDataAdapter.setOnItemClickListener(this)
+//        slideInfoRecyclerAdapter = SlideInLeftAnimationAdapter(foodInfoDataAdapter)
+//        setting_test_rv.layoutManager = LinearLayoutManager(context)
+////        setting_test_rv.itemAnimator = OvershootInLeftAnimator()
+////        setting_test_rv.itemAnimator.addDuration = 500
+//        setting_test_rv.adapter = slideInfoRecyclerAdapter
+//        //search_food_rv.adapter.
+//    }
+//
     private fun setFoodItem(data : DataSnapshot){
         var id = data!!.child("id").value.toString()
-        var urls = arrayListOf("aaa", "aaaa")
+        var url = data!!.child("url").child("0").value.toString()
         var title = data!!.child("title").value.toString()
         var percent = 100
         var starRate = 4.5.toFloat()
-        var ingredients: ArrayList<String> = ArrayList()
-        data!!.child("ingredients").children.forEach {
-            ingredients.add(it.value.toString())
-        }
-        var directions: ArrayList<String> = ArrayList()
-        data!!.child("directions").children.forEach {
-            directions.add(it.value.toString())
-        }
-        foodDatas.add(FoodData(id, urls, title, percent, starRate, ingredients, directions))
+//        var ingredients: ArrayList<String> = ArrayList()
+//        data!!.child("ingredients").children.forEach {
+//            ingredients.add(it.value.toString())
+//        }
+//        var directions: ArrayList<String> = ArrayList()
+//        data!!.child("directions").children.forEach {
+//            directions.add(it.value.toString())
+//        }
+        simpleFoodItems.add(SimpleFoodData(id, url, title, percent, starRate))
     }
 }

@@ -17,18 +17,17 @@ import mju_avengers.please_my_fridge.DetailedFoodInfoActivity
 import mju_avengers.please_my_fridge.R
 import mju_avengers.please_my_fridge.adapter.SearchFoodRecyclerAdapter
 import mju_avengers.please_my_fridge.data.FoodData
+import mju_avengers.please_my_fridge.data.SimpleFoodData
 import org.jetbrains.anko.support.v4.toast
 
 
 class SearchTab : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         val idx: Int = search_food_rv.getChildAdapterPosition(v)
-        val foodItem: FoodData = foodItems[idx]
+        val simpleFoodItems: SimpleFoodData = simpleFoodItems[idx]
         val intent = Intent(context, DetailedFoodInfoActivity::class.java)
-        intent.putExtra("title", foodItem.title)
-        intent.putExtra("url", foodItem.urls)
-        intent.putExtra("ingredients", foodItem.ingredients)
-        intent.putExtra("directions", foodItem.directions)
+        intent.putExtra("title", simpleFoodItems.title)
+        intent.putExtra("url", simpleFoodItems.url)
         startActivity(intent)
     }
 
@@ -36,7 +35,7 @@ class SearchTab : Fragment(), View.OnClickListener {
     lateinit var mFoodDatabase: DatabaseReference
 
     //recyclerView
-    lateinit var foodItems: ArrayList<FoodData>
+    lateinit var simpleFoodItems: ArrayList<SimpleFoodData>
     lateinit var searchFoodRecyclerAdapter: SearchFoodRecyclerAdapter
     lateinit var slideInfoRecyclerAdapter : SlideInLeftAnimationAdapter
 
@@ -49,22 +48,20 @@ class SearchTab : Fragment(), View.OnClickListener {
         super.onActivityCreated(savedInstanceState)
 //        setFoodDataAdapter()
 //        mFoodDatabase = FirebaseDatabase.getInstance().reference
-
-
         //최상위
         search_bottom_navi.setOnNavigationItemSelectedListener {
             setFoodDataAdapter()
             mFoodDatabase = FirebaseDatabase.getInstance().reference
             when (it.itemId) {
                 R.id.action_grocery -> {
-                    if (foodItems.isNotEmpty()) {
+                    if (simpleFoodItems.isNotEmpty()) {
                         clearRecyclerView()
                     }
                     ReadDatabaseTask().execute(arrayListOf("511","1244","124"))
                     true
                 }
                 R.id.action_fridge -> {
-                    if (foodItems.isNotEmpty()) {
+                    if (simpleFoodItems.isNotEmpty()) {
                         clearRecyclerView()
                     }
                     ReadDatabaseTask().execute(arrayListOf("1"))
@@ -86,15 +83,15 @@ class SearchTab : Fragment(), View.OnClickListener {
         }
     }
     private fun clearRecyclerView(){
-        var size = foodItems.size
-        foodItems.clear()
+        var size = simpleFoodItems.size
+        simpleFoodItems.clear()
         search_food_rv.adapter.notifyItemRangeRemoved(0, size)
     }
 
 
     private fun setFoodDataAdapter() {
-        foodItems = ArrayList()
-        searchFoodRecyclerAdapter = SearchFoodRecyclerAdapter(context!!, foodItems)
+        simpleFoodItems = ArrayList()
+        searchFoodRecyclerAdapter = SearchFoodRecyclerAdapter(context!!, simpleFoodItems)
         searchFoodRecyclerAdapter.setOnItemClickListener(this)
         slideInfoRecyclerAdapter = SlideInLeftAnimationAdapter(searchFoodRecyclerAdapter)
         search_food_rv.layoutManager = LinearLayoutManager(context)
@@ -114,24 +111,12 @@ class SearchTab : Fragment(), View.OnClickListener {
         })
     }
     private fun setFoodItem(data : DataSnapshot){
-        var id = data!!.child("id").value.toString()
-        var urls : ArrayList<String> = ArrayList()
-        data!!.child("url").children.forEach {
-            urls.add(it.value.toString())
-        }
-
-        var title = data!!.child("title").value.toString()
+        var id = data.child("id").value.toString()
+        var url = data.child("url").child("0").value.toString()
+        var title = data.child("title").value.toString()
         var percent = 100
         var starRate = 4.5.toFloat()
-        var ingredients: ArrayList<String> = ArrayList()
-        data!!.child("ingredients").children.forEach {
-            ingredients.add(it.value.toString())
-        }
-        var directions: ArrayList<String> = ArrayList()
-        data!!.child("directions").children.forEach {
-            directions.add(it.value.toString())
-        }
-        foodItems.add(FoodData(id, urls, title, percent, starRate, ingredients, directions))
+        simpleFoodItems.add(SimpleFoodData(id, url, title, percent, starRate))
     }
     private inner class ReadDatabaseTask : AsyncTask<ArrayList<String>, String, Boolean>() {
         override fun onPreExecute() {
