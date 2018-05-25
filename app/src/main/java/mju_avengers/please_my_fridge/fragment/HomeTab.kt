@@ -42,6 +42,8 @@ class HomeTab : Fragment(), View.OnClickListener{
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setHomeFoodAdapter()
+        //메인화면에 띄워주는 추천 3가지 음식, 이곳에서 모델에 대한 아웃풋값 3개를 받는다.(배열,리스트 등으로)
+        //그 후 아웃풋 값을 arrayListOf("11","22","33") 부분에 대체시킨다.
         arrayListOf("11","22","33").forEach {
             getFoodDataFromDB(it)
         }

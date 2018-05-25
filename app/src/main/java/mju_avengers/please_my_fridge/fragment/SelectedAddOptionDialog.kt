@@ -5,7 +5,8 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import mju_avengers.please_my_fridge.AddActivity
+import mju_avengers.please_my_fridge.GroceryCameraAddActivity
+import mju_avengers.please_my_fridge.GroceryTextAddActivity
 import org.jetbrains.anko.support.v4.startActivity
 
 class SelectedAddOptionDialog : DialogFragment() {
@@ -14,8 +15,8 @@ class SelectedAddOptionDialog : DialogFragment() {
         builder.setTitle("식재료 추가 방식 선택")
                 .setItems(arrayOf("텍스트 입력", "영수증 인식"), DialogInterface.OnClickListener {dialog, which ->
                     when (which) {
-                        0 -> startActivity<AddActivity>("option" to "write")
-                        1 -> startActivity<AddActivity>("option" to "camera")
+                        0 -> startActivity<GroceryTextAddActivity>("option" to "write")
+                        1 -> startActivity<GroceryCameraAddActivity>("option" to "camera")
                     }
                 })
                 .setOnCancelListener {

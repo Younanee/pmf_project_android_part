@@ -26,15 +26,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        mFoodDatabase = FirebaseDatabase.getInstance().reference
         configureTabLayout()
-//        mainFoodItems = ArrayList()
-//        arrayListOf("1241", "122", "333").forEach {
-//            getFoodItem(it)
-//        }
-        //val user = FirebaseAuth.getInstance().currentUser
-//        longSnackbar(main_ll,user.toString(), "확인", { view ->
-//        }).setDuration(5000).show()
 
     }
 

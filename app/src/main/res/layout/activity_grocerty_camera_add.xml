@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GroceryTextAddActivity">
+    tools:context=".GroceryCameraAddActivity">
     <RelativeLayout
         android:background="@color/colorPrimary"
-        android:id="@+id/add_top_navi_ll"
+        android:id="@+id/add_top_navi_camera_ll"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="56dp">
         <TextView
-            android:id="@+id/add_grocery_finish_btn"
+            android:id="@+id/add_grocery_camera_finish_btn"
             android:background="?android:selectableItemBackground"
             android:gravity="center"
             android:textColor="#000000"
@@ -23,7 +23,7 @@
             android:layout_marginHorizontal="16dp"
             android:paddingHorizontal="8dp"/>
         <TextView
-            android:id="@+id/add_grocery_add_btn"
+            android:id="@+id/add_grocery_camera_add_btn"
             android:background="?android:selectableItemBackground"
             android:gravity="center"
             android:text="식재료 추가"
@@ -34,23 +34,38 @@
             android:layout_marginHorizontal="16dp"
             android:paddingHorizontal="8dp"/>
     </RelativeLayout>
-    <TextView
-        android:id="@+id/add_notice_tv"
-        android:gravity="center"
-        android:layout_below="@+id/add_top_navi_ll"
-        android:text="아래 추가 버튼을 눌러주세요!"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/mMainImage"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+        <TextView
+            android:id="@+id/mImageDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/add_grocery_item_rv"
+        android:id="@+id/add_grocery_item_camera_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:layout_below="@+id/add_top_navi_ll">
+        android:layout_below="@+id/add_top_navi_camera_ll">
 
     </android.support.v7.widget.RecyclerView>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/grocery_camera_test_btn"
+        android:layout_margin="16dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/ic_add_black_36dp"/>
 
 
 </RelativeLayout>

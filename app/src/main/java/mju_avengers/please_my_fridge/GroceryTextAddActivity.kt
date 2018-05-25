@@ -16,7 +16,7 @@ import mju_avengers.please_my_fridge.data.GroceryData
 import mju_avengers.please_my_fridge.db.DataOpenHelper
 import org.jetbrains.anko.*
 
-class AddActivity : AppCompatActivity(), View.OnClickListener {
+class GroceryTextAddActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         var idx : Int = add_grocery_item_rv.getChildAdapterPosition(v)
     }
@@ -49,7 +49,6 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
                             add_notice_tv.visibility = View.INVISIBLE
                         }
                     }.show()
-
         }
         add_grocery_finish_btn.setOnClickListener {
             saveGroceryDatas()
@@ -58,8 +57,6 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
     }
     private fun saveGroceryDatas(){
         DataOpenHelper.getInstance(applicationContext).insertGroceryDatas(addGroceryDataAdapter.getCurrentGroceryDatas())
-        //성공!!!
-        //Log.e("식료품 데이터들 뭐가 들었나?", addGroceryDataAdapter.getGrocetyDatas().toString())
     }
     private fun setGroceryDataAdapter(){
         groceryDatas = ArrayList()

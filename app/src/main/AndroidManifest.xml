@@ -26,7 +26,8 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".DetailedFoodInfoActivity" />
         <activity android:name=".GroceryCategoryActivity" />
-        <activity android:name=".AddActivity"></activity>
+        <activity android:name=".GroceryTextAddActivity"></activity>
+        <activity android:name=".GroceryCameraAddActivity"></activity>
     </application>
 
 </manifest>

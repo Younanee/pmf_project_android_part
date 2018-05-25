@@ -58,6 +58,9 @@ class SearchTab : Fragment(), View.OnClickListener {
                     if (simpleFoodItems.isNotEmpty()) {
                         clearRecyclerView()
                     }
+                    //이곳은 검색어 기반으로 추천 리스트를 받는곳
+                    //내가 이해한게 맞다면 이곳에 모델에 대한 output값을 받는다. 배열이나 arraylist등으로, (아래 숫자들은 임의로 id값을 넣은것임)
+                    //바로 아래 64 코드 줄 중에서 arrayListOf("1234", "33", "4124", "3331", "121", "7", "110", "400")이 부분을 output값에 대응해서 바꾼다.
                     arrayListOf("1234", "33", "4124", "3331", "121", "7", "110", "400").forEach {
                         readAndFetchFoodItems(it, 8)
                     }
@@ -67,6 +70,9 @@ class SearchTab : Fragment(), View.OnClickListener {
                     if (simpleFoodItems.isNotEmpty()) {
                         clearRecyclerView()
                     }
+                    //이곳은 냉장고 기반으로 추천 리스트를 받는곳
+                    //내가 이해한게 맞다면 이곳에 모델에 대한 output값을 받는다. 배열이나 arraylist등으로,(아래 숫자들은 임의로 id값을 넣은것임)
+                    //바로 아래 64 코드 줄 중에서 arrayListOf("1234", "33", "4124", "3331", "121", "7", "110", "400")이 부분을 output값에 대응해서 바꾼다.
                     arrayListOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10").forEach {
                         readAndFetchFoodItems(it, 10)
                     }
@@ -90,7 +96,7 @@ class SearchTab : Fragment(), View.OnClickListener {
 
     override fun onStart() {
         super.onStart()
-        search_bottom_navi.selectedItemId = R.id.action_fridge
+        //search_bottom_navi.selectedItemId = R.id.action_fridge
     }
 
     override fun onStop() {

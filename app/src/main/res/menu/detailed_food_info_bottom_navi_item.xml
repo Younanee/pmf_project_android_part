@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_add_eaten_food"
+        android:enabled="true"
+        android:icon="@drawable/ic_playlist_add_black_36dp"
+        android:title="해먹은 요리에 추가하기"
+        app:showAsAction="ifRoom" />
+</menu>

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.ImageButton
 import android.widget.TextView
 import kotlinx.android.synthetic.main.grocery_category_item.view.*
 import mju_avengers.please_my_fridge.R
@@ -41,6 +42,6 @@ class GroceryCategoryRecyclerAdapter(val ctx : Context, val datas: ArrayList<Gro
 
     inner class Holder(itemView : View): RecyclerView.ViewHolder(itemView){
         val groceryName : TextView = itemView.findViewById(R.id.grocery_category_item_name_tv) as TextView
-        val groceryRemoveBtn : TextView = itemView.findViewById(R.id.grocery_category_remove_tv) as TextView
+        val groceryRemoveBtn : ImageButton = itemView.findViewById(R.id.grocery_category_remove_ib) as ImageButton
     }
 }
