@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailedFoodInfoActivity">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -13,6 +15,10 @@
             android:layout_width="match_parent"
             android:layout_height="224dp">
             <ImageView
+                android:id="@+id/detail_food_img_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <ImageView
                 android:id="@+id/detail_food_close_btn"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
@@ -20,10 +26,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"/>
-            <ImageView
-                android:id="@+id/detail_food_img_iv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
         </RelativeLayout>
         <TextView
             android:id="@+id/detail_food_title_tv"
@@ -177,14 +179,30 @@
             android:text="돼지고기"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/detail_food_grocery_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
         <View
             android:layout_marginTop="16dp"
             android:layout_marginHorizontal="16dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#1A000000"
-            android:alpha="50"/>
+            android:alpha="50"
+            android:layout_marginBottom="20dp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/detail_food_recipe_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:isScrollContainer="false">
+
+        </android.support.v7.widget.RecyclerView>
     </LinearLayout>
+
+
 
 
     <android.support.design.widget.BottomNavigationView

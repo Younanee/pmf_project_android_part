@@ -2,23 +2,14 @@ package mju_avengers.please_my_fridge.fragment
 
 
 import android.os.Bundle
-import android.os.Handler
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.database.*
-import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter
-import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter
-import jp.wasabeef.recyclerview.animators.OvershootInLeftAnimator
-import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_setting.*
 import mju_avengers.please_my_fridge.R
-import mju_avengers.please_my_fridge.adapter.FoodInfoRecyclerAdapter
-import mju_avengers.please_my_fridge.data.FoodData
 import mju_avengers.please_my_fridge.data.SimpleFoodData
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.toast
 
 
@@ -71,7 +62,7 @@ class SettingTab : Fragment(), View.OnClickListener{
         var id = data!!.child("id").value.toString()
         var url = data!!.child("url").child("0").value.toString()
         var title = data!!.child("title").value.toString()
-        var percent = 100
+        var percent = "100"
         var starRate = 4.5.toFloat()
 //        var ingredients: ArrayList<String> = ArrayList()
 //        data!!.child("ingredients").children.forEach {

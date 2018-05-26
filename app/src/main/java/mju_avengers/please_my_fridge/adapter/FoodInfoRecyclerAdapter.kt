@@ -41,7 +41,7 @@ class FoodInfoRecyclerAdapter(val ctx: Context, val simpleFoodData: ArrayList<Si
                 .load(simpleFoodData[position].url)
                 .into(holder.url)
         holder.title.text = simpleFoodData[position].title
-        holder.percent.text = "재료 보유율 " + simpleFoodData[position].percent.toString() + "%"
+        holder.percent.text = "재료 보유율 " + simpleFoodData[position].percent + "%"
         holder.starRate.text = "별점 "+simpleFoodData[position].starRate.toString()
     }
 

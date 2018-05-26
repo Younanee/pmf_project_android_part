@@ -82,6 +82,7 @@ class DataOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "PMF_DB", null
         db.createTable(EatenFoodData.TABLE_NAME, true,
                 EatenFoodData.COLUMN_ID to INTEGER + PRIMARY_KEY + UNIQUE,
                 EatenFoodData.COLUMN_FOOD_ID to TEXT + NOT_NULL)
+        //db.createTable()
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {

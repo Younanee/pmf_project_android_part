@@ -33,6 +33,7 @@ import com.google.api.client.extensions.android.http.AndroidHttp
 import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.vision.v1.model.*
+import mju_avengers.please_my_fridge.dictionary.GroceryDataProcess
 import mju_avengers.please_my_fridge.vision_api.PackageManagerUtils
 import java.lang.ref.WeakReference
 
@@ -41,7 +42,7 @@ class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
         var idx : Int = add_grocery_item_camera_rv.getChildAdapterPosition(v)
     }
 
-    private val CLOUD_VISION_API_KEY = "AIzaSyA51FgZx5IQciq3I2cbapGS1zK2DhSLJro"
+    private val CLOUD_VISION_API_KEY = "12345"
     val FILE_NAME = "temp.jpg"
     private val ANDROID_CERT_HEADER = "X-Android-Cert"
     private val ANDROID_PACKAGE_HEADER = "X-Android-Package"
@@ -311,7 +312,9 @@ class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
 
             val activity = mActivityWeakReference.get()
             val imageDetail = activity!!.findViewById(R.id.mImageDetails) as TextView
-            imageDetail.text = result
+            //우웃풋!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            val temp :ArrayList<String> = ArrayList(GroceryDataProcess.getInstence().returnData(result))
+            imageDetail.text = temp.toString()
         }
     }
 

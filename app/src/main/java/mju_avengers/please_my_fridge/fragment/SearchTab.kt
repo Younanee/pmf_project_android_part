@@ -1,8 +1,6 @@
 package mju_avengers.please_my_fridge.fragment
 
 import android.app.ProgressDialog
-import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -20,22 +18,17 @@ import mju_avengers.please_my_fridge.OnGetDataListener
 import mju_avengers.please_my_fridge.R
 import mju_avengers.please_my_fridge.UseFirebaseDatabase
 import mju_avengers.please_my_fridge.adapter.SearchFoodRecyclerAdapter
-import mju_avengers.please_my_fridge.data.FoodData
 import mju_avengers.please_my_fridge.data.SimpleFoodData
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.indeterminateProgressDialog
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
-import org.jetbrains.anko.uiThread
 
 
 class SearchTab : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         val idx: Int = search_food_rv.getChildAdapterPosition(v)
-        val simpleFoodItems: SimpleFoodData = simpleFoodItems[idx]
-        val intent = Intent(context, DetailedFoodInfoActivity::class.java)
-        intent.putExtra("title", simpleFoodItems.title)
-        intent.putExtra("url", simpleFoodItems.url)
-        startActivity(intent)
+        val childId = simpleFoodItems[idx].id
+        startActivity<DetailedFoodInfoActivity>("childId" to childId)
     }
 
     lateinit var simpleFoodItems: ArrayList<SimpleFoodData>
@@ -130,7 +123,7 @@ class SearchTab : Fragment(), View.OnClickListener {
                 var id = data!!.child("id").value.toString()
                 var url = data.child("url").child("0").value.toString()
                 var title = data!!.child("title").value.toString()
-                var percent = 100
+                var percent = "100"
                 var starRate = 4.5.toFloat()
                 simpleFoodItems.add(SimpleFoodData(id, url, title, percent, starRate))
                 searchFoodRecyclerAdapter.notifyItemInserted(simpleFoodItems.size)
