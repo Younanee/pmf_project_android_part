@@ -26,9 +26,8 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".DetailedFoodInfoActivity" />
         <activity android:name=".GroceryCategoryActivity" />
-        <activity android:name=".GroceryTextAddActivity"></activity>
-        <activity android:name=".GroceryCameraAddActivity"></activity>
-
+        <activity android:name=".GroceryTextAddActivity" />
+        <activity android:name=".GroceryCameraAddActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -37,8 +36,10 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
+
+        <activity android:name=".DetailedFoodActivity"></activity>
     </application>
 
 </manifest>

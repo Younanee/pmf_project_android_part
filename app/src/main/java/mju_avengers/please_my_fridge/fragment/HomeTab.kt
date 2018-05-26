@@ -58,6 +58,7 @@ class HomeTab : Fragment(), View.OnClickListener{
             getFoodDataFromDB(it, recieveDatas.size)
         }
 
+
         //longToast("size는 " + datas.size.toString())
         //임시테스트
         //var mFridgeGroceries : ArrayList<String> = arrayListOf("쇠고기","다진 양파","달걀","밥","우유","넛맥","버터","파슬리","소금", "파슬리가루")

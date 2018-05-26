@@ -46,6 +46,7 @@ dependencies {
 
 
 
+    implementation 'com.android.support:support-v4:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -72,7 +73,6 @@ dependencies {
 
     //tensorflow 관련
     implementation 'org.tensorflow:tensorflow-android:1.2.0-rc0'
-
 
     //vision API
     implementation 'com.google.api-client:google-api-client-android:1.23.0' exclude module: 'httpclient'

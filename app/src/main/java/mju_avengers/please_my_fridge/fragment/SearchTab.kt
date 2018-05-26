@@ -13,12 +13,12 @@ import com.google.firebase.database.*
 import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import kotlinx.android.synthetic.main.fragment_search.*
-import mju_avengers.please_my_fridge.DetailedFoodInfoActivity
-import mju_avengers.please_my_fridge.OnGetDataListener
+import mju_avengers.please_my_fridge.*
 import mju_avengers.please_my_fridge.R
-import mju_avengers.please_my_fridge.UseFirebaseDatabase
 import mju_avengers.please_my_fridge.adapter.SearchFoodRecyclerAdapter
+import mju_avengers.please_my_fridge.data.FoodData
 import mju_avengers.please_my_fridge.data.SimpleFoodData
+import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.support.v4.indeterminateProgressDialog
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
@@ -28,7 +28,8 @@ class SearchTab : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         val idx: Int = search_food_rv.getChildAdapterPosition(v)
         val childId = simpleFoodItems[idx].id
-        startActivity<DetailedFoodInfoActivity>("childId" to childId)
+        //startActivity<DetailedFoodInfoActivity>("childId" to childId)
+        startActivity<DetailedFoodActivity>("childId" to childId)
     }
 
     lateinit var simpleFoodItems: ArrayList<SimpleFoodData>
@@ -149,4 +150,5 @@ class SearchTab : Fragment(), View.OnClickListener {
         search_food_rv.itemAnimator = SlideInLeftAnimator()
         search_food_rv.adapter = slideInfoRecyclerAdapter
     }
+
 }

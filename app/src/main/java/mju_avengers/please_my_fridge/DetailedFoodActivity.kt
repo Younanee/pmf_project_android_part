@@ -1,65 +1,65 @@
 package mju_avengers.please_my_fridge
 
-import android.os.Bundle
+import android.annotation.SuppressLint
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import android.os.Bundle
+import android.os.Parcel
+import android.os.Parcelable
+import android.support.design.widget.TabLayout
 import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import kotlinx.android.synthetic.main.activity_detailed_food.*
 import kotlinx.android.synthetic.main.activity_detailed_food_info.*
-import kotlinx.android.synthetic.main.fragment_food_home_tab.*
-import mju_avengers.please_my_fridge.adapter.RecipeRecyclerAdapter
+import mju_avengers.please_my_fridge.adapter.DetailedFoodTabPagerAdapter
 import mju_avengers.please_my_fridge.data.FoodData
 import org.jetbrains.anko.indeterminateProgressDialog
+import org.jetbrains.anko.support.v4.indeterminateProgressDialog
 
-class DetailedFoodInfoActivity : AppCompatActivity() {
-    //lateinit var recipeRecyclerAdapter: RecipeRecyclerAdapter
+class DetailedFoodActivity : AppCompatActivity() {
 
+    lateinit var childId : String
+    lateinit var foodData : FoodData
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detailed_food_info)
-        detail_food_close_btn.setOnClickListener {
-            finish()
+        setContentView(R.layout.activity_detailed_food)
+        if(intent.hasExtra("childId")){
+            childId = intent.getStringExtra("childId")
+            readDetailedFoodData(childId)
         }
-        val childId = intent.getStringExtra("childId")
-        readDetailedFoodData(childId)
+        //configureTabLayout()
+        //readDetailedFoodData(childId)
     }
+    private fun configureTabLayout() {
+        detailed_food_tabLayout.addTab(detailed_food_tabLayout.newTab().setText("음식 정보"), 0)
+        detailed_food_tabLayout.addTab(detailed_food_tabLayout.newTab().setText("재료"), 1)
+        detailed_food_tabLayout.addTab(detailed_food_tabLayout.newTab().setText("레시피"), 2)
 
-    fun setView(foodData: FoodData) {
-        val requestOptions = RequestOptions()
-        requestOptions.placeholder(R.drawable.ic_image_black_24dp)
-        requestOptions.error(R.drawable.ic_clear_black_36dp)
-        requestOptions.centerCrop()
-        Glide.with(this)
-                .setDefaultRequestOptions(requestOptions)
-                .load(foodData.urls[0])
-                .into(detail_food_home_img_iv)
-        detail_food_home_title_tv.text = foodData.title
-        detail_food_home_calories_tv.text = foodData.calories
-        detail_food_home_carbohydrate_tv.text = foodData.carbohydrate
-        detail_food_home_protein_tv.text = foodData.protein
-        detail_food_home_sodium_tv.text = foodData.sodium
-        detail_food_home_fat_tv.text = foodData.fat
+        val tabAdapter = DetailedFoodTabPagerAdapter(detailed_food_tabLayout.tabCount, supportFragmentManager)
+        detailed_food_pager.adapter = tabAdapter
+        detailed_food_pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(detailed_food_tabLayout))
+        detailed_food_tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                detailed_food_pager.currentItem = tab!!.position
+            }
 
-//        var directions : ArrayList<String> = foodData.directions
-//        var urls : ArrayList<String> = foodData.urls
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                detailed_food_pager.currentItem = tab!!.position
+            }
 
-//        recipeRecyclerAdapter = RecipeRecyclerAdapter(this, directions, urls)
-//        detail_food_recipe_rv.layoutManager = LinearLayoutManager(this)
-//        detail_food_recipe_rv.adapter = recipeRecyclerAdapter
-//        detail_food_recipe_rv.isNestedScrollingEnabled = true
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                detailed_food_pager.currentItem = tab!!.position
+            }
+        })
     }
-
     private fun readDetailedFoodData(childId: String) {
         var mProgressDialog = indeterminateProgressDialog("Loading...")
         UseFirebaseDatabase.getInstence().readFBData(childId, object : OnGetDataListener {
             override fun onStart() {
                 mProgressDialog.show()
             }
-
             override fun onSuccess(data: DataSnapshot) {
                 val urls: ArrayList<String> = ArrayList()
                 data!!.child("url").children.forEach {
@@ -88,9 +88,8 @@ class DetailedFoodInfoActivity : AppCompatActivity() {
                 val sodium = data!!.child("sodium").value.toString()
                 val fat = data!!.child("fat").value.toString()
                 var id = data!!.child("id").value.toString()
-                val foodData = FoodData(urls, directions, categories, ingredients, title, components, calories, carbohydrate, protein, sodium, fat, id)
-
-                setView(foodData)
+                foodData = FoodData(urls, directions, categories, ingredients, title, components, calories, carbohydrate, protein, sodium, fat, id)
+                configureTabLayout()
                 if (mProgressDialog.isShowing) {
                     mProgressDialog.dismiss()
                 }
@@ -101,4 +100,7 @@ class DetailedFoodInfoActivity : AppCompatActivity() {
             }
         })
     }
+
+
+
 }

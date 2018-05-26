@@ -2,7 +2,6 @@
     <string name="app_name">please_my_fridge</string>
 
 
-
     <string-array name="grocery_category">
         <item>MEAT</item>
         <item>SEAFOOD</item>
@@ -14,4 +13,7 @@
     </string-array>
 
     <string name="example_prompt">Example check prompt</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

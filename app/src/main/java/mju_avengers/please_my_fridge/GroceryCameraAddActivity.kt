@@ -42,7 +42,7 @@ class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
         var idx : Int = add_grocery_item_camera_rv.getChildAdapterPosition(v)
     }
 
-    private val CLOUD_VISION_API_KEY = "12345"
+    private val CLOUD_VISION_API_KEY = getString(R.string.ke)
     val FILE_NAME = "temp.jpg"
     private val ANDROID_CERT_HEADER = "X-Android-Cert"
     private val ANDROID_PACKAGE_HEADER = "X-Android-Package"

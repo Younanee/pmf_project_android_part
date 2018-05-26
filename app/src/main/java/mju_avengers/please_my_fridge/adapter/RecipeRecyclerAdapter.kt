@@ -30,7 +30,7 @@ class RecipeRecyclerAdapter(val ctx: Context, val directions : ArrayList<String>
             val requestOptions = RequestOptions()
             requestOptions.placeholder(R.drawable.ic_image_black_24dp)
             requestOptions.error(R.drawable.ic_clear_black_36dp)
-            requestOptions.centerCrop()
+//            requestOptions.centerCrop()
             Glide.with(ctx)
                     .setDefaultRequestOptions(requestOptions)
                     .load(urls[position])

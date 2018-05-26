@@ -5,201 +5,237 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".DetailedFoodInfoActivity">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <RelativeLayout
+        android:layout_height="wrap_content">
+
+        <ScrollView
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
-            android:layout_height="224dp">
-            <ImageView
-                android:id="@+id/detail_food_img_iv"
+            android:layout_height="match_parent">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-            <ImageView
-                android:id="@+id/detail_food_close_btn"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/ic_close_black_36dp"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"/>
-        </RelativeLayout>
-        <TextView
-            android:id="@+id/detail_food_title_tv"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="24dp"
-            android:text="음식명"
-            android:textSize="16dp"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <RelativeLayout
-            android:layout_marginTop="24dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="식재료 일치율"
-                android:layout_marginHorizontal="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"/>
-            <TextView
-                android:id="@+id/detail_food_persent_tv"
-                android:text="99%"
-                android:layout_marginHorizontal="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:textColor="#000000"
-                android:textStyle="bold"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="칼로리"
-                android:layout_marginHorizontal="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"/>
-            <TextView
-                android:id="@+id/detail_food_calories_tv"
-                android:text="100kcal"
-                android:layout_marginHorizontal="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:textColor="#000000"
-                android:textStyle="bold"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="탄수화물"
-                android:layout_marginHorizontal="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"/>
-            <TextView
-                android:id="@+id/detail_food_carbohydrate_tv"
-                android:text="7.4%"
-                android:layout_marginHorizontal="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:textColor="#000000"
-                android:textStyle="bold"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="단백질"
-                android:layout_marginHorizontal="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"/>
-            <TextView
-                android:id="@+id/detail_food_protein_tv"
-                android:text="68.6%"
-                android:layout_marginHorizontal="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:textColor="#000000"
-                android:textStyle="bold"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="지방"
-                android:layout_marginHorizontal="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"/>
-            <TextView
-                android:id="@+id/detail_food_fat_tv"
-                android:text="36.1%"
-                android:layout_marginHorizontal="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:textColor="#000000"
-                android:textStyle="bold"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="나트륨"
-                android:layout_marginHorizontal="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"/>
-            <TextView
-                android:id="@+id/detail_food_sodium_tv"
-                android:text="55.7%"
-                android:layout_marginHorizontal="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:textColor="#000000"
-                android:textStyle="bold"/>
-        </RelativeLayout>
-        <View
-            android:layout_marginTop="16dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#1A000000" />
-        <TextView
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="20dp"
-            android:text="요리 재료"
-            android:textSize="16dp"
-            android:textColor="#000000"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:layout_marginVertical="8dp"
-            android:layout_marginHorizontal="16dp"
-            android:padding="8dp"
-            android:background="@drawable/rounded_corner"
-            android:text="돼지고기"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/detail_food_grocery_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <View
-            android:layout_marginTop="16dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#1A000000"
-            android:alpha="50"
-            android:layout_marginBottom="20dp"/>
+                android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/detail_food_recipe_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            android:isScrollContainer="false">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="224dp">
 
-        </android.support.v7.widget.RecyclerView>
+                    <ImageView
+                        android:id="@+id/detail_food_img_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <ImageView
+                        android:id="@+id/detail_food_close_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/ic_close_black_36dp" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/detail_food_title_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="음식명"
+                    android:textColor="#000000"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="식재료 일치율" />
+
+                    <TextView
+                        android:id="@+id/detail_food_persent_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="99%"
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="칼로리" />
+
+                    <TextView
+                        android:id="@+id/detail_food_calories_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="100kcal"
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="탄수화물" />
+
+                    <TextView
+                        android:id="@+id/detail_food_carbohydrate_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="7.4%"
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="단백질" />
+
+                    <TextView
+                        android:id="@+id/detail_food_protein_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="68.6%"
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="지방" />
+
+                    <TextView
+                        android:id="@+id/detail_food_fat_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="36.1%"
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="나트륨" />
+
+                    <TextView
+                        android:id="@+id/detail_food_sodium_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="55.7%"
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#1A000000" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="20dp"
+                    android:text="요리 재료"
+                    android:textColor="#000000"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="8dp"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="8dp"
+                    android:text="돼지고기" />
+                <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:id="@+id/detail_food_grocery_rv"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"/>-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:alpha="50"
+                    android:background="#1A000000" />
+
+            </LinearLayout>
+        </ScrollView>
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/detail_food_recipe_rv"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+        <!--</android.support.v7.widget.RecyclerView>-->
+
     </LinearLayout>
 
 
