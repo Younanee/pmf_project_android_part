@@ -1,6 +1,7 @@
 package mju_avengers.please_my_fridge
 
 import android.Manifest
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -35,6 +36,7 @@ import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.vision.v1.model.*
 import mju_avengers.please_my_fridge.dictionary.GroceryDataProcess
 import mju_avengers.please_my_fridge.vision_api.PackageManagerUtils
+import org.jetbrains.anko.support.v4.indeterminateProgressDialog
 import java.lang.ref.WeakReference
 
 class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
@@ -42,7 +44,7 @@ class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
         var idx : Int = add_grocery_item_camera_rv.getChildAdapterPosition(v)
     }
 
-    private val CLOUD_VISION_API_KEY = getString(R.string.ke)
+    private val CLOUD_VISION_API_KEY = "111"
     val FILE_NAME = "temp.jpg"
     private val ANDROID_CERT_HEADER = "X-Android-Cert"
     private val ANDROID_PACKAGE_HEADER = "X-Android-Package"
@@ -61,7 +63,7 @@ class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_grocerty_camera_add)
-        setGroceryDataAdapter()
+//        setGroceryDataAdapter()
         add_grocery_camera_add_btn.setOnClickListener {
             MaterialDialog.Builder(this)
                     .title("식료품 입력하기")
@@ -101,8 +103,8 @@ class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
         //성공!!!
         //Log.e("식료품 데이터들 뭐가 들었나?", addGroceryDataAdapter.getGrocetyDatas().toString())
     }
-    private fun setGroceryDataAdapter(){
-        groceryDatas = ArrayList()
+    private fun setGroceryDataAdapter(data : ArrayList<GroceryData>){
+        groceryDatas = data
         addGroceryDataAdapter = AddGroceryRecyclerAdapter(this, groceryDatas)
         addGroceryDataAdapter.setOnItemClickListener(this)
 
@@ -198,7 +200,7 @@ class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
                         MAX_DIMENSION)
 
                 callCloudVision(bitmap)
-                mMainImage.setImageBitmap(bitmap)
+                //mMainImage.setImageBitmap(bitmap)
 
             } catch (e: IOException) {
                 Log.d("1", "Image picking failed because " + e.message)
@@ -281,7 +283,12 @@ class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
 
     private class LableDetectionTask internal constructor(activity: GroceryCameraAddActivity, private val mRequest: Vision.Images.Annotate) : AsyncTask<Any, Void, String>() {
         private val mActivityWeakReference: WeakReference<GroceryCameraAddActivity> = WeakReference(activity)
+        private val mProgressDialog = activity.indeterminateProgressDialog("인식 중...")
 
+        override fun onPreExecute() {
+            super.onPreExecute()
+            mProgressDialog.show()
+        }
         override fun doInBackground(vararg params: Any): String {
             try {
                 Log.d("1", "created Cloud Vision request object, sending request")
@@ -311,17 +318,24 @@ class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
         override fun onPostExecute(result: String) {
 
             val activity = mActivityWeakReference.get()
-            val imageDetail = activity!!.findViewById(R.id.mImageDetails) as TextView
+            //val imageDetail = activity!!.findViewById(R.id.mImageDetails) as TextView
             //우웃풋!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             val temp :ArrayList<String> = ArrayList(GroceryDataProcess.getInstence().returnData(result))
-            imageDetail.text = temp.toString()
+            var groceryDatas : ArrayList<GroceryData> = ArrayList()
+            temp.forEach {
+                groceryDatas.add(GroceryData(-1, "기타", it))
+            }
+
+            activity!!.setGroceryDataAdapter(groceryDatas)
+            if (mProgressDialog.isShowing){
+                mProgressDialog.dismiss()
+            }
         }
     }
 
     private fun callCloudVision(bitmap: Bitmap) {
-        // Switch text to loading
-        mImageDetails.text = "로딩중"
-
+//        // Switch text to loading
+//        mImageDetails.text = "로딩중"
         // Do the real work in an async task, because we need to use the network anyway
         try {
             val labelDetectionTask = LableDetectionTask(this, prepareAnnotationRequest(bitmap))
