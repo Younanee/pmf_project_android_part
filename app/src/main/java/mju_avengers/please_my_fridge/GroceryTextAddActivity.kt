@@ -37,16 +37,16 @@ class GroceryTextAddActivity : AppCompatActivity(), View.OnClickListener {
                     .onPositive { dialog, which ->
                         var groceryName : EditText = dialog.findViewById(R.id.dialog_add_grocery_name_et) as EditText
                         var groceryCatagory : RadioGroup = dialog.findViewById(R.id.dialog_add_grocery_catagory_rg) as RadioGroup
-
-                        if(  groceryName.text.isNotEmpty()){
+                        if(  groceryName.text.isNotEmpty() && groceryCatagory.checkedRadioButtonId != -1){
                             var selectedRadioButton : RadioButton = groceryCatagory.findViewById(groceryCatagory.checkedRadioButtonId) as RadioButton
                             addGroceryDataAdapter.addGrocery(GroceryData(-1, selectedRadioButton.text.toString(), groceryName.text.toString()))
-
                             //이거추가하면?! 지워도되긴함.
                             addGroceryDataAdapter.notifyDataSetChanged()
-                        }
-                        if (groceryDatas.size > 0) {
-                            add_notice_tv.visibility = View.INVISIBLE
+                            if (groceryDatas.size > 0) {
+                                add_notice_tv.visibility = View.INVISIBLE
+                            }
+                        } else {
+                            toast("올바른 입력을 해주세요.")
                         }
                     }.show()
         }

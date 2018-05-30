@@ -25,7 +25,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="육류"
-                    android:focusedByDefault="true"/>
+                    android:focusedByDefault="true" />
                 <android.support.v7.widget.AppCompatRadioButton
                     android:layout_marginRight="8dp"
                     android:layout_width="wrap_content"
@@ -52,10 +52,11 @@
                     android:layout_height="wrap_content"
                     android:text="곡류" />
                 <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/category_edd_rb"
                     android:layout_marginRight="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="기타" />
+                    android:text="기타"/>
             </RadioGroup>
         </HorizontalScrollView>
     </LinearLayout>

@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 
 public class Processing {
 
-
-	public Hashmap<String, String> dictionary = new Hashmap<>();
 	public Boolean exist = false;
 	public List<String> results = new ArrayList<String>();
 	public String[] str;
@@ -17,10 +15,7 @@ public class Processing {
 	public Processing(String[] str) {
 		this.str = str;
 	}
-	public List<String> getGredients() throws IOException{
-		// ���⼭ �ؽ�Ʈ ������ �о�ͼ� ������ (����ٰ� ���� �����Ǿ��̿��� �����δ� ��Ʈ���� ������ ��)
-
-		//�ؽ�Ʈ ���Ͽ��� �������پ� �о ��� ���� �ľ�
+	public List<String> getGredients() {
 		for(int q = 0; q < str.length; q++) {
 			String line = str[q];
 			if (line==null) break;
@@ -46,7 +41,6 @@ public class Processing {
 				}
 			}
 		}
-		// �ߺ��� ��ҵ��� �ߺ��� �ȵǵ��� ������ �� �ϳ��� string list�� �����ϰ� �̰��� ��ȯ�Ѵ�.
 		List<String> deduped = results.stream().distinct().collect(Collectors.<String>toList());
 		return deduped;
 	}

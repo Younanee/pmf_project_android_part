@@ -7,6 +7,8 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.support.design.widget.TabLayout
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.database.DataSnapshot
@@ -15,19 +17,28 @@ import kotlinx.android.synthetic.main.activity_detailed_food.*
 import kotlinx.android.synthetic.main.activity_detailed_food_info.*
 import mju_avengers.please_my_fridge.adapter.DetailedFoodTabPagerAdapter
 import mju_avengers.please_my_fridge.data.FoodData
+import mju_avengers.please_my_fridge.db.DataOpenHelper
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.support.v4.indeterminateProgressDialog
+import org.jetbrains.anko.toast
 
 class DetailedFoodActivity : AppCompatActivity() {
-
     lateinit var childId : String
     lateinit var foodData : FoodData
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detailed_food)
+
         if(intent.hasExtra("childId")){
             childId = intent.getStringExtra("childId")
             readDetailedFoodData(childId)
+        }
+        detailed_food_appbar_back_btn.setOnClickListener {
+            finish()
+        }
+        detailed_food_appbar_add_eaten_btn.setOnClickListener {
+            //디비에 추가
+            DataOpenHelper.getInstance(this).insertEatenFoodDatas(childId)
         }
         //configureTabLayout()
         //readDetailedFoodData(childId)

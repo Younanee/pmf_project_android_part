@@ -6,10 +6,22 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/recipe_url_iv"
-            android:layout_width="match_parent"
-            android:layout_height="160dp" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/recipe_url_iv"
+                android:layout_width="match_parent"
+                android:layout_height="240dp" />
+            <TextView
+                android:id="@+id/recipe_index_tv"
+                android:textSize="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="16dp"
+                android:text="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
         <TextView
             android:textAlignment="center"
             android:id="@+id/recipe_direction_tv"
@@ -18,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="16dp"/>
+            android:layout_marginVertical="8dp"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

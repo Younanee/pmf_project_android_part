@@ -22,13 +22,6 @@ class SelectedAddOptionDialog : DialogFragment() {
                 .setOnCancelListener {
                     dismiss()
                 }
-//        val builder : AlertDialog.Builder = AlertDialog.Builder(activity)
-//        val inflater : LayoutInflater = activity!!.layoutInflater
-//        builder.setView(inflater.inflate(R.layout.dialog_selected_add_option, null))
-//                .setOnCancelListener {
-//                    dismiss()
-//                }
-
         return builder.create()
     }
 

@@ -26,14 +26,22 @@ data class SimpleFoodData(var id: String,
                           var title: String,
                           var percent: String,
                           var starRate: Float)
+
+
+
+
+//모델과 일치율에 이용되는 데이터셋
 data class FoodPointData(var id: String,
                          var point : Float)
-
-
 data class FoodComponentsData(var id : String,
                               var components : ArrayList<String>)
+data class InitFoodGroceryData(var id : String,
+                              var groceryName : String){
+    companion object {
+        val TABLE_NAME = "init_food_grocery_data_table"
+        val COLUMN_FOOD_ID = "food_id"
+        val COLUMN_GROCERY_NAME = "food_name"
+    }
+}
 data class FoodPersentData(var id : String,
                            var persent : String)
-//data class FoodComponentData()
-
-//data class Food

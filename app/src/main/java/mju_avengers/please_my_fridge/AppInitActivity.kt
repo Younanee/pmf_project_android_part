@@ -12,10 +12,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_join.*
+import mju_avengers.please_my_fridge.data.FoodComponentsData
 import mju_avengers.please_my_fridge.data.FoodData
+import mju_avengers.please_my_fridge.data.FoodPointData
 import mju_avengers.please_my_fridge.data.SimpleFoodData
+import mju_avengers.please_my_fridge.db.DataOpenHelper
+import mju_avengers.please_my_fridge.recipe_model.TensorflowRecommend
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
+import org.jetbrains.anko.support.v4.indeterminateProgressDialog
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
 
@@ -27,14 +32,12 @@ class AppInitActivity : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth
     lateinit var mFoodDatabase: DatabaseReference
-    lateinit var simpleFoodItems: ArrayList<SimpleFoodData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join)
         mAuth = FirebaseAuth.getInstance()
         mFoodDatabase = FirebaseDatabase.getInstance().reference
-        simpleFoodItems = ArrayList()
 
         //테스트
         app_init_test_btn.setOnClickListener {
@@ -66,6 +69,8 @@ class AppInitActivity : AppCompatActivity() {
             var response : IdpResponse = IdpResponse.fromResultIntent(data)!!
             if (resultCode == Activity.RESULT_OK){
                 val user = FirebaseAuth.getInstance().currentUser
+
+
                 var intent = Intent(applicationContext, MainActivity::class.java)
                 startActivity(intent)
             } else {
@@ -73,4 +78,5 @@ class AppInitActivity : AppCompatActivity() {
             }
         }
     }
+
 }

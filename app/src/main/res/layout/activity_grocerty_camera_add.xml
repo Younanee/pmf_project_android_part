@@ -34,20 +34,6 @@
             android:layout_marginHorizontal="16dp"
             android:paddingHorizontal="8dp"/>
     </RelativeLayout>
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <!--<ImageView-->
-            <!--android:id="@+id/mMainImage"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="200dp" />-->
-        <!--<TextView-->
-            <!--android:id="@+id/mImageDetails"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content" />-->
-    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/add_grocery_item_camera_rv"
@@ -60,12 +46,15 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/grocery_camera_test_btn"
+        app:fabSize="normal"
+        app:borderWidth="0dp"
+        android:tint="@color/white"
+        android:backgroundTint="@color/fabPrimary"
         android:layout_margin="16dp"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:src="@drawable/ic_add_black_36dp"/>
-
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_photo_camera_black_24dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp" />
 
 </RelativeLayout>

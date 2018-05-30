@@ -31,12 +31,13 @@ class RecipeRecyclerAdapter(val ctx: Context, val directions : ArrayList<String>
             requestOptions.placeholder(R.drawable.ic_image_black_24dp)
             requestOptions.error(R.drawable.ic_clear_black_36dp)
 //            requestOptions.centerCrop()
+            requestOptions.fitCenter()
             Glide.with(ctx)
                     .setDefaultRequestOptions(requestOptions)
                     .load(urls[position])
                     .thumbnail(0.5f)
                     .into(holder.url)
-
+            holder.index.text = (position + 1).toString()
         }
     }
 
@@ -44,6 +45,7 @@ class RecipeRecyclerAdapter(val ctx: Context, val directions : ArrayList<String>
     inner class Holder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val direction : TextView = itemView.findViewById(R.id.recipe_direction_tv) as TextView
         val url : ImageView = itemView.findViewById(R.id.recipe_url_iv) as ImageView
+        val index : TextView = itemView.findViewById(R.id.recipe_index_tv) as TextView
     }
 
 }

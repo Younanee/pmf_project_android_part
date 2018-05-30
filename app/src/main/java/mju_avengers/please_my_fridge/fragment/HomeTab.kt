@@ -46,17 +46,18 @@ class HomeTab : Fragment(), View.OnClickListener{
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setHomeFoodAdapter()
-        val recipeid : IntArray = IntArray(5023, {i -> i})
-        var recieveDatas : ArrayList<FoodPointData> = loadModel(recipeid)
-        recieveDatas.forEach {
-            getFoodComponentsData(it.id)
-        }
-        val match : ArrayList<FoodPersentData> = MakeMatchRate(arrayListOf("쇠고기","다진 양파","달걀","밥","우유","넛맥","버터","파슬리","소금", "파슬리가루")).getDirectory(foodComponentsDatas)
-        Log.e("일치율", match.toString())
 
-        match.forEach {
-            getFoodDataFromDB(it, recieveDatas.size)
-        }
+//        val recipeid : IntArray = IntArray(5023, {i -> i})
+//        var recieveDatas : ArrayList<FoodPointData> = loadModel(recipeid)
+//        recieveDatas.forEach {
+//            getFoodComponentsData(it.id)
+//        }
+//        val match : ArrayList<FoodPersentData> = MakeMatchRate(arrayListOf("쇠고기","다진 양파","달걀","밥","우유","넛맥","버터","파슬리","소금", "파슬리가루")).getDirectory(foodComponentsDatas)
+//        Log.e("일치율", match.toString())
+//
+//        match.forEach {
+//            getFoodDataFromDB(it, recieveDatas.size)
+//        }
 
 
         //longToast("size는 " + datas.size.toString())
@@ -78,77 +79,78 @@ class HomeTab : Fragment(), View.OnClickListener{
 //
     }
 
-    override fun onStart() {
-        super.onStart()
-
-    }
-    fun loadModel(recipeid : IntArray) : ArrayList<FoodPointData>{
-        var mRecommeders = TensorflowRecommend.create(context!!.assets, "Keras",
-                "opt_recipe.pb", "label.txt", "embedding_1_input", "embedding_2_input",
-                "merge_1/ExpandDims")
-        var foodPoints : ArrayList<FoodPointData> = ArrayList()
-        val id = 0
-        //val recipeid : IntArray = IntArray(5023, {i -> i})
-        for (i in recipeid.indices) {
-            val rec = mRecommeders.recognize(id, recipeid[i])
-            foodPoints.add(FoodPointData(rec.label, rec.conf))
-        }
-        foodPoints.sortByDescending { foodPointData -> foodPointData.point }
-        return foodPoints.take(20) as ArrayList<FoodPointData>
-    }
-
-    private fun getFoodDataFromDB(childData : FoodPersentData, count : Int){
-        UseFirebaseDatabase.getInstence().readFBData(childData.id, object : OnGetDataListener{
-            override fun onStart() {
-            }
-            override fun onSuccess(data: DataSnapshot) {
-
-                var id = data!!.child("id").value.toString()
-                var url = data.child("url").child("0").value.toString()
-                var title = data!!.child("title").value.toString()
-                var percent = childData.persent
-                var starRate = 4.5.toFloat()
-                simpleFoodItems.add(SimpleFoodData(id, url, title, percent, starRate))
-                foodInfoDataAdapter.notifyItemInserted(simpleFoodItems.size)
-                foodInfoDataAdapter.notifyDataSetChanged()
-                if (count==simpleFoodItems.size && mProgressDialog!!.isShowing) {
-                    mProgressDialog!!.dismiss()
-                }
-            }
-            override fun onFailed(databaseError: DatabaseError) {
-                Log.e("FireBase DB Error", databaseError.toString())
-            }
-        })
-    }
-
-    private fun getFoodComponentsData(childID : String){
-        UseFirebaseDatabase.getInstence().readFBData(childID, object : OnGetDataListener{
-            override fun onStart() {
-                if (mProgressDialog == null) {
-                    mProgressDialog = indeterminateProgressDialog("데이터 불러오기...")
-                    mProgressDialog!!.show()
-                } else {
-                    if (!mProgressDialog!!.isShowing) {
-                        mProgressDialog!!.show()
-                    }
-                }
-            }
-            override fun onSuccess(data: DataSnapshot) {
-                val id = data!!.child("id").value.toString()
-                val components: ArrayList<String> = ArrayList()
-                data!!.child("components").children.forEach {
-                    components.add(it.value.toString())
-                }
-                foodComponentsDatas.add(FoodComponentsData(id,components))
-            }
-            override fun onFailed(databaseError: DatabaseError) {
-                Log.e("FireBase DB Error", databaseError.toString())
-            }
-        })
-    }
+//    override fun onStart() {
+//        super.onStart()
+//
+//    }
+//    fun loadModel(recipeid : IntArray) : ArrayList<FoodPointData>{
+//        var mRecommeders = TensorflowRecommend.create(context!!.assets, "Keras",
+//                "opt_recipe.pb", "label.txt", "embedding_1_input", "embedding_2_input",
+//                "merge_1/ExpandDims")
+//        var foodPoints : ArrayList<FoodPointData> = ArrayList()
+//        val id = 0
+//        //val recipeid : IntArray = IntArray(5023, {i -> i})
+//        for (i in recipeid.indices) {
+//            val rec = mRecommeders.recognize(id, recipeid[i])
+//            foodPoints.add(FoodPointData(rec.label, rec.conf))
+//        }
+//        foodPoints.sortByDescending { foodPointData -> foodPointData.point }
+//        return foodPoints.take(20) as ArrayList<FoodPointData>
+//    }
+//
+//    private fun getFoodDataFromDB(childData : FoodPersentData, count : Int){
+//        UseFirebaseDatabase.getInstence().readFBData(childData.id, object : OnGetDataListener{
+//            override fun onStart() {
+//            }
+//            override fun onSuccess(data: DataSnapshot) {
+//
+//                var id = data!!.child("id").value.toString()
+//                var url = data.child("url").child("0").value.toString()
+//                var title = data!!.child("title").value.toString()
+//                var percent = childData.persent
+//                var starRate = 4.5.toFloat()
+//                simpleFoodItems.add(SimpleFoodData(id, url, title, percent, starRate))
+//                foodInfoDataAdapter.notifyItemInserted(simpleFoodItems.size)
+//                foodInfoDataAdapter.notifyDataSetChanged()
+//                if (count==simpleFoodItems.size && mProgressDialog!!.isShowing) {
+//                    mProgressDialog!!.dismiss()
+//                }
+//            }
+//            override fun onFailed(databaseError: DatabaseError) {
+//                Log.e("FireBase DB Error", databaseError.toString())
+//            }
+//        })
+//    }
+//
+//    private fun getFoodComponentsData(childID : String){
+//        UseFirebaseDatabase.getInstence().readFBData(childID, object : OnGetDataListener{
+//            override fun onStart() {
+//                if (mProgressDialog == null) {
+//                    mProgressDialog = indeterminateProgressDialog("데이터 불러오기...")
+//                    mProgressDialog!!.show()
+//                } else {
+//                    if (!mProgressDialog!!.isShowing) {
+//                        mProgressDialog!!.show()
+//                    }
+//                }
+//            }
+//            override fun onSuccess(data: DataSnapshot) {
+//                val id = data!!.child("id").value.toString()
+//                val components: ArrayList<String> = ArrayList()
+//                data!!.child("components").children.forEach {
+//                    components.add(it.value.toString())
+//                }
+//                foodComponentsDatas.add(FoodComponentsData(id,components))
+//            }
+//            override fun onFailed(databaseError: DatabaseError) {
+//                Log.e("FireBase DB Error", databaseError.toString())
+//            }
+//        })
+//    }
 
     private fun setHomeFoodAdapter(){
-        simpleFoodItems = ArrayList()
+        //simpleFoodItems = ArrayList()
+        simpleFoodItems = (activity as MainActivity).simpleFoodItems
         foodComponentsDatas = ArrayList()
         foodPersentData = ArrayList()
         foodInfoDataAdapter = FoodInfoRecyclerAdapter(context!!, simpleFoodItems)

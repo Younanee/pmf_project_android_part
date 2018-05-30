@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.fragment_fridge.*
 import mju_avengers.please_my_fridge.GroceryCategoryActivity
 import mju_avengers.please_my_fridge.R
 import mju_avengers.please_my_fridge.data.GroceryData
+import mju_avengers.please_my_fridge.data.GroceryDataPlusDate
 import mju_avengers.please_my_fridge.db.DataOpenHelper
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
@@ -60,7 +61,7 @@ class FridgeTab : Fragment(){
             val groceryCount : Int = DataOpenHelper.getInstance(activity!!).use {
                 select(GroceryData.TABLE_NAME)
                         .whereArgs(GroceryData.COLUMN_CATEGORY + " = {categoryName}", "categoryName" to it)
-                        .exec { parseList(classParser<GroceryData>()).size }
+                        .exec { parseList(classParser<GroceryDataPlusDate>()).size }
             }
             arrays.add(groceryCount)
         }

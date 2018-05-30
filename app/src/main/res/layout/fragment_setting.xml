@@ -4,14 +4,9 @@
     android:layout_height="match_parent">
 
     <Button
-        android:text="테스트 버튼"
+        android:text="데이터 집어넣기"
         android:id="@+id/setting_test_btn"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/setting_test_rv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

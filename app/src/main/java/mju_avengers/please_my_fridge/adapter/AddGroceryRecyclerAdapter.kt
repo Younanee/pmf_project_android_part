@@ -41,6 +41,12 @@ class AddGroceryRecyclerAdapter(val ctx : Context, val groceryDatas : ArrayList<
     fun addGrocery(data : GroceryData){
         groceryDatas.add(data)
         notifyItemInserted(groceryDatas.size)
+        notifyDataSetChanged()
+    }
+    fun addAllGrocery(datas : ArrayList<GroceryData>){
+        groceryDatas.addAll(datas as ArrayList<GroceryData>)
+        notifyItemInserted(groceryDatas.size)
+        notifyDataSetChanged()
     }
     private fun removeGrocery(position: Int){
         groceryDatas.removeAt(position)

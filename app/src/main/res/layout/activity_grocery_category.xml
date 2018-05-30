@@ -23,13 +23,17 @@
             android:background="?android:selectableItemBackground"
             android:padding="8dp"
             android:textColor="@color/colorAccent"
-            android:text="선택한 식재료 제거"
+            android:text="현재 상태 저장"
             android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e2e3e3">
+    </View>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/grocery_category_rv"
         android:layout_width="match_parent"
