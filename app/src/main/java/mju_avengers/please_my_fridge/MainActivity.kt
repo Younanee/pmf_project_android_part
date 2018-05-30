@@ -28,7 +28,6 @@ import org.jetbrains.anko.toast
 class MainActivity : AppCompatActivity() {
     private val FINISH_INTERVAL_TIME : Long = 2000
     private var backPressedTime : Long = 0
-//    lateinit var mFoodDatabase : DatabaseReference
     lateinit var simpleFoodItems : ArrayList<SimpleFoodData>
     var mProgressDialog : ProgressDialog? = null
     private var dataCount = 0
@@ -37,33 +36,32 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         simpleFoodItems = ArrayList()
-        configureTabLayout()
         if (mProgressDialog == null) {
-            mProgressDialog = indeterminateProgressDialog("데이터 불러오기...")
+            mProgressDialog = indeterminateProgressDialog("Data Loading...")
             mProgressDialog!!.show()
         } else {
             if (!mProgressDialog!!.isShowing) {
                 mProgressDialog!!.show()
             }
         }
-        setSimpleFoodItems()
+        startSettingFragmentView()
 
     }
 
 
-    private fun configureTabLayout() {
+    private fun configureTabAndFragmentView(datas : ArrayList<SimpleFoodData>) {
         main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_home_unclicked_black_24dp), 0)
         main_tabLayout.getTabAt(0)!!.icon!!.alpha = 255
         main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_search_black_24dp), 1)
         main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_kitchen_black_24dp), 2)
         main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_person_black_24dp), 3)
 
-        val tabAdapter = TabPagerAdapter(main_tabLayout.tabCount, supportFragmentManager)
+        val tabAdapter = TabPagerAdapter(main_tabLayout.tabCount, supportFragmentManager, datas)
         main_pager.adapter = tabAdapter
         main_pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(main_tabLayout))
         main_tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                main_tabLayout.getTabAt(main_pager.currentItem)!!.icon!!.alpha = 63
+                main_tabLayout.getTabAt(main_pager.currentItem)!!.icon!!.alpha = 255
                 main_pager.currentItem = tab!!.position
             }
 
@@ -73,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                main_tabLayout.getTabAt(main_pager.currentItem)!!.icon!!.alpha = 63
+                main_tabLayout.getTabAt(main_pager.currentItem)!!.icon!!.alpha = 255
                 main_pager.currentItem = tab!!.position
             }
         })
@@ -88,7 +86,7 @@ class MainActivity : AppCompatActivity() {
             longToast("한번 더 뒤로가기를 누르면 종료됩니다.")
         }
     }
-    private fun setSimpleFoodItems(){
+    private fun startSettingFragmentView(){
         var matchPersnetData : ArrayList<FoodPersentData> = getComponentsMatchPercentDatas()
         dataSize = matchPersnetData.size
         matchPersnetData.forEach {
@@ -126,6 +124,8 @@ class MainActivity : AppCompatActivity() {
                     mProgressDialog!!.dismiss()
                     dataCount = 0
                     dataSize = 0
+
+                    configureTabAndFragmentView(simpleFoodItems)
                 }
             }
             override fun onFailed(databaseError: DatabaseError) {

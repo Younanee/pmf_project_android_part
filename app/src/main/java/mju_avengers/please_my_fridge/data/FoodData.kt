@@ -1,5 +1,7 @@
 package mju_avengers.please_my_fridge.data
 
+import java.io.Serializable
+
 
 data class TestFoodData(var thumbnail : Int, var name: String, var percent : Int)
 data class RecipeData(val index : Int, val content : String)
@@ -25,7 +27,7 @@ data class SimpleFoodData(var id: String,
                           var url: String,
                           var title: String,
                           var percent: String,
-                          var starRate: Float)
+                          var starRate: Float) : Serializable
 
 
 

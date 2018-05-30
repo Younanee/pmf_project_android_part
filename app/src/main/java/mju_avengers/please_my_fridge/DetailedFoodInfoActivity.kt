@@ -29,6 +29,12 @@ class DetailedFoodInfoActivity : AppCompatActivity() {
     }
 
     fun setView(foodData: FoodData) {
+        detail_food_home_title_tv.text = foodData.title
+        detail_food_home_calories_tv.text = foodData.calories
+        detail_food_home_carbohydrate_tv.text = foodData.carbohydrate
+        detail_food_home_protein_tv.text = foodData.protein
+        detail_food_home_sodium_tv.text = foodData.sodium
+        detail_food_home_fat_tv.text = foodData.fat
         val requestOptions = RequestOptions()
         requestOptions.placeholder(R.drawable.ic_image_black_24dp)
         requestOptions.error(R.drawable.ic_clear_black_36dp)
@@ -37,13 +43,6 @@ class DetailedFoodInfoActivity : AppCompatActivity() {
                 .setDefaultRequestOptions(requestOptions)
                 .load(foodData.urls[0])
                 .into(detail_food_home_img_iv)
-        detail_food_home_title_tv.text = foodData.title
-        detail_food_home_calories_tv.text = foodData.calories
-        detail_food_home_carbohydrate_tv.text = foodData.carbohydrate
-        detail_food_home_protein_tv.text = foodData.protein
-        detail_food_home_sodium_tv.text = foodData.sodium
-        detail_food_home_fat_tv.text = foodData.fat
-
 //        var directions : ArrayList<String> = foodData.directions
 //        var urls : ArrayList<String> = foodData.urls
 
@@ -97,7 +96,7 @@ class DetailedFoodInfoActivity : AppCompatActivity() {
             }
 
             override fun onFailed(databaseError: DatabaseError) {
-                Log.e("fail", databaseError.toString())
+                Log.e("실패", "상세보기 데이터 불러오기 실패!!!!!!!!!!!!!!!!!!")
             }
         })
     }
