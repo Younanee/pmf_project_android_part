@@ -32,7 +32,7 @@ class FoodInfoRecyclerAdapter(val ctx: Context, var simpleFoodData: ArrayList<Si
     override fun getItemCount(): Int {
         return simpleFoodData.size
     }
-    
+
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val requestOptions = RequestOptions()
         requestOptions.placeholder(R.drawable.ic_image_black_24dp)

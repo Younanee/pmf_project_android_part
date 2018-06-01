@@ -101,6 +101,7 @@ class SearchTab : Fragment(), View.OnClickListener {
                 }
                 R.id.action_grocery -> {
                     MaterialDialog.Builder(activity!!)
+                            .title("식재료 검색")
                             .positiveText("검색")
                             .negativeText("취소")
                             .customView(R.layout.dialog_search_food, true)
