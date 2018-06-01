@@ -28,14 +28,7 @@ class SearchFoodRecyclerAdapter(val ctx : Context, var simpleFoodItems : ArrayLi
     override fun getItemCount(): Int {
         return simpleFoodItems.size
     }
-    fun clear(){
-        simpleFoodItems.clear()
-        notifyDataSetChanged()
-    }
-    fun addAll(datas : ArrayList<SimpleFoodData>){
-        simpleFoodItems = datas
-        notifyDataSetChanged()
-    }
+
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val requestOptions = RequestOptions()
         requestOptions.placeholder(R.drawable.ic_image_black_24dp)

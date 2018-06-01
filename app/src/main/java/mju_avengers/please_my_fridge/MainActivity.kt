@@ -31,13 +31,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         mProgressDialog = indeterminateProgressDialog("초기 데이터 로딩")
         simpleFoodItems = ArrayList()
-        
+
         startSettingFragmentView()
     }
 
     private fun configureTabAndFragmentView(datas : ArrayList<SimpleFoodData>) {
         main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_home_unclicked_black_24dp), 0)
-        main_tabLayout.getTabAt(0)!!.icon!!.alpha = 255
+        //main_tabLayout.getTabAt(0)!!.icon!!.alpha = 255
         main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_search_black_24dp), 1)
         main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_kitchen_black_24dp), 2)
         main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_person_black_24dp), 3)
@@ -67,7 +67,6 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         var tempTime : Long = System.currentTimeMillis()
         var intervalTime : Long = tempTime - backPressedTime
-        //if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime){
         if (intervalTime in 0..FINISH_INTERVAL_TIME){
             super.onBackPressed()
         } else {
@@ -76,12 +75,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun startSettingFragmentView(){
-        //로딩 시작
-        //mProgressSwitch() // on
+
+
 
 
         var percentData : ArrayList<FoodPersentData> = getComponentsMatchPercentData()
-
         dataSize = percentData.size
         percentData.forEach {
             getSimpleFoodData(it)
@@ -125,17 +123,15 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun getComponentsData(): ArrayList<FoodComponentsData>{
-
         var pointData : ArrayList<FoodPointData> = loadModel()
         var childIds : ArrayList<String> = ArrayList()
         pointData.forEach {
             childIds.add(it.id)
         }
-        return getFoodComponentsData(childIds)
+        return getFoodComponentsDataInDB(childIds)
     }
-    private fun getFoodComponentsData(foodIds : ArrayList<String>) : ArrayList<FoodComponentsData> {
+    private fun getFoodComponentsDataInDB(foodIds : ArrayList<String>) : ArrayList<FoodComponentsData> {
         var result : ArrayList<FoodComponentsData>? = DataOpenHelper.getInstance(this!!).mappingDBDataToFoodComponentsData(foodIds)
-        //Log.e("디비에서 넘어온 compoenents들 ", result!!.size.toString())
         return result!!
     }
 
@@ -157,27 +153,13 @@ class MainActivity : AppCompatActivity() {
             val rec = mRecommeders.recognize(id, it)
             foodPoints.add(FoodPointData(rec.label, rec.conf))
         }
+        //여기서 검색된것만 뽑아내기
 
         foodPoints.sortByDescending { foodPointData -> foodPointData.point }
 
         return foodPoints.take(20) as ArrayList<FoodPointData>
     }
-    private fun loadModelConsiderKeyword(foodIds: ArrayList<Int>, keyword: String): ArrayList<FoodPointData> {
-        var mRecommeders = TensorflowRecommend.create(applicationContext!!.assets, "Keras",
-                "opt_recipe.pb", "label.txt", "embedding_1_input", "embedding_2_input",
-                "merge_1/ExpandDims")
-        var foodPoints: ArrayList<FoodPointData> = ArrayList()
-        val id = 0
 
-        foodIds.forEach {
-            val rec = mRecommeders.recognize(id, it)
-            foodPoints.add(FoodPointData(rec.label, rec.conf))
-        }
-
-        foodPoints.sortByDescending { foodPointData -> foodPointData.point }
-
-        return foodPoints.take(20) as ArrayList<FoodPointData>
-    }
 
     fun getSearchedComponentData(keyword : String): ArrayList<FoodPersentData>?{
         var foodComponentsDatas : ArrayList<FoodComponentsData> = getComponentsData()

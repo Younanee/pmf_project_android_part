@@ -18,8 +18,13 @@ import kotlinx.android.synthetic.main.fragment_search.*
 import mju_avengers.please_my_fridge.*
 import mju_avengers.please_my_fridge.R
 import mju_avengers.please_my_fridge.adapter.SearchFoodRecyclerAdapter
+import mju_avengers.please_my_fridge.data.FoodComponentsData
 import mju_avengers.please_my_fridge.data.FoodPersentData
+import mju_avengers.please_my_fridge.data.FoodPointData
 import mju_avengers.please_my_fridge.data.SimpleFoodData
+import mju_avengers.please_my_fridge.db.DataOpenHelper
+import mju_avengers.please_my_fridge.match_persent.CalculateMatchPercent
+import mju_avengers.please_my_fridge.recipe_model.TensorflowRecommend
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.indeterminateProgressDialog
 import org.jetbrains.anko.support.v4.longToast
@@ -51,13 +56,6 @@ class SearchTab : Fragment(), View.OnClickListener {
         val idx: Int = search_food_rv.getChildAdapterPosition(v)
         var childId : String
         var matchPercent : Float
-//        if (isNotSearched){
-//            childId = mParam!![idx].id
-//            matchPercent = mParam!![idx].percent
-//        } else {
-//            childId = searchResultDatas!![idx].id
-//            matchPercent = searchResultDatas!![idx].percent
-//        }
         childId = searchFoodRecyclerAdapter.simpleFoodItems!![idx].id
         matchPercent = searchFoodRecyclerAdapter.simpleFoodItems!![idx].percent
 
@@ -67,7 +65,7 @@ class SearchTab : Fragment(), View.OnClickListener {
 
     private lateinit var searchFoodRecyclerAdapter: SearchFoodRecyclerAdapter
     private lateinit var slideInfoRecyclerAdapter : SlideInLeftAnimationAdapter
-    lateinit var searchResultDatas : ArrayList<SimpleFoodData>
+    lateinit var newSampleFoodDatas : ArrayList<SimpleFoodData>
     private var isNotSearched : Boolean = true
     //private var mProgressDialog : ProgressDialog? = null
 
@@ -78,22 +76,27 @@ class SearchTab : Fragment(), View.OnClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setSearchFoodRecyclerAdapter()
-        searchResultDatas = ArrayList()
+        mParam!!.sortByDescending { it.percent }
+        searchFoodRecyclerAdapter = SearchFoodRecyclerAdapter(context!!, mParam!!)
+        searchFoodRecyclerAdapter.setOnItemClickListener(this)
+        slideInfoRecyclerAdapter = SlideInLeftAnimationAdapter(searchFoodRecyclerAdapter)
+        search_food_rv.layoutManager = LinearLayoutManager(context)
+        search_food_rv.itemAnimator = SlideInLeftAnimator()
+        search_food_rv.adapter = slideInfoRecyclerAdapter
+        search_food_refresh_srl.setOnRefreshListener {
+            if (isNotSearched){
+                refreshSearchFoodData()
+            } else {
+                search_food_refresh_srl.isRefreshing = false
+            }
+        }
+
+
         search_bottom_navi.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.action_fridge -> {
                     isNotSearched = true
-                    search_food_refresh_srl.isRefreshing = true
-                    mParam!!.clear()
-                    searchFoodRecyclerAdapter.clear()
-                    doAsync {
-                        val newFoodDataIds = (activity as MainActivity).getNewMatchPercentData()
-                        dataSize = newFoodDataIds.size
-                        newFoodDataIds.forEach {
-                            getNewSimpleFoodData(it)
-                        }
-                    }
+                    refreshSearchFoodData()
                     true
                 }
                 R.id.action_grocery -> {
@@ -126,14 +129,27 @@ class SearchTab : Fragment(), View.OnClickListener {
             }
         }
     }
+    fun refreshSearchFoodData(){
+        newSampleFoodDatas = ArrayList()
+        search_food_refresh_srl.isRefreshing = true
+        doAsync {
+            val newFoodDataIds = (activity as MainActivity).getNewMatchPercentData()
+            dataSize = newFoodDataIds.size
+            newFoodDataIds.forEach {
+                getNewSimpleFoodData(it)
+            }
+        }
+    }
 
 
     private fun searchFoodData(keyword : String){
-        val newFoodDataIds : ArrayList<FoodPersentData>? = (activity!! as MainActivity).getSearchedComponentData(keyword)
+        //val newFoodDataIds : ArrayList<FoodPersentData>? = (activity!! as MainActivity).getSearchedComponentData(keyword)
+        val newFoodDataIds : ArrayList<FoodPersentData>? = getSearchedComponentData(keyword)
         if (newFoodDataIds == null) {
             longToast("추천 레시피 중 \"$keyword\"를 재료로 쓰는 요리가 없습니다.")
         } else {
             search_food_refresh_srl.isRefreshing = true
+            newSampleFoodDatas = ArrayList()
             dataSize = newFoodDataIds.size
             newFoodDataIds.forEach {
                 getSearchedSimpleFoodData(it)
@@ -141,28 +157,13 @@ class SearchTab : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun setSearchFoodRecyclerAdapter() {
-        searchFoodRecyclerAdapter = SearchFoodRecyclerAdapter(context!!, mParam!!)
+    private fun setSearchFoodRecyclerAdapter(data : ArrayList<SimpleFoodData>?) {
+        searchFoodRecyclerAdapter = SearchFoodRecyclerAdapter(context!!, data!!)
         searchFoodRecyclerAdapter.setOnItemClickListener(this)
         slideInfoRecyclerAdapter = SlideInLeftAnimationAdapter(searchFoodRecyclerAdapter)
         search_food_rv.layoutManager = LinearLayoutManager(context)
         search_food_rv.itemAnimator = SlideInLeftAnimator()
         search_food_rv.adapter = slideInfoRecyclerAdapter
-        search_food_refresh_srl.setOnRefreshListener {
-            if (isNotSearched){
-                mParam!!.clear()
-                searchFoodRecyclerAdapter.clear()
-                doAsync {
-                    val newFoodDataIds = (activity as MainActivity).getNewMatchPercentData()
-                    dataSize = newFoodDataIds.size
-                    newFoodDataIds.forEach {
-                        getNewSimpleFoodData(it)
-                    }
-                }
-            } else {
-                search_food_refresh_srl.isRefreshing = false
-            }
-        }
     }
     private fun getNewSimpleFoodData(childData : FoodPersentData){
         UseFirebaseDatabase.getInstence().readFBData(childData.id, object : OnGetDataListener{
@@ -175,13 +176,13 @@ class SearchTab : Fragment(), View.OnClickListener {
                 var percent = childData.persent
                 var starRate = data!!.child("id").value.toString()
 
-                mParam!!.add(SimpleFoodData(id, url, title, percent, starRate))
+                newSampleFoodDatas!!.add(SimpleFoodData(id, url, title, percent, starRate))
 
-                if (dataSize == mParam!!.size) {
+                if (dataSize == newSampleFoodDatas!!.size) {
                     dataSize = 0
-                    mParam!!.sortByDescending { it.percent }
+                    newSampleFoodDatas!!.sortByDescending { it.percent }
                     isNotSearched = true
-                    searchFoodRecyclerAdapter.addAll(mParam!!)
+                    setSearchFoodRecyclerAdapter(newSampleFoodDatas)
                     search_food_refresh_srl.isRefreshing = false
                 }
             }
@@ -202,22 +203,70 @@ class SearchTab : Fragment(), View.OnClickListener {
                 var percent = childData.persent
                 var starRate = data!!.child("id").value.toString()
 
-                searchResultDatas!!.add(SimpleFoodData(id, url, title, percent, starRate))
+                newSampleFoodDatas!!.add(SimpleFoodData(id, url, title, percent, starRate))
 
-                if (dataSize == searchResultDatas!!.size) {
+                if (dataSize == newSampleFoodDatas!!.size) {
                     dataSize = 0
-                    searchResultDatas!!.sortByDescending { it.percent }
                     isNotSearched = false
-                    searchFoodRecyclerAdapter.clear()
-                    searchFoodRecyclerAdapter.addAll(searchResultDatas!!)
+                    newSampleFoodDatas!!.sortByDescending { it.percent }
+                    setSearchFoodRecyclerAdapter(newSampleFoodDatas)
                     search_food_refresh_srl.isRefreshing = false
-
                 }
             }
             override fun onFailed(databaseError: DatabaseError) {
                 Log.e("FireBase DB Error", databaseError.toString())
             }
         })
+    }
+
+
+
+    private fun loadModel(): ArrayList<FoodPointData> {
+        var mRecommeders = TensorflowRecommend.create(context!!.assets, "Keras",
+                "opt_recipe.pb", "label.txt", "embedding_1_input", "embedding_2_input",
+                "merge_1/ExpandDims")
+
+        val allRecipeID = IntArray(5023, { i -> i})
+        var ids = allRecipeID.toList() as ArrayList<Int>
+        //먹은 음식 불러오고 빼주기
+        DataOpenHelper.getInstance(activity!!).getEatenFoodDatas().forEach {
+            ids.remove(it.toInt())
+        }
+
+        val id = 0
+        var foodPoints: ArrayList<FoodPointData> = ArrayList()
+        ids.forEach {
+            val rec = mRecommeders.recognize(id, it)
+            foodPoints.add(FoodPointData(rec.label, rec.conf))
+        }
+        //여기서 검색된것만 뽑아내기
+
+        foodPoints.sortByDescending { foodPointData -> foodPointData.point }
+
+        return foodPoints.take(20) as ArrayList<FoodPointData>
+    }
+
+
+    fun getSearchedComponentData(keyword : String): ArrayList<FoodPersentData>?{
+        var pointData : ArrayList<FoodPointData> = loadModel()
+        var childIds : ArrayList<String> = ArrayList()
+        pointData.forEach {
+            childIds.add(it.id)
+        }
+        val foodComponentsDataList = DataOpenHelper.getInstance(activity!!).mappingDBDataToFoodComponentsData(childIds)
+
+        var foodComponentsDatas : ArrayList<FoodComponentsData> = foodComponentsDataList
+        var temp : ArrayList<FoodComponentsData> = ArrayList()
+        foodComponentsDatas.forEach {
+            if (it.components.contains(keyword)){
+                temp.add(it)
+            }
+        }
+        return if (temp.size == 0){
+            null
+        } else {
+            CalculateMatchPercent(activity!!).matchPercentCalculator(temp)
+        }
     }
 
 

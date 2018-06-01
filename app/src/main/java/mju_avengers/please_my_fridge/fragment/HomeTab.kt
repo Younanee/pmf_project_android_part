@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
+import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
 import mju_avengers.please_my_fridge.*
 import mju_avengers.please_my_fridge.adapter.FoodInfoRecyclerAdapter
@@ -24,9 +24,14 @@ class HomeTab : Fragment(), View.OnClickListener{
         val idx : Int = home_food_rv.getChildAdapterPosition(v)
         val childId = foodInfoDataAdapter.simpleFoodData!![idx].id
         val matchPercent = foodInfoDataAdapter.simpleFoodData!![idx].percent
-
         startActivity<DetailedFoodActivity>("childId" to childId, "matchPercent" to String.format("%.2f", matchPercent))
     }
+
+    private var mParam : ArrayList<SimpleFoodData>? = null
+    private lateinit var newSampleFoodDatas : ArrayList<SimpleFoodData>
+    private lateinit var foodInfoDataAdapter : FoodInfoRecyclerAdapter
+    private lateinit var slideInfoRecyclerAdapter : SlideInLeftAnimationAdapter
+    private var dataSize = 0
     companion object {
         private val PARAM_NAME = "param1"
         fun newInstance(param1 : ArrayList<SimpleFoodData>) : HomeTab{
@@ -38,11 +43,6 @@ class HomeTab : Fragment(), View.OnClickListener{
             return homeTabFragment
         }
     }
-    private var mParam : ArrayList<SimpleFoodData>? = null
-    private lateinit var foodInfoDataAdapter : FoodInfoRecyclerAdapter
-    private lateinit var hoomAnimationAdapter : AlphaInAnimationAdapter
-
-    private var dataSize = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,40 +58,28 @@ class HomeTab : Fragment(), View.OnClickListener{
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setHomeFoodAdapter()
-
-//        home_food_refresh_srl.setOnRefreshListener {
-//            mParam!!.clear()
-//            foodInfoDataAdapter.clear()
-//            doAsync {
-//                val newFoodDataIds = (activity as MainActivity).getNewMatchPercentData()
-//                dataSize = newFoodDataIds.size
-//                newFoodDataIds.forEach {
-//                    getNewSimpleFoodData(it)
-//                }
-//            }
-//        }
-    }
-    private fun setHomeFoodAdapter(){
         mParam!!.sortByDescending { it.percent }
         foodInfoDataAdapter = FoodInfoRecyclerAdapter(context!!, mParam!!)
         foodInfoDataAdapter.setOnItemClickListener(this)
-        hoomAnimationAdapter = AlphaInAnimationAdapter(foodInfoDataAdapter)
+        slideInfoRecyclerAdapter = SlideInLeftAnimationAdapter(foodInfoDataAdapter)
         home_food_rv.layoutManager = LinearLayoutManager(context)
-        home_food_rv.adapter = hoomAnimationAdapter
+        home_food_rv.adapter = slideInfoRecyclerAdapter
         home_food_refresh_srl.setOnRefreshListener {
-//            foodInfoDataAdapter.clear()
-            refreshHomeTabListDataSet()
+            refreshHomeTabListDataList()
         }
     }
+    private fun setHomeFoodAdapter(data : ArrayList<SimpleFoodData>?){
+        foodInfoDataAdapter = FoodInfoRecyclerAdapter(context!!, data!!)
+        foodInfoDataAdapter.setOnItemClickListener(this)
+        slideInfoRecyclerAdapter = SlideInLeftAnimationAdapter(foodInfoDataAdapter)
+        home_food_rv.layoutManager = LinearLayoutManager(context)
+        home_food_rv.adapter = slideInfoRecyclerAdapter
+    }
 
-    fun refreshHomeTabListDataSet(){
-        // 리사이클러뷰 progress 돌리기
+
+    fun refreshHomeTabListDataList(){
+        newSampleFoodDatas = ArrayList()
         home_food_refresh_srl.isRefreshing = true
-        //arraylist 비우기
-        mParam!!.clear()
-
-        foodInfoDataAdapter.clear()
         doAsync {
             val newFoodDataIds = (activity as MainActivity).getNewMatchPercentData()
             dataSize = newFoodDataIds.size
@@ -101,7 +89,10 @@ class HomeTab : Fragment(), View.OnClickListener{
         }
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        Log.e("홈 탭 mParam 데이터 갯수 : " , mParam!!.size.toString())
+    }
 
     private fun getNewSimpleFoodData(childData : FoodPersentData){
         UseFirebaseDatabase.getInstence().readFBData(childData.id, object : OnGetDataListener{
@@ -114,13 +105,14 @@ class HomeTab : Fragment(), View.OnClickListener{
                 var percent = childData.persent
                 var starRate = data!!.child("id").value.toString()
 
-                mParam!!.add(SimpleFoodData(id, url, title, percent, starRate))
+                newSampleFoodDatas!!.add(SimpleFoodData(id, url, title, percent, starRate))
 
-                if (dataSize == mParam!!.size) {
+                if (dataSize == newSampleFoodDatas!!.size) {
                     dataSize = 0
-                    mParam!!.sortByDescending { it.percent }
-                    foodInfoDataAdapter.addAll(mParam!!)
+                    newSampleFoodDatas!!.sortByDescending { it.percent }
+                    setHomeFoodAdapter(newSampleFoodDatas)
                     home_food_refresh_srl.isRefreshing = false
+
                 }
             }
             override fun onFailed(databaseError: DatabaseError) {
