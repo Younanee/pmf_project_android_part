@@ -28,7 +28,14 @@ class SearchFoodRecyclerAdapter(val ctx : Context, var simpleFoodItems : ArrayLi
     override fun getItemCount(): Int {
         return simpleFoodItems.size
     }
-
+    fun clear(){
+        simpleFoodItems.clear()
+        notifyDataSetChanged()
+    }
+    fun addAll(datas : ArrayList<SimpleFoodData>){
+        simpleFoodItems = datas
+        notifyDataSetChanged()
+    }
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val requestOptions = RequestOptions()
         requestOptions.placeholder(R.drawable.ic_image_black_24dp)
@@ -40,7 +47,7 @@ class SearchFoodRecyclerAdapter(val ctx : Context, var simpleFoodItems : ArrayLi
                 .thumbnail(0.5f)
                 .into(holder.url)
         holder.name.text = simpleFoodItems[position].title
-        holder.percent.text = "재료 보유율 " + simpleFoodItems[position].percent + "%"
+        holder.percent.text = "재료 보유율 " +  String.format("%.2f", simpleFoodItems[position].percent)+ "%"
     }
 
 

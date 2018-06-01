@@ -26,7 +26,7 @@ data class FoodRecipeData(var direction : String = "0",
 data class SimpleFoodData(var id: String,
                           var url: String,
                           var title: String,
-                          var percent: String,
+                          var percent: Float,
                           var starRate: String) : Serializable
 
 
@@ -45,5 +45,5 @@ data class InitFoodGroceryData(var id : String,
         val COLUMN_GROCERY_NAME = "food_name"
     }
 }
-data class FoodPersentData(var id : String,
-                           var persent : String)
+data class FoodPersentData(var id: String,
+                           var persent: Float)
