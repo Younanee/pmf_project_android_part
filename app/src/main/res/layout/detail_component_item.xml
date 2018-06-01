@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginBottom="16dp">
     <TextView
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="12dp"
+        android:layout_centerInParent="true"
         android:id="@+id/food_detail_component_name"
         android:textColor="#000000"
-        android:text="1. 돼지고기"
+        android:text="돼지고기"
         android:textSize="16dp"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-</LinearLayout>
+    <TextView
+        android:id="@+id/food_detail_component_is_keeping_tv"
+        android:text="(미보유)"
+        android:textSize="12dp"
+        android:textColor="@color/colorAccent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/food_detail_component_name"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>

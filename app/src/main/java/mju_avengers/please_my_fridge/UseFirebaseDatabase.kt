@@ -15,7 +15,6 @@ import org.jetbrains.anko.uiThread
 class UseFirebaseDatabase() {
     companion object {
         private var instance: UseFirebaseDatabase? = null
-        lateinit var simpleFoodData: SimpleFoodData
         fun getInstence(): UseFirebaseDatabase {
             if (instance == null) {
                 instance = UseFirebaseDatabase()
@@ -37,20 +36,4 @@ class UseFirebaseDatabase() {
             }
         })
     }
-
-//    private fun mappingData(data : DataSnapshot) : SimpleFoodData{
-//        var id = data!!.child("id").value.toString()
-//        var url = data.child("url").child("0").value.toString()
-//        var title = data!!.child("title").value.toString()
-//        var percent = 100
-//        var starRate = 4.5.toFloat()
-//        return )
-//    }
 }
-
-//var id = data!!.child("id").value.toString()
-//var url = data.child("url").child("0").value.toString()
-//var title = data!!.child("title").value.toString()
-//var percent = 100
-//var starRate = 4.5.toFloat()
-//simpleFoodData.add(SimpleFoodData(id, url, title, percent, starRate))

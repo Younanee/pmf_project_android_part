@@ -27,7 +27,7 @@ data class SimpleFoodData(var id: String,
                           var url: String,
                           var title: String,
                           var percent: String,
-                          var starRate: Float) : Serializable
+                          var starRate: String) : Serializable
 
 
 

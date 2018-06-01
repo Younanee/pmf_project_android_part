@@ -1,15 +1,11 @@
 package mju_avengers.please_my_fridge
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
-import kotlinx.android.synthetic.main.activity_add.*
 import kotlinx.android.synthetic.main.activity_grocery_category.*
-import mju_avengers.please_my_fridge.adapter.AddGroceryRecyclerAdapter
 import mju_avengers.please_my_fridge.adapter.GroceryCategoryRecyclerAdapter
-import mju_avengers.please_my_fridge.data.GroceryData
 import mju_avengers.please_my_fridge.data.GroceryDataPlusDate
 import mju_avengers.please_my_fridge.db.DataOpenHelper
 import org.jetbrains.anko.toast
@@ -19,7 +15,7 @@ class GroceryCategoryActivity : AppCompatActivity() {
     lateinit var groceryDatas: ArrayList<GroceryDataPlusDate>
     lateinit var groceryCategoryRecyclerAdapter: GroceryCategoryRecyclerAdapter
 
-    lateinit var categoryName : String
+    lateinit var categoryName: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_grocery_category)
@@ -36,7 +32,7 @@ class GroceryCategoryActivity : AppCompatActivity() {
 
     }
 
-    private fun setGroceryCategoryAdapter(categoryName : String){
+    private fun setGroceryCategoryAdapter(categoryName: String) {
         groceryDatas = ArrayList()
         groceryDatas = DataOpenHelper.getInstance(this).getGroceryDatasPlusFromCategory(categoryName)
 
@@ -47,6 +43,7 @@ class GroceryCategoryActivity : AppCompatActivity() {
         grocery_category_rv.adapter = groceryCategoryRecyclerAdapter
 
     }
+
     override fun onBackPressed() {
         if (groceryCategoryRecyclerAdapter.removedDatas.size != 0) {
             MaterialDialog.Builder(this)

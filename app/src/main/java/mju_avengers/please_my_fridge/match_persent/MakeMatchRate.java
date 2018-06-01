@@ -1,5 +1,7 @@
 package mju_avengers.please_my_fridge.match_persent;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -79,11 +81,18 @@ public class MakeMatchRate {
         
         while (cut_map_it.hasNext()) {
         	Map.Entry me = (Map.Entry)cut_map_it.next();
-        	FoodPersentData temp = new FoodPersentData(me.getKey().toString(), me.getValue().toString());
+        	String key_id = me.getKey().toString();
+        	String value_percent;
+        	if(me.getValue().toString().equals("NaN")){
+				value_percent = "0";
+			} else {
+        		value_percent = me.getValue().toString();
+			}
+        	FoodPersentData temp = new FoodPersentData(key_id, value_percent);
         	priority_list.add(temp);
         }
 
-        
+		Log.e("일치율 계산", priority_list.toString());
         return priority_list;
 	}
 	

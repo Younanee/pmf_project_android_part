@@ -53,6 +53,7 @@ class FoodHomeTab : Fragment() {
         detail_food_home_protein_tv.text = foodData.protein
         detail_food_home_sodium_tv.text = foodData.sodium
         detail_food_home_fat_tv.text = foodData.fat
+        detail_food_home_persent_tv.text = (activity as DetailedFoodActivity).matchPercent + "%"
     }
     private fun setCategoryRecyclerAdapter() {
         categories = ArrayList((activity as DetailedFoodActivity).foodData.categories)

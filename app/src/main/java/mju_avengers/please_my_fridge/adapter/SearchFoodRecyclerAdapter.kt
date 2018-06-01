@@ -40,14 +40,13 @@ class SearchFoodRecyclerAdapter(val ctx : Context, var simpleFoodItems : ArrayLi
                 .thumbnail(0.5f)
                 .into(holder.url)
         holder.name.text = simpleFoodItems[position].title
-        holder.percent.text = "재료 보유율 " + simpleFoodItems[position].percent.toString() + "%"
-        holder.starRate.text = "별점 "+simpleFoodItems[position].starRate.toString()    }
+        holder.percent.text = "재료 보유율 " + simpleFoodItems[position].percent + "%"
+    }
 
 
     inner class Holder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val name : TextView = itemView.findViewById(R.id.search_food_item_name_tv) as TextView
         val url : ImageView = itemView.findViewById(R.id.search_food_item_url_iv) as ImageView
         val percent : TextView = itemView.findViewById(R.id.search_food_item_percent_tv) as TextView
-        val starRate : TextView = itemView.findViewById(R.id.search_food_item_star_tv) as TextView
     }
 }

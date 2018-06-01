@@ -18,7 +18,7 @@ import org.jetbrains.anko.sdk25.coroutines.onCheckedChange
 
 class GroceryCategoryRecyclerAdapter(val ctx : Context, val datas: ArrayList<GroceryDataPlusDate>) : RecyclerView.Adapter<GroceryCategoryRecyclerAdapter.Holder>(){
 
-    var removedDatas : ArrayList<String> = ArrayList()
+    var removedDatas : ArrayList<Int> = ArrayList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(ctx).inflate(R.layout.grocery_category_item, parent, false)
         return Holder(view)
@@ -32,7 +32,7 @@ class GroceryCategoryRecyclerAdapter(val ctx : Context, val datas: ArrayList<Gro
         holder.groceryName.text = datas[position].name
         holder.groceryDate.text = "추가일: " + datas[position].date
         holder.groceryRemoveBtn.setOnClickListener {
-            removedDatas.add(datas[position].name)
+            removedDatas.add(datas[position].id)
             removeGrocery(position)
             //실제 데이터베이스에서도 지우는 기능 넣기
             //아예 리사이클뷰 다시달아버리면 인덱스 에러 안뜸

@@ -11,10 +11,11 @@ import kotlinx.android.synthetic.main.fragment_food_component.*
 import mju_avengers.please_my_fridge.DetailedFoodActivity
 import mju_avengers.please_my_fridge.R
 import mju_avengers.please_my_fridge.adapter.ComponentRecyclerAdapter
+import mju_avengers.please_my_fridge.db.DataOpenHelper
 
 
 class FoodComponentTab : Fragment() {
-    lateinit var components : ArrayList<String>
+    lateinit var components: ArrayList<String>
     lateinit var componentRecyclerAdapter: ComponentRecyclerAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -28,9 +29,11 @@ class FoodComponentTab : Fragment() {
         setSearchFoodRecyclerAdapter()
 
     }
+
     private fun setSearchFoodRecyclerAdapter() {
-        components = ArrayList((activity as DetailedFoodActivity).foodData.ingredients)
-        componentRecyclerAdapter = ComponentRecyclerAdapter(context!!, components)
+        components = ArrayList((activity as DetailedFoodActivity).foodData.components)
+        val myGroceries: ArrayList<String> = DataOpenHelper.getInstance(activity!!).getAllGrocerisNameInFridge()
+        componentRecyclerAdapter = ComponentRecyclerAdapter(context!!, components, myGroceries)
         detailed_food_component_list_rv.layoutManager = LinearLayoutManager(context)
         detailed_food_component_list_rv.adapter = componentRecyclerAdapter
     }

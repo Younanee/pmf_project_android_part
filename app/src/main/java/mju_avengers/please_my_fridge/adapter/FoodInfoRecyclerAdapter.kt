@@ -42,7 +42,16 @@ class FoodInfoRecyclerAdapter(val ctx: Context, val simpleFoodData: ArrayList<Si
                 .into(holder.url)
         holder.title.text = simpleFoodData[position].title
         holder.percent.text = "재료 보유율 " + simpleFoodData[position].percent + "%"
-        holder.starRate.text = "별점 "+simpleFoodData[position].starRate.toString()
+        holder.starRate.text = "음식 아이디 =  "+simpleFoodData[position].starRate
+    }
+
+    fun clear(){
+        simpleFoodData.clear()
+        notifyDataSetChanged()
+    }
+    fun addAll(datas : ArrayList<SimpleFoodData>){
+        simpleFoodData.addAll(datas)
+        notifyDataSetChanged()
     }
 
 

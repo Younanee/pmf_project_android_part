@@ -1,28 +1,20 @@
 package mju_avengers.please_my_fridge
 
 import android.app.ProgressDialog
-import android.database.Cursor
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.afollestad.materialdialogs.MaterialDialog
-import com.google.firebase.auth.FirebaseAuth
+import com.bumptech.glide.load.engine.Initializable
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_search.*
 import mju_avengers.please_my_fridge.adapter.TabPagerAdapter
 import mju_avengers.please_my_fridge.data.*
 import mju_avengers.please_my_fridge.db.DataOpenHelper
-import mju_avengers.please_my_fridge.match_persent.MakeMatchRate
+import mju_avengers.please_my_fridge.match_persent.CalculateMatchPercent
 import mju_avengers.please_my_fridge.recipe_model.TensorflowRecommend
-import org.jetbrains.anko.design.longSnackbar
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.longToast
-import org.jetbrains.anko.support.v4.indeterminateProgressDialog
-import org.jetbrains.anko.support.v4.toast
-import org.jetbrains.anko.toast
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         simpleFoodItems = ArrayList()
+
         if (mProgressDialog == null) {
             mProgressDialog = indeterminateProgressDialog("Data Loading...")
             mProgressDialog!!.show()
@@ -47,8 +40,6 @@ class MainActivity : AppCompatActivity() {
         startSettingFragmentView()
 
     }
-
-
     private fun configureTabAndFragmentView(datas : ArrayList<SimpleFoodData>) {
         main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_home_unclicked_black_24dp), 0)
         main_tabLayout.getTabAt(0)!!.icon!!.alpha = 255
@@ -88,24 +79,18 @@ class MainActivity : AppCompatActivity() {
     }
     private fun startSettingFragmentView(){
         var matchPersnetData : ArrayList<FoodPersentData> = getComponentsMatchPercentDatas()
+//        matchPersnetData.sortByDescending { foodPersentData -> foodPersentData.persent }
         dataSize = matchPersnetData.size
         matchPersnetData.forEach {
             getSimpleFoodData(it)
         }
-
     }
 
-    private fun getComponentsMatchPercentDatas() : ArrayList<FoodPersentData>{
-        //중복 식료품 없앤 쿼리로 넣기
-        var foodComponentsDatas : ArrayList<FoodComponentsData> = getComponentsData()
-        var myFridgeGroceriesData : ArrayList<String> = DataOpenHelper.getInstance(this!!).getAllGrocerisNameInFridge()
-        var matchPersnetData : ArrayList<FoodPersentData> = MakeMatchRate(myFridgeGroceriesData).getDirectory(foodComponentsDatas)
-//        var cursor: Cursor = DataOpenHelper.getInstance(this).readableDatabase.query(true,
-//                GroceryData.TABLE_NAME,
-//                arrayOf(GroceryData.COLUMN_NAME),
-//                null,null,null,null,null,null)
-        return matchPersnetData
+    fun getNewMatchPercentData() : ArrayList<FoodPersentData> {
+        return getComponentsMatchPercentDatas()
     }
+
+
     private fun getSimpleFoodData(childData : FoodPersentData){
         UseFirebaseDatabase.getInstence().readFBData(childData.id, object : OnGetDataListener{
             override fun onStart() {
@@ -117,7 +102,8 @@ class MainActivity : AppCompatActivity() {
                 var url = data.child("url").child("0").value.toString()
                 var title = data!!.child("title").value.toString()
                 var percent = childData.persent
-                var starRate = 4.5.toFloat()
+                var starRate = data!!.child("id").value.toString()
+
                 simpleFoodItems.add(SimpleFoodData(id, url, title, percent, starRate))
 
                 if (dataSize == simpleFoodItems.size && mProgressDialog!!.isShowing) {
@@ -133,35 +119,54 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+    private fun getComponentsMatchPercentDatas() : ArrayList<FoodPersentData>{
 
+        var foodComponentsDatas : ArrayList<FoodComponentsData> = getComponentsData()
+
+        return CalculateMatchPercent(this).matchPercentCalculator(foodComponentsDatas)
+    }
 
     private fun getComponentsData(): ArrayList<FoodComponentsData>{
-        val recipeid : IntArray = IntArray(5023, {i -> i})
-        var foodComponentsDatas: ArrayList<FoodComponentsData> = ArrayList()
-        var reipePointDatas : ArrayList<FoodPointData> = loadModel(recipeid)
-        reipePointDatas.forEach {
-            foodComponentsDatas.add(getFoodComponentsData(it.id))
+        var recipeid : IntArray = IntArray(5023, {i -> i})
+        var foodIds : ArrayList<Int> = recipeid.toList() as ArrayList<Int>
+        //먹은 음식 불러오기
+        DataOpenHelper.getInstance(this!!).getEatenFoodDatas().forEach {
+            foodIds.remove(it.toInt())
         }
-        return foodComponentsDatas
+
+        //var recipeIds : ArrayList<Int> = ArrayList()
+//        for (i in 0..5022)
+        //디비에서 끌어온 이미 먹은 음식들 빼주기@!@#!@#!@#!@#!@#!@#!@#
+        //recipeid.
+        var reipePointDatas : ArrayList<FoodPointData> = loadModel(foodIds)
+        var childIds : ArrayList<String> = ArrayList()
+        reipePointDatas.forEach {
+            childIds.add(it.id)
+        }
+        return getFoodComponentsData(childIds)
     }
-    private fun loadModel(recipeid : IntArray) : ArrayList<FoodPointData>{
+    private fun getFoodComponentsData(foodIds : ArrayList<String>) : ArrayList<FoodComponentsData> {
+        var result : ArrayList<FoodComponentsData>? = DataOpenHelper.getInstance(this!!).mappingDBDataToFoodComponentsData(foodIds)
+        Log.e("디비에서 넘어온 compoenents들 ", result!!.size.toString())
+        return result!!
+    }
+
+    private fun loadModel(foodIds: ArrayList<Int>): ArrayList<FoodPointData> {
         var mRecommeders = TensorflowRecommend.create(applicationContext!!.assets, "Keras",
                 "opt_recipe.pb", "label.txt", "embedding_1_input", "embedding_2_input",
                 "merge_1/ExpandDims")
-        var foodPoints : ArrayList<FoodPointData> = ArrayList()
+        var foodPoints: ArrayList<FoodPointData> = ArrayList()
         val id = 0
-        //val recipeid : IntArray = IntArray(5023, {i -> i})
-        for (i in recipeid.indices) {
-            val rec = mRecommeders.recognize(id, recipeid[i])
+
+        foodIds.forEach {
+            val rec = mRecommeders.recognize(id, it)
             foodPoints.add(FoodPointData(rec.label, rec.conf))
         }
+
         foodPoints.sortByDescending { foodPointData -> foodPointData.point }
 
         return foodPoints.take(20) as ArrayList<FoodPointData>
     }
-    private fun getFoodComponentsData(foodId : String) : FoodComponentsData {
-        var result : FoodComponentsData? = DataOpenHelper.getInstance(this!!).mappingDBDataToFoodComponentsData(foodId)
 
-        return result!!
-    }
+
 }

@@ -3,7 +3,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="16dp"
         android:id="@+id/detailed_food_component_list_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

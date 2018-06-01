@@ -25,24 +25,51 @@ import org.jetbrains.anko.toast
 class DetailedFoodActivity : AppCompatActivity() {
     lateinit var childId : String
     lateinit var foodData : FoodData
+    lateinit var matchPercent : String
+    var isEaten : Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detailed_food)
-
         if(intent.hasExtra("childId")){
             childId = intent.getStringExtra("childId")
+            matchPercent = intent.getStringExtra("matchPercent")
+
             readDetailedFoodData(childId)
+
+            isEaten = DataOpenHelper.getInstance(this!!).getEatenFoodDatas().contains(childId)
         }
-        detailed_food_appbar_back_btn.setOnClickListener {
-            finish()
+
+
+        if (isEaten){
+            detailed_food_appbar_add_eaten_btn.setImageResource(R.drawable.ic_star_yellow_24dp)
+        } else {
+            detailed_food_appbar_add_eaten_btn.setImageResource(R.drawable.ic_star_border_black_24dp)
         }
         detailed_food_appbar_add_eaten_btn.setOnClickListener {
-            //디비에 추가
-            DataOpenHelper.getInstance(this).insertEatenFoodDatas(childId)
+            checkEatenBtn()
+        }
+
+
+
+
+        detailed_food_appbar_back_btn.setOnClickListener {
+            finish()
         }
         //configureTabLayout()
         //readDetailedFoodData(childId)
     }
+    fun checkEatenBtn(){
+        if(isEaten){
+            detailed_food_appbar_add_eaten_btn.setImageResource(R.drawable.ic_star_border_black_24dp)
+            isEaten = false
+            DataOpenHelper.getInstance(this).removeEatenFoodData(childId)
+        } else {
+            detailed_food_appbar_add_eaten_btn.setImageResource(R.drawable.ic_star_yellow_24dp)
+            isEaten = true
+            DataOpenHelper.getInstance(this).insertEatenFoodDatas(childId)
+        }
+    }
+
     private fun configureTabLayout() {
         detailed_food_tabLayout.addTab(detailed_food_tabLayout.newTab().setText("음식 정보"), 0)
         detailed_food_tabLayout.addTab(detailed_food_tabLayout.newTab().setText("재료"), 1)

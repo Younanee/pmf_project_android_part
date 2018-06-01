@@ -3,7 +3,9 @@ package mju_avengers.please_my_fridge.db
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
+import android.database.DatabaseUtils
 import android.database.sqlite.SQLiteDatabase
+import android.util.Log
 import mju_avengers.please_my_fridge.data.*
 import org.jetbrains.anko.db.*
 import java.text.SimpleDateFormat
@@ -79,15 +81,14 @@ class DataOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "PMF_DB", null
         }
         return result
     }
-    fun getEatenFoodDatas() : ArrayList<EatenFoodData>{
-        val result : ArrayList<EatenFoodData> = ArrayList()
+    fun getEatenFoodDatas() : ArrayList<String>{
+        val result : ArrayList<String> = ArrayList()
         instance!!.use {
             select(EatenFoodData.TABLE_NAME, EatenFoodData.COLUMN_ID, EatenFoodData.COLUMN_FOOD_ID)
-                    .parseList(object :MapRowParser<List<EatenFoodData>>{
-                        override fun parseRow(columns: Map<String, Any?>): List<EatenFoodData> {
-                            val id = columns.getValue(EatenFoodData.COLUMN_ID).toString().toInt()
+                    .parseList(object :MapRowParser<List<String>>{
+                        override fun parseRow(columns: Map<String, Any?>): List<String> {
                             val foodId = columns.getValue(EatenFoodData.COLUMN_FOOD_ID).toString()
-                            result.add(EatenFoodData(id,foodId))
+                            result.add(foodId)
                             return result
                         }
                     })
@@ -114,12 +115,19 @@ class DataOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "PMF_DB", null
                     EatenFoodData.COLUMN_FOOD_ID to foodId)
         }
     }
-    fun removeGroceryDatas(groceryDatas : ArrayList<String>){
-        groceryDatas.forEach {
+    fun removeEatenFoodData(foodId : String){
+        instance!!.use {
+            delete(EatenFoodData.TABLE_NAME,
+                    "${EatenFoodData.COLUMN_FOOD_ID}={${EatenFoodData.COLUMN_FOOD_ID}}",
+                    EatenFoodData.COLUMN_FOOD_ID to foodId)
+        }
+    }
+    fun removeGroceryDatas(groceryIdDatas : ArrayList<Int>){
+        groceryIdDatas.forEach {
             instance!!.use {
                 delete(GroceryData.TABLE_NAME,
-                        GroceryData.COLUMN_NAME+"={"+GroceryData.COLUMN_NAME+"}",
-                        GroceryData.COLUMN_NAME to it)
+                        GroceryData.COLUMN_ID+"={"+GroceryData.COLUMN_ID+"}",
+                        GroceryData.COLUMN_ID to it)
             }
         }
     }
@@ -137,23 +145,33 @@ class DataOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "PMF_DB", null
             writableDatabase.endTransaction()
         }
     }
-    fun mappingDBDataToFoodComponentsData(id : String) : FoodComponentsData {
-        var components: ArrayList<String> = ArrayList()
-        instance!!.use {
-            select(InitFoodGroceryData.TABLE_NAME, InitFoodGroceryData.COLUMN_GROCERY_NAME)
-                    .whereArgs(InitFoodGroceryData.COLUMN_FOOD_ID + " = {food_id}", "food_id" to id)
-                    .parseList(object : MapRowParser<List<String>> {
-                        override fun parseRow(columns: Map<String, Any?>): List<String> {
-                            val name = columns.getValue(InitFoodGroceryData.COLUMN_GROCERY_NAME).toString()
-                            components.add(name)
+    fun mappingDBDataToFoodComponentsData(foodIds : ArrayList<String> ) : ArrayList<FoodComponentsData> {
+        var result: ArrayList<FoodComponentsData> = ArrayList()
 
-                            return components
-                        }
-                    })
+        foodIds.forEach {
+            var cursor : Cursor = readableDatabase.query(InitFoodGroceryData.TABLE_NAME,
+                    arrayOf(InitFoodGroceryData.COLUMN_GROCERY_NAME), "${InitFoodGroceryData.COLUMN_FOOD_ID} = ?",
+                    arrayOf(it),null,null,null)
+            cursor.moveToFirst()
+            var components : ArrayList<String> = ArrayList()
+            while (!cursor.isAfterLast){
+                components.add(cursor.getString(0))
+                cursor.moveToNext()
+            }
+            //components.add(cursor.getString(0))
+            result.add(FoodComponentsData(it, components))
         }
-        return FoodComponentsData(id, components)
+        return result
     }
 
+    fun isCompletedInitDataSetting() : Boolean{
+        var count : Long = DatabaseUtils.queryNumEntries(instance!!.readableDatabase, InitFoodGroceryData.TABLE_NAME)
+        Log.e("초기 데이터 셋 로우 숫자 ", count.toInt().toString())
+        if (count.toInt() == 32944) {
+            return true
+        }
+        return false
+    }
 
 
     override fun onCreate(db: SQLiteDatabase) {
