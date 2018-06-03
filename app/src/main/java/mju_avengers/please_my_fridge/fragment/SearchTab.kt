@@ -118,7 +118,14 @@ class SearchTab : Fragment(), View.OnClickListener {
                 R.id.action_info -> {
                     MaterialDialog.Builder(activity!!)
                             .title("기반 검색 설명")
-                            .items(arrayListOf("검색한 식재료 기반으로 추천합니다.", "기존 식재료 기반으로 추천합니다."))
+                            .items(arrayListOf("#보유 식재료 기반\n즐겨찾기된 음식 제외, 기존 냉장고 기반만으로 음식을 추천합니다.",
+                                    "즐겨찾기 음식 포함 검색한 식재료를 포함한 음식을 추천합니다."))
+                            .itemsCallback { dialog, itemView, position, text ->
+                                when(position){
+                                    0-> toast("식재료 클릭")
+                                    1-> toast("기존 식재료 기반")
+                                }
+                            }
                             .negativeText("닫기")
                             .show()
                     true
@@ -211,6 +218,7 @@ class SearchTab : Fragment(), View.OnClickListener {
                     isNotSearched = false
                     setSearchFoodRecyclerAdapter(newSampleFoodDatas)
                     search_food_refresh_srl.isRefreshing = false
+                    longToast("검색 완료")
                 }
             }
             override fun onFailed(databaseError: DatabaseError) {
@@ -240,24 +248,48 @@ class SearchTab : Fragment(), View.OnClickListener {
         foodPoints.sortByDescending { foodPointData -> foodPointData.point }
         return foodPoints.take(20) as ArrayList<FoodPointData>
     }
-    fun getSearchedComponentData(keyword : String): ArrayList<FoodPersentData>?{
-        var pointData : ArrayList<FoodPointData> = loadModel()
-        var childIds : ArrayList<String> = ArrayList()
-        pointData.forEach {
-            childIds.add(it.id)
-        }
-        val foodComponentsDataList = DataOpenHelper.getInstance(activity!!).mappingDBDataToFoodComponentsData(childIds)
-
-        var foodComponentsDatas : ArrayList<FoodComponentsData> = foodComponentsDataList
-        var temp : ArrayList<FoodComponentsData> = ArrayList()
-        foodComponentsDatas.forEach {
-            if (it.components.contains(keyword)){
-                temp.add(it)
+    private fun loadModelByKeyword(keyword : String): ArrayList<FoodPointData>{
+        var mRecommeders = TensorflowRecommend.create(context!!.assets, "Keras",
+                "opt_recipe.pb", "label.txt", "embedding_1_input", "embedding_2_input",
+                "merge_1/ExpandDims")
+        val ids : ArrayList<Int> = DataOpenHelper.getInstance(activity!!).searchInitDataByKeyword(keyword)
+        var foodPoints: ArrayList<FoodPointData> = ArrayList()
+        //먹었던것 빼나?
+        return if (ids.size != 0) {
+            val id = 0
+            ids.forEach {
+                val rec = mRecommeders.recognize(id, it)
+                foodPoints.add(FoodPointData(rec.label, rec.conf))
             }
+            foodPoints.sortByDescending { foodPointData -> foodPointData.point }
+
+            if (foodPoints.size > 30){
+                foodPoints.take(30) as ArrayList<FoodPointData>
+            } else {
+                foodPoints
+            }
+
+        } else {
+            foodPoints
         }
-        return if (temp.size == 0){
+    }
+    fun getSearchedComponentData(keyword : String): ArrayList<FoodPersentData>?{
+        var pointData : ArrayList<FoodPointData> = loadModelByKeyword(keyword)
+        return if (pointData.size == 0){
             null
         } else {
+            var childIds : ArrayList<String> = ArrayList()
+            pointData.forEach {
+                childIds.add(it.id)
+            }
+            val foodComponentsDataList = DataOpenHelper.getInstance(activity!!).mappingDBDataToFoodComponentsData(childIds)
+            var temp : ArrayList<FoodComponentsData> = ArrayList()
+            foodComponentsDataList.forEach {
+                if (it.components.contains(keyword)){
+                    temp.add(it)
+                }
+            }
+            //return
             CalculateMatchPercent(activity!!).matchPercentCalculator(temp)
         }
     }

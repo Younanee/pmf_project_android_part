@@ -56,12 +56,10 @@ class SettingTab : Fragment(), View.OnClickListener{
         myEatenFoodData = ArrayList()
         setEatenFoodRecyclerAdapter(myEatenFoodData)
         setting_show_eaten_food_list_btn_tv.setOnClickListener {
-            setting_refresh_srl.isRefreshing = true
             refreshEatenFoodData()
         }
         setting_refresh_srl.setOnRefreshListener {
             refreshEatenFoodData()
-            setting_refresh_srl.isRefreshing = false
         }
         setting_user_logout_tv.setOnClickListener {
             MaterialDialog.Builder(context!!)
@@ -108,7 +106,7 @@ class SettingTab : Fragment(), View.OnClickListener{
         }
     }
     private fun setEatenFoodRecyclerAdapter(data : ArrayList<SimpleFoodData>) {
-        myFoodRecyclerAdapter = SearchFoodRecyclerAdapter(context!!, data!!)//nullpoint에러뜸
+        myFoodRecyclerAdapter = SearchFoodRecyclerAdapter(context!!, data!!)
         myFoodRecyclerAdapter.setOnItemClickListener(this)
         slideInfoRecyclerAdapter = SlideInLeftAnimationAdapter(myFoodRecyclerAdapter)
         setting_eaten_food_list_rv.layoutManager = LinearLayoutManager(context)

@@ -48,11 +48,15 @@ class HomeTab : Fragment(), View.OnClickListener{
         super.onCreate(savedInstanceState)
         if (arguments != null){
             mParam = arguments!!.getSerializable(PARAM_NAME) as ArrayList<SimpleFoodData>
+            mParam!!.sortByDescending { it.percent }
+
         }
 
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.fragment_home, container, false)
+
+
         return v
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {

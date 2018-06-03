@@ -75,6 +75,7 @@ class DataOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "PMF_DB", null
         return result
     }
 
+
     fun insertGroceryDatas(groceryDatas : ArrayList<GroceryData>){
         val nowDate : String = SimpleDateFormat("yyyy-MM-dd").format(Date(System.currentTimeMillis()))
         groceryDatas.forEach {
@@ -138,6 +139,21 @@ class DataOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "PMF_DB", null
                 cursor.moveToNext()
             }
             result.add(FoodComponentsData(it, components))
+        }
+        return result
+    }
+    fun searchInitDataByKeyword(keyword : String ) : ArrayList<Int> {
+        var result: ArrayList<Int> = ArrayList()
+        var cursor : Cursor = readableDatabase.query(true, InitFoodGroceryData.TABLE_NAME,
+                arrayOf(InitFoodGroceryData.COLUMN_FOOD_ID),"${InitFoodGroceryData.COLUMN_GROCERY_NAME} = ?", arrayOf(keyword),null,null,null,null)
+
+        if (cursor!=null && cursor.moveToFirst())
+        while (!cursor.isAfterLast){
+            var temp = cursor.getString(0).toInt()
+            if (temp in 1..5022) {
+                result.add(temp)
+            }
+            cursor.moveToNext()
         }
         return result
     }
