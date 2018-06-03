@@ -42,12 +42,6 @@ class AppInitActivity : AppCompatActivity() {
         //초기 데이터베이스 테이블 생성
         DataOpenHelper.getInstance(this)
 
-        //테스트
-        app_init_test_btn.setOnClickListener {
-            var intent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(intent)
-        }
-
         startSignIn()
 
     }

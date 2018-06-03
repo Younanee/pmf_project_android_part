@@ -8,6 +8,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.afollestad.materialdialogs.MaterialDialog
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter
@@ -25,17 +30,6 @@ import org.jetbrains.anko.support.v4.startActivity
 
 
 class SettingTab : Fragment(), View.OnClickListener{
-    companion object {
-        private val PARAM_NAME = "param1"
-        fun newInstance(param1 : ArrayList<SimpleFoodData>) : SettingTab{
-            val settingTabFragment = SettingTab()
-            val args = Bundle()
-            args.putSerializable(PARAM_NAME, param1)
-            settingTabFragment.arguments = args
-            return settingTabFragment
-        }
-    }
-
     override fun onClick(v: View?) {
         val idx: Int = setting_eaten_food_list_rv.getChildAdapterPosition(v)
         var childId : String
@@ -49,15 +43,8 @@ class SettingTab : Fragment(), View.OnClickListener{
     lateinit var myFoodRecyclerAdapter : SearchFoodRecyclerAdapter
     private lateinit var slideInfoRecyclerAdapter : SlideInLeftAnimationAdapter
     lateinit var myEatenFoodData : ArrayList<SimpleFoodData>
-    private var mParam : ArrayList<SimpleFoodData>? = null
     private var dataSize = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (arguments != null){
-            mParam = arguments!!.getSerializable(SettingTab.PARAM_NAME) as ArrayList<SimpleFoodData>
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_setting, container, false)
@@ -65,12 +52,44 @@ class SettingTab : Fragment(), View.OnClickListener{
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setEatenFoodRecyclerAdapter(mParam)
+        setLoginView()
+        myEatenFoodData = ArrayList()
+        setEatenFoodRecyclerAdapter(myEatenFoodData)
+
         setting_refresh_srl.setOnRefreshListener {
             refreshEatenFoodData()
             setting_refresh_srl.isRefreshing = false
         }
-        refreshEatenFoodData()
+        setting_user_logout_tv.setOnClickListener {
+            MaterialDialog.Builder(context!!)
+                    .title("로그아웃 하시겠습니까?")
+                    .positiveText("로그아웃")
+                    .negativeText("취소")
+                    .onPositive { dialog, which ->
+                        AuthUI.getInstance().signOut(context!!).addOnCompleteListener {
+                            startActivity<AppInitActivity>()
+                            activity!!.finish()
+                        }
+                    }.show()
+        }
+    }
+    fun setLoginView(){
+        var user = FirebaseAuth.getInstance().currentUser
+        if (user!=null){
+            val name : String = user.displayName!!.toString()
+            val email : String = user.email!!.toString()
+            val photoUrl : String = user.photoUrl!!.toString()
+            setting_user_name_tv.text = name
+            setting_user_email_tv.text = email
+            val requestOptions = RequestOptions()
+            requestOptions.error(R.drawable.ic_clear_black_36dp)
+            requestOptions.centerCrop()
+            Glide.with(activity!!)
+                    .setDefaultRequestOptions(requestOptions)
+                    .load(photoUrl)
+                    .into(setting_user_img_iv)
+        }
+
     }
     fun refreshEatenFoodData(){
         myEatenFoodData = ArrayList()
@@ -85,7 +104,7 @@ class SettingTab : Fragment(), View.OnClickListener{
             }
         }
     }
-    private fun setEatenFoodRecyclerAdapter(data : ArrayList<SimpleFoodData>?) {
+    private fun setEatenFoodRecyclerAdapter(data : ArrayList<SimpleFoodData>) {
         myFoodRecyclerAdapter = SearchFoodRecyclerAdapter(context!!, data!!)//nullpoint에러뜸
         myFoodRecyclerAdapter.setOnItemClickListener(this)
         slideInfoRecyclerAdapter = SlideInLeftAnimationAdapter(myFoodRecyclerAdapter)
@@ -93,6 +112,8 @@ class SettingTab : Fragment(), View.OnClickListener{
         setting_eaten_food_list_rv.itemAnimator = SlideInLeftAnimator()
         setting_eaten_food_list_rv.adapter = myFoodRecyclerAdapter
     }
+
+
     private fun getNewEatenFoodData(childData : FoodPersentData){
         UseFirebaseDatabase.getInstence().readFBData(childData.id, object : OnGetDataListener {
             override fun onStart() {

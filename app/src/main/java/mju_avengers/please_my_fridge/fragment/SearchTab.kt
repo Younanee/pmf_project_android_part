@@ -76,7 +76,7 @@ class SearchTab : Fragment(), View.OnClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mParam!!.sortByDescending { it.percent }
+//        mParam!!.sortByDescending { it.percent }
         searchFoodRecyclerAdapter = SearchFoodRecyclerAdapter(context!!, mParam!!)
         searchFoodRecyclerAdapter.setOnItemClickListener(this)
         slideInfoRecyclerAdapter = SlideInLeftAnimationAdapter(searchFoodRecyclerAdapter)
@@ -181,7 +181,7 @@ class SearchTab : Fragment(), View.OnClickListener {
 
                 if (dataSize == newSampleFoodDatas!!.size) {
                     dataSize = 0
-                    newSampleFoodDatas!!.sortByDescending { it.percent }
+                    //newSampleFoodDatas!!.sortByDescending { it.percent }
                     isNotSearched = true
                     setSearchFoodRecyclerAdapter(newSampleFoodDatas)
                     search_food_refresh_srl.isRefreshing = false
@@ -209,7 +209,7 @@ class SearchTab : Fragment(), View.OnClickListener {
                 if (dataSize == newSampleFoodDatas!!.size) {
                     dataSize = 0
                     isNotSearched = false
-                    newSampleFoodDatas!!.sortByDescending { it.percent }
+//                    newSampleFoodDatas!!.sortByDescending { it.percent }
                     setSearchFoodRecyclerAdapter(newSampleFoodDatas)
                     search_food_refresh_srl.isRefreshing = false
                 }
