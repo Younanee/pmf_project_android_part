@@ -5,10 +5,14 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import kotlinx.android.synthetic.main.activity_main.*
 import mju_avengers.please_my_fridge.adapter.TabPagerAdapter
-import mju_avengers.please_my_fridge.data.*
+import mju_avengers.please_my_fridge.data.FoodComponentsData
+import mju_avengers.please_my_fridge.data.FoodPersentData
+import mju_avengers.please_my_fridge.data.FoodPointData
+import mju_avengers.please_my_fridge.data.SimpleFoodData
 import mju_avengers.please_my_fridge.db.DataOpenHelper
 import mju_avengers.please_my_fridge.match_persent.CalculateMatchPercent
 import mju_avengers.please_my_fridge.recipe_model.TensorflowRecommend
@@ -20,10 +24,10 @@ class MainActivity : AppCompatActivity() {
 
     private var dataCount = 0
     private var dataSize = 0
-    private val FINISH_INTERVAL_TIME : Long = 2000
-    private var backPressedTime : Long = 0
-    lateinit var simpleFoodItems : ArrayList<SimpleFoodData>
-    lateinit var mProgressDialog : ProgressDialog
+    private val FINISH_INTERVAL_TIME: Long = 2000
+    private var backPressedTime: Long = 0
+    lateinit var simpleFoodItems: ArrayList<SimpleFoodData>
+    lateinit var mProgressDialog: ProgressDialog
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         startSettingFragmentView()
     }
 
-    private fun configureTabAndFragmentView(datas : ArrayList<SimpleFoodData>) {
+    private fun configureTabAndFragmentView(datas: ArrayList<SimpleFoodData>) {
         main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_home_unclicked_black_24dp), 0)
         //main_tabLayout.getTabAt(0)!!.icon!!.alpha = 255
         main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_search_black_24dp), 1)
@@ -65,37 +69,38 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        var tempTime : Long = System.currentTimeMillis()
-        var intervalTime : Long = tempTime - backPressedTime
-        if (intervalTime in 0..FINISH_INTERVAL_TIME){
+        var tempTime: Long = System.currentTimeMillis()
+        var intervalTime: Long = tempTime - backPressedTime
+        if (intervalTime in 0..FINISH_INTERVAL_TIME) {
             super.onBackPressed()
         } else {
             backPressedTime = tempTime
             longToast("한번 더 뒤로가기를 누르면 종료됩니다.")
         }
     }
-    private fun startSettingFragmentView(){
+
+    private fun startSettingFragmentView() {
 
 
-
-
-        var percentData : ArrayList<FoodPersentData> = getComponentsMatchPercentData()
+        var percentData: ArrayList<FoodPersentData> = getComponentsMatchPercentData()
         dataSize = percentData.size
         percentData.forEach {
             getSimpleFoodData(it)
         }
     }
-    private fun getComponentsMatchPercentData() : ArrayList<FoodPersentData>{
 
-        var foodComponentsDatas : ArrayList<FoodComponentsData> = getComponentsData()
+    private fun getComponentsMatchPercentData(): ArrayList<FoodPersentData> {
+
+        var foodComponentsDatas: ArrayList<FoodComponentsData> = getComponentsData()
 
         return CalculateMatchPercent(this).matchPercentCalculator(foodComponentsDatas)
     }
 
-    private fun getSimpleFoodData(childData : FoodPersentData){
-        UseFirebaseDatabase.getInstence().readFBData(childData.id, object : OnGetDataListener{
+    private fun getSimpleFoodData(childData: FoodPersentData) {
+        UseFirebaseDatabase.getInstence().readFBData(childData.id, object : OnGetDataListener {
             override fun onStart() {
             }
+
             override fun onSuccess(data: DataSnapshot) {
                 dataCount++
 
@@ -115,6 +120,7 @@ class MainActivity : AppCompatActivity() {
                     configureTabAndFragmentView(simpleFoodItems)
                 }
             }
+
             override fun onFailed(databaseError: DatabaseError) {
                 Log.e("FireBase DB Error", databaseError.toString())
             }
@@ -122,16 +128,17 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun getComponentsData(): ArrayList<FoodComponentsData>{
-        var pointData : ArrayList<FoodPointData> = loadModel()
-        var childIds : ArrayList<String> = ArrayList()
+    private fun getComponentsData(): ArrayList<FoodComponentsData> {
+        var pointData: ArrayList<FoodPointData> = loadModel()
+        var childIds: ArrayList<String> = ArrayList()
         pointData.forEach {
             childIds.add(it.id)
         }
         return getFoodComponentsDataInDB(childIds)
     }
-    private fun getFoodComponentsDataInDB(foodIds : ArrayList<String>) : ArrayList<FoodComponentsData> {
-        var result : ArrayList<FoodComponentsData>? = DataOpenHelper.getInstance(this!!).mappingDBDataToFoodComponentsData(foodIds)
+
+    private fun getFoodComponentsDataInDB(foodIds: ArrayList<String>): ArrayList<FoodComponentsData> {
+        var result: ArrayList<FoodComponentsData>? = DataOpenHelper.getInstance(this!!).mappingDBDataToFoodComponentsData(foodIds)
         return result!!
     }
 
@@ -140,7 +147,7 @@ class MainActivity : AppCompatActivity() {
                 "opt_recipe.pb", "label.txt", "embedding_1_input", "embedding_2_input",
                 "merge_1/ExpandDims")
 
-        val allRecipeID = IntArray(5023, { i -> i})
+        val allRecipeID = IntArray(5023, { i -> i })
         var ids = allRecipeID.toList() as ArrayList<Int>
         //먹은 음식 불러오고 빼주기
         DataOpenHelper.getInstance(this!!).getEatenFoodDatas().forEach {
@@ -161,15 +168,15 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun getSearchedComponentData(keyword : String): ArrayList<FoodPersentData>?{
-        var foodComponentsDatas : ArrayList<FoodComponentsData> = getComponentsData()
-        var temp : ArrayList<FoodComponentsData> = ArrayList()
+    fun getSearchedComponentData(keyword: String): ArrayList<FoodPersentData>? {
+        var foodComponentsDatas: ArrayList<FoodComponentsData> = getComponentsData()
+        var temp: ArrayList<FoodComponentsData> = ArrayList()
         foodComponentsDatas.forEach {
-            if (it.components.contains(keyword)){
+            if (it.components.contains(keyword)) {
                 temp.add(it)
             }
         }
-        return if (temp.size == 0){
+        return if (temp.size == 0) {
             null
         } else {
             CalculateMatchPercent(this).matchPercentCalculator(temp)
@@ -177,7 +184,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     //새 데이터를 얻기 위해 HomeTab과 SearchTab에서 사용
-    fun getNewMatchPercentData() : ArrayList<FoodPersentData> {
+    fun getNewMatchPercentData(): ArrayList<FoodPersentData> {
         return getComponentsMatchPercentData()
     }
 }

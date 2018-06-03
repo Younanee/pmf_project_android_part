@@ -2,11 +2,6 @@ package mju_avengers.please_my_fridge.data
 
 import java.io.Serializable
 
-
-data class TestFoodData(var thumbnail : Int, var name: String, var percent : Int)
-data class RecipeData(val index : Int, val content : String)
-
-
 data class FoodData(var urls: ArrayList<String>,
                     var directions : ArrayList<String>,
                     var categories : ArrayList<String>,
@@ -20,8 +15,6 @@ data class FoodData(var urls: ArrayList<String>,
                     var fat : String,
                     var id : String)
 
-data class FoodRecipeData(var direction : String = "0",
-                          var url: String = "0")
 
 data class SimpleFoodData(var id: String,
                           var url: String,

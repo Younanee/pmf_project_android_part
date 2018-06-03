@@ -24,27 +24,6 @@ class DataOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "PMF_DB", null
         }
     }
 
-
-    fun getGroceryDatasFromCategory(categoryName : String) : ArrayList<GroceryData> {
-        val result : ArrayList<GroceryData> = ArrayList()
-        instance!!.use {
-            select(GroceryData.TABLE_NAME, GroceryData.COLUMN_ID, GroceryData.COLUMN_NAME, GroceryData.COLUMN_CATEGORY)
-                    .whereArgs(GroceryData.COLUMN_CATEGORY + " = {categoryName}", "categoryName" to categoryName)
-                    .parseList(object : MapRowParser<List<GroceryData>>{
-                        override fun parseRow(columns: Map<String, Any?>): List<GroceryData> {
-                            val id = columns.getValue(GroceryData.COLUMN_ID).toString().toInt()
-                            val name = columns.getValue(GroceryData.COLUMN_NAME).toString()
-                            val category = columns.getValue(GroceryData.COLUMN_CATEGORY).toString()
-                            val data = GroceryData(id,category,name)
-                            result.add(data)
-
-                            return result
-                        }
-
-                    })
-        }
-        return result
-    }
     fun getGroceryDatasPlusFromCategory(categoryName : String) : ArrayList<GroceryDataPlusDate> {
         val result : ArrayList<GroceryDataPlusDate> = ArrayList()
         instance!!.use {
@@ -158,7 +137,6 @@ class DataOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "PMF_DB", null
                 components.add(cursor.getString(0))
                 cursor.moveToNext()
             }
-            //components.add(cursor.getString(0))
             result.add(FoodComponentsData(it, components))
         }
         return result
@@ -166,7 +144,6 @@ class DataOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "PMF_DB", null
 
     fun isCompletedInitDataSetting() : Boolean{
         var count : Long = DatabaseUtils.queryNumEntries(instance!!.readableDatabase, InitFoodGroceryData.TABLE_NAME)
-        Log.e("초기 데이터 셋 로우 숫자 ", count.toInt().toString())
         if (count.toInt() == 32944) {
             return true
         }
@@ -196,50 +173,3 @@ class DataOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "PMF_DB", null
 }
 val Context.database : DataOpenHelper
     get() = DataOpenHelper.getInstance(applicationContext)
-
-
-//초기 데이터 셋 로직 csv파일 sqlite로 파싱
-//setting_test_btn.setOnClickListener {
-//    var datas : ArrayList<InitFoodGroceryData> = ArrayList()
-//    var assetManager : AssetManager
-//    var inputStream : InputStream? = null
-//    var inputStreamReader : InputStreamReader
-//    var fileReader : BufferedReader? = null
-//    try {
-//        assetManager = resources.assets
-//        inputStream = assetManager.open("id_with_ingredients.csv")
-//        inputStreamReader = InputStreamReader(inputStream,"euc-kr")
-//        fileReader = BufferedReader(inputStreamReader)
-//
-//        var line : String?
-//
-//        //fileReader.readLine()
-//        line = fileReader!!.readLine()
-//        while (line !=null){
-//            val tokens = line.split(",")
-//            if (tokens.isNotEmpty()){
-//                datas.add(InitFoodGroceryData(tokens[0], tokens[1]))
-//            }
-//            line = fileReader!!.readLine()
-//        }
-//
-//    } catch (e : Exception){
-//        Log.e("error", e.toString())
-//    } finally {
-//        try {
-//            fileReader!!.close()
-//            inputStream!!.close()
-//        } catch (e: Exception) {
-//            Log.e("error", e.toString())
-//        }
-//    }
-//
-//    toast("datas에 들어간 데이터는 " + datas.size + "개")
-//    Log.e("데이터 들어간것", datas.size.toString())
-//    DataOpenHelper.getInstance(activity!!).insertInitFoodGroceryData(datas)
-//
-//    var cursor: Cursor = DataOpenHelper.getInstance(activity!!).readableDatabase.query(InitFoodGroceryData.TABLE_NAME,
-//            arrayOf(InitFoodGroceryData.COLUMN_FOOD_ID, InitFoodGroceryData.COLUMN_GROCERY_NAME),
-//            null, null, null, null, null)
-//    toast("csv파일 sqlite로 파싱 완료! 데이터 수 : " + cursor.count)
-//}

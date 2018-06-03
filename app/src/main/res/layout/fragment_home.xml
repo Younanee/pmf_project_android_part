@@ -1,35 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/custom_light_gray">
-        <TextView
-            android:id="@+id/home_tab_test_btn"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="8dp"
-            android:textSize="16sp"
-            android:layout_marginHorizontal="16dp"
-            android:text="Today's Food"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center|left" />
-    </RelativeLayout>
+
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/home_food_refresh_srl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
+
+        <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
             android:id="@+id/home_food_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </android.support.v7.widget.RecyclerView>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@color/custom_light_gray"
+                app:layout_section="header">
+                <TextView
+                    android:id="@+id/home_tab_test_btn"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="16sp"
+                    android:layout_marginHorizontal="16dp"
+                    android:text="Today's Food"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left" />
+            </RelativeLayout>
+        </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
 

@@ -18,6 +18,3 @@ data class EatenFoodData(val id: Int, val foodId : String){
         val COLUMN_FOOD_ID = "food_id"
     }
 }
-enum class GroceryCategory{
-    MEAT, SEAFOOD, VEGETABLE, FRUIT, SAUCE, GRAIN, ETC
-}

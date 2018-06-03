@@ -14,8 +14,8 @@ import mju_avengers.please_my_fridge.adapter.RecipeRecyclerAdapter
 
 
 class FoodRecipeTab : Fragment() {
-    lateinit var directions : ArrayList<String>
-    lateinit var urls : ArrayList<String>
+    lateinit var directions: ArrayList<String>
+    lateinit var urls: ArrayList<String>
     lateinit var recipeRecyclerAdapter: RecipeRecyclerAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

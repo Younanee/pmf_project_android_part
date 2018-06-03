@@ -209,7 +209,6 @@ class SearchTab : Fragment(), View.OnClickListener {
                 if (dataSize == newSampleFoodDatas!!.size) {
                     dataSize = 0
                     isNotSearched = false
-//                    newSampleFoodDatas!!.sortByDescending { it.percent }
                     setSearchFoodRecyclerAdapter(newSampleFoodDatas)
                     search_food_refresh_srl.isRefreshing = false
                 }
@@ -226,10 +225,8 @@ class SearchTab : Fragment(), View.OnClickListener {
         var mRecommeders = TensorflowRecommend.create(context!!.assets, "Keras",
                 "opt_recipe.pb", "label.txt", "embedding_1_input", "embedding_2_input",
                 "merge_1/ExpandDims")
-
         val allRecipeID = IntArray(5023, { i -> i})
         var ids = allRecipeID.toList() as ArrayList<Int>
-        //먹은 음식 불러오고 빼주기
         DataOpenHelper.getInstance(activity!!).getEatenFoodDatas().forEach {
             ids.remove(it.toInt())
         }
@@ -240,14 +237,9 @@ class SearchTab : Fragment(), View.OnClickListener {
             val rec = mRecommeders.recognize(id, it)
             foodPoints.add(FoodPointData(rec.label, rec.conf))
         }
-        //여기서 검색된것만 뽑아내기
-
         foodPoints.sortByDescending { foodPointData -> foodPointData.point }
-
         return foodPoints.take(20) as ArrayList<FoodPointData>
     }
-
-
     fun getSearchedComponentData(keyword : String): ArrayList<FoodPersentData>?{
         var pointData : ArrayList<FoodPointData> = loadModel()
         var childIds : ArrayList<String> = ArrayList()
