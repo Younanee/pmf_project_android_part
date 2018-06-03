@@ -55,7 +55,10 @@ class SettingTab : Fragment(), View.OnClickListener{
         setLoginView()
         myEatenFoodData = ArrayList()
         setEatenFoodRecyclerAdapter(myEatenFoodData)
-
+        setting_show_eaten_food_list_btn_tv.setOnClickListener {
+            setting_refresh_srl.isRefreshing = true
+            refreshEatenFoodData()
+        }
         setting_refresh_srl.setOnRefreshListener {
             refreshEatenFoodData()
             setting_refresh_srl.isRefreshing = false
