@@ -118,14 +118,8 @@ class SearchTab : Fragment(), View.OnClickListener {
                 R.id.action_info -> {
                     MaterialDialog.Builder(activity!!)
                             .title("기반 검색 설명")
-                            .items(arrayListOf("#보유 식재료 기반\n즐겨찾기된 음식 제외, 기존 냉장고 기반만으로 음식을 추천합니다.",
-                                    "즐겨찾기 음식 포함 검색한 식재료를 포함한 음식을 추천합니다."))
-                            .itemsCallback { dialog, itemView, position, text ->
-                                when(position){
-                                    0-> toast("식재료 클릭")
-                                    1-> toast("기존 식재료 기반")
-                                }
-                            }
+                            .items(arrayListOf("#보유 식재료 기반\n\n즐겨찾기된 음식 제외, 내가 가진 식재료 기반으로 추천합니다.",
+                                    "#식재료 검색 기반\n\n즐겨찾기된 음식 포함, 검색한 식재료 + 내가 가진 식재료 기반으로 추천합니다."))
                             .negativeText("닫기")
                             .show()
                     true

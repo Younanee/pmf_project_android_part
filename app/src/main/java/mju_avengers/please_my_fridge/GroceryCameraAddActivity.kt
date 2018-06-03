@@ -36,6 +36,7 @@ import mju_avengers.please_my_fridge.dictionary.GroceryDataProcess
 import mju_avengers.please_my_fridge.vision_api.PackageManagerUtils
 import mju_avengers.please_my_fridge.vision_api.PermissionUtils
 import org.jetbrains.anko.indeterminateProgressDialog
+import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.toast
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -47,7 +48,8 @@ class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
         var idx: Int = add_grocery_item_camera_rv.getChildAdapterPosition(v)
     }
 
-    private val CLOUD_VISION_API_KEY = "11111"
+
+    private val CLOUD_VISION_API_KEY = "111"
     val FILE_NAME = "temp.jpg"
     private val ANDROID_CERT_HEADER = "X-Android-Cert"
     private val ANDROID_PACKAGE_HEADER = "X-Android-Package"
@@ -94,11 +96,15 @@ class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
         }
         //카메라 달기 시작
         grocery_camera_test_btn.setOnClickListener {
-            val builder = AlertDialog.Builder(this@GroceryCameraAddActivity)
-            builder.setMessage("방식 선택")
-                    .setPositiveButton("갤러리에서 선택", { dialog, which -> startGalleryChooser() })
-                    .setNegativeButton("사진 찍기", { dialog, which -> startCamera() })
-            builder.create().show()
+            MaterialDialog.Builder(this)
+                    .items(arrayListOf("갤러리", "카메라"))
+                    .itemsCallback { dialog, itemView, position, text ->
+                        when(position){
+                            0-> startGalleryChooser()
+                            1-> startCamera()
+                        }
+                    }
+                    .show()
         }
 
     }
@@ -219,8 +225,9 @@ class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
     private fun prepareAnnotationRequest(bitmap: Bitmap): Vision.Images.Annotate {
         val httpTransport = AndroidHttp.newCompatibleTransport()
         val jsonFactory = GsonFactory.getDefaultInstance()
+        val str = resources.getString(R.string.vision_api)
 
-        val requestInitializer = object : VisionRequestInitializer(CLOUD_VISION_API_KEY) {
+        val requestInitializer = object : VisionRequestInitializer(str) {
 
             @Throws(IOException::class)
             override fun initializeVisionRequest(visionRequest: VisionRequest<*>?) {
