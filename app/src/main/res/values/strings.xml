@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">please_my_fridge</string>
     <!--123-->
-
+    <string name="test_str">abcde</string>
     <string-array name="grocery_category">
         <item>MEAT</item>
         <item>SEAFOOD</item>
