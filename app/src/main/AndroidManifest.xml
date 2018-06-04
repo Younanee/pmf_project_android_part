@@ -24,7 +24,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".DetailedFoodInfoActivity" />
         <activity android:name=".GroceryCategoryActivity" />
         <activity android:name=".GroceryTextAddActivity" />
         <activity android:name=".GroceryCameraAddActivity" />
