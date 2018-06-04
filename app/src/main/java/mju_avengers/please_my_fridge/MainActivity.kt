@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun configureTabAndFragmentView(datas: ArrayList<SimpleFoodData>) {
         main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_home_unclicked_black_24dp), 0)
-        //main_tabLayout.getTabAt(0)!!.icon!!.alpha = 255
         main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_search_black_24dp), 1)
         main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_kitchen_black_24dp), 2)
         main_tabLayout.addTab(main_tabLayout.newTab().setIcon(R.drawable.ic_person_black_24dp), 3)
@@ -162,12 +161,9 @@ class MainActivity : AppCompatActivity() {
 
         foodPoints.sortByDescending { foodPointData -> foodPointData.point }
 
-        return foodPoints.take(20) as ArrayList<FoodPointData>
+        return foodPoints.take(30) as ArrayList<FoodPointData>
     }
 
-
-
-    //새 데이터를 얻기 위해 HomeTab과 SearchTab에서 사용
     fun getNewMatchPercentData(): ArrayList<FoodPersentData> {
         return getComponentsMatchPercentData()
     }
