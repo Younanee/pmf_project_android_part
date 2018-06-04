@@ -1,6 +1,7 @@
 package mju_avengers.please_my_fridge.fragment
 
-import android.app.ProgressDialog
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.support.v4.app.Fragment
@@ -16,7 +17,6 @@ import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import kotlinx.android.synthetic.main.fragment_search.*
 import mju_avengers.please_my_fridge.*
-import mju_avengers.please_my_fridge.R
 import mju_avengers.please_my_fridge.adapter.SearchFoodRecyclerAdapter
 import mju_avengers.please_my_fridge.data.FoodComponentsData
 import mju_avengers.please_my_fridge.data.FoodPersentData
@@ -26,7 +26,6 @@ import mju_avengers.please_my_fridge.db.DataOpenHelper
 import mju_avengers.please_my_fridge.match_persent.CalculateMatchPercent
 import mju_avengers.please_my_fridge.recipe_model.TensorflowRecommend
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.support.v4.indeterminateProgressDialog
 import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
@@ -36,7 +35,7 @@ import org.jetbrains.anko.uiThread
 class SearchTab : Fragment(), View.OnClickListener {
     companion object {
         private val PARAM_NAME = "param1"
-        fun newInstance(param1 : ArrayList<SimpleFoodData>) : SearchTab{
+        fun newInstance(param1: ArrayList<SimpleFoodData>): SearchTab {
             val searchTabFragment = SearchTab()
             val args = Bundle()
             args.putSerializable(PARAM_NAME, param1)
@@ -46,31 +45,34 @@ class SearchTab : Fragment(), View.OnClickListener {
         }
     }
 
-    private var isLoading : Boolean = false
-    private var mParam : ArrayList<SimpleFoodData>? = null
+    private val REQUEST_CODE_SEARCH_TAB = 3332
+    private var isLoading: Boolean = false
+    private var mParam: ArrayList<SimpleFoodData>? = null
     private var dataSize = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null){
+        if (arguments != null) {
             mParam = arguments!!.getSerializable(SearchTab.PARAM_NAME) as ArrayList<SimpleFoodData>
         }
     }
+
     override fun onClick(v: View?) {
         val idx: Int = search_food_rv.getChildAdapterPosition(v)
-        var childId : String
-        var matchPercent : Float
+        var childId: String
+        var matchPercent: Float
         childId = searchFoodRecyclerAdapter.simpleFoodItems!![idx].id
         matchPercent = searchFoodRecyclerAdapter.simpleFoodItems!![idx].percent
-
-
-        startActivity<DetailedFoodActivity>("childId" to childId, "matchPercent" to String.format("%.2f", matchPercent))
+        val intent = Intent(context, DetailedFoodActivity::class.java)
+        intent.putExtra("childId", childId)
+        intent.putExtra("matchPercent", String.format("%.2f", matchPercent))
+        startActivityForResult(intent, REQUEST_CODE_SEARCH_TAB)
+        //startActivity<DetailedFoodActivity>("childId" to childId, "matchPercent" to String.format("%.2f", matchPercent))
     }
 
     private lateinit var searchFoodRecyclerAdapter: SearchFoodRecyclerAdapter
-    private lateinit var slideInfoRecyclerAdapter : SlideInLeftAnimationAdapter
-    lateinit var newSampleFoodDatas : ArrayList<SimpleFoodData>
-    private var isNotSearched : Boolean = true
-    //private var mProgressDialog : ProgressDialog? = null
+    private lateinit var slideInfoRecyclerAdapter: SlideInLeftAnimationAdapter
+    lateinit var newSampleFoodDatas: ArrayList<SimpleFoodData>
+    private var isNotSearched: Boolean = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.fragment_search, container, false)
@@ -87,13 +89,12 @@ class SearchTab : Fragment(), View.OnClickListener {
         search_food_rv.itemAnimator = SlideInLeftAnimator()
         search_food_rv.adapter = slideInfoRecyclerAdapter
         search_food_refresh_srl.setOnRefreshListener {
-            if (isNotSearched){
+            if (isNotSearched) {
                 refreshSearchFoodData()
             } else {
                 search_food_refresh_srl.isRefreshing = false
             }
         }
-
 
         search_bottom_navi.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -103,15 +104,15 @@ class SearchTab : Fragment(), View.OnClickListener {
                     true
                 }
                 R.id.action_grocery -> {
-                    if (!isLoading){
+                    if (!isLoading) {
                         MaterialDialog.Builder(activity!!)
                                 .title("식재료 검색")
                                 .positiveText("검색")
                                 .negativeText("취소")
                                 .customView(R.layout.dialog_search_food, true)
                                 .onPositive { dialog, which ->
-                                    var keyword : TextInputEditText = dialog.findViewById(R.id.dialog_search_food_name_tv) as TextInputEditText
-                                    if (keyword.text.isNotEmpty()){
+                                    var keyword: TextInputEditText = dialog.findViewById(R.id.dialog_search_food_name_tv) as TextInputEditText
+                                    if (keyword.text.isNotEmpty()) {
                                         isLoading = true
                                         search_food_refresh_srl.isRefreshing = true
                                         searchFoodData(keyword.text.toString())
@@ -137,8 +138,20 @@ class SearchTab : Fragment(), View.OnClickListener {
             }
         }
     }
-    private fun refreshSearchFoodData(){
-        if (!isLoading){
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_SEARCH_TAB) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (isNotSearched) {
+                    refreshSearchFoodData()
+                }
+            }
+        }
+    }
+
+    private fun refreshSearchFoodData() {
+        if (!isLoading) {
             isLoading = true
             search_food_refresh_srl.isRefreshing = true
             newSampleFoodDatas = ArrayList()
@@ -153,13 +166,12 @@ class SearchTab : Fragment(), View.OnClickListener {
         }
     }
 
-
-    private fun searchFoodData(keyword : String){
+    private fun searchFoodData(keyword: String) {
         newSampleFoodDatas = ArrayList()
         setSearchFoodRecyclerAdapter(newSampleFoodDatas)
         doAsync {
-            val newFoodDataIds : ArrayList<FoodPersentData>? = getSearchedComponentData(keyword)
-            if (newFoodDataIds == null){
+            val newFoodDataIds: ArrayList<FoodPersentData>? = getSearchedComponentData(keyword)
+            if (newFoodDataIds == null) {
                 uiThread {
                     isLoading = false
                     search_food_refresh_srl.isRefreshing = false
@@ -172,23 +184,9 @@ class SearchTab : Fragment(), View.OnClickListener {
                 }
             }
         }
-
-
-
-//        val newFoodDataIds : ArrayList<FoodPersentData>? = getSearchedComponentData(keyword)
-//        if (newFoodDataIds == null) {
-//            toast("추천 레시피 중 \"$keyword\"를 재료로 쓰는 요리가 없습니다.")
-//        } else {
-//            search_food_refresh_srl.isRefreshing = true
-//            newSampleFoodDatas = ArrayList()
-//            dataSize = newFoodDataIds.size
-//            newFoodDataIds.forEach {
-//                getSearchedSimpleFoodData(it)
-//            }
-//        }
     }
 
-    private fun setSearchFoodRecyclerAdapter(data : ArrayList<SimpleFoodData>?) {
+    private fun setSearchFoodRecyclerAdapter(data: ArrayList<SimpleFoodData>?) {
         searchFoodRecyclerAdapter = SearchFoodRecyclerAdapter(context!!, data!!)
         searchFoodRecyclerAdapter.setOnItemClickListener(this)
         slideInfoRecyclerAdapter = SlideInLeftAnimationAdapter(searchFoodRecyclerAdapter)
@@ -197,10 +195,11 @@ class SearchTab : Fragment(), View.OnClickListener {
         search_food_rv.adapter = slideInfoRecyclerAdapter
     }
 
-    private fun getNewSimpleFoodData(childData : FoodPersentData){
-        UseFirebaseDatabase.getInstence().readFBData(childData.id, object : OnGetDataListener{
+    private fun getNewSimpleFoodData(childData: FoodPersentData) {
+        UseFirebaseDatabase.getInstence().readFBData(childData.id, object : OnGetDataListener {
             override fun onStart() {
             }
+
             override fun onSuccess(data: DataSnapshot) {
                 var id = data!!.child("id").value.toString()
                 var url = data.child("url").child("0").value.toString()
@@ -220,16 +219,18 @@ class SearchTab : Fragment(), View.OnClickListener {
                     search_food_refresh_srl.isRefreshing = false
                 }
             }
+
             override fun onFailed(databaseError: DatabaseError) {
                 Log.e("FireBase DB Error", databaseError.toString())
             }
         })
     }
 
-    private fun getSearchedSimpleFoodData(childData : FoodPersentData){
-        UseFirebaseDatabase.getInstence().readFBData(childData.id, object : OnGetDataListener{
+    private fun getSearchedSimpleFoodData(childData: FoodPersentData) {
+        UseFirebaseDatabase.getInstence().readFBData(childData.id, object : OnGetDataListener {
             override fun onStart() {
             }
+
             override fun onSuccess(data: DataSnapshot) {
                 var id = data!!.child("id").value.toString()
                 var url = data.child("url").child("0").value.toString()
@@ -249,17 +250,18 @@ class SearchTab : Fragment(), View.OnClickListener {
                     longToast("검색 완료")
                 }
             }
+
             override fun onFailed(databaseError: DatabaseError) {
                 Log.e("FireBase DB Error", databaseError.toString())
             }
         })
     }
 
-    private fun loadModelByKeyword(keyword : String): ArrayList<FoodPointData>{
+    private fun loadModelByKeyword(keyword: String): ArrayList<FoodPointData> {
         var mRecommeders = TensorflowRecommend.create(context!!.assets, "Keras",
                 "opt_recipe.pb", "label.txt", "embedding_1_input", "embedding_2_input",
                 "merge_1/ExpandDims")
-        val ids : ArrayList<Int> = DataOpenHelper.getInstance(activity!!).searchInitDataByKeyword(keyword)
+        val ids: ArrayList<Int> = DataOpenHelper.getInstance(activity!!).searchInitDataByKeyword(keyword)
         var foodPoints: ArrayList<FoodPointData> = ArrayList()
         //먹었던것 빼나?
         return if (ids.size != 0) {
@@ -270,7 +272,7 @@ class SearchTab : Fragment(), View.OnClickListener {
             }
             foodPoints.sortByDescending { foodPointData -> foodPointData.point }
 
-            if (foodPoints.size > 30){
+            if (foodPoints.size > 30) {
                 foodPoints.take(30) as ArrayList<FoodPointData>
             } else {
                 foodPoints
@@ -280,19 +282,20 @@ class SearchTab : Fragment(), View.OnClickListener {
             foodPoints
         }
     }
-    fun getSearchedComponentData(keyword : String): ArrayList<FoodPersentData>?{
-        var pointData : ArrayList<FoodPointData> = loadModelByKeyword(keyword)
-        return if (pointData.size == 0){
+
+    fun getSearchedComponentData(keyword: String): ArrayList<FoodPersentData>? {
+        var pointData: ArrayList<FoodPointData> = loadModelByKeyword(keyword)
+        return if (pointData.size == 0) {
             null
         } else {
-            var childIds : ArrayList<String> = ArrayList()
+            var childIds: ArrayList<String> = ArrayList()
             pointData.forEach {
                 childIds.add(it.id)
             }
             val foodComponentsDataList = DataOpenHelper.getInstance(activity!!).mappingDBDataToFoodComponentsData(childIds)
-            var temp : ArrayList<FoodComponentsData> = ArrayList()
+            var temp: ArrayList<FoodComponentsData> = ArrayList()
             foodComponentsDataList.forEach {
-                if (it.components.contains(keyword)){
+                if (it.components.contains(keyword)) {
                     temp.add(it)
                 }
             }

@@ -49,7 +49,7 @@ class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
-    private val CLOUD_VISION_API_KEY = "111"
+    private val CLOUD_VISION_API_KEY = "키는 지우기~!"
     val FILE_NAME = "temp.jpg"
     private val ANDROID_CERT_HEADER = "X-Android-Cert"
     private val ANDROID_PACKAGE_HEADER = "X-Android-Package"
@@ -84,7 +84,6 @@ class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
                             var selectedRadioButton: RadioButton = groceryCatagory.findViewById(groceryCatagory.checkedRadioButtonId) as RadioButton
                             addGroceryDataAdapter.addGrocery(GroceryData(-1, selectedRadioButton.text.toString(), groceryName.text.toString()))
 
-                            //이거추가하면?! 지워도되긴함.
                             addGroceryDataAdapter.notifyDataSetChanged()
                         }
                     }.show()
@@ -94,7 +93,6 @@ class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
             saveGroceryDatas()
             finish()
         }
-        //카메라 달기 시작
         grocery_camera_test_btn.setOnClickListener {
             MaterialDialog.Builder(this)
                     .items(arrayListOf("갤러리", "카메라"))
@@ -225,9 +223,9 @@ class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
     private fun prepareAnnotationRequest(bitmap: Bitmap): Vision.Images.Annotate {
         val httpTransport = AndroidHttp.newCompatibleTransport()
         val jsonFactory = GsonFactory.getDefaultInstance()
-        val str = resources.getString(R.string.vision_api)
+        //val str = resources.getString(R.string.vision_api)
 
-        val requestInitializer = object : VisionRequestInitializer(str) {
+        val requestInitializer = object : VisionRequestInitializer(CLOUD_VISION_API_KEY) {
 
             @Throws(IOException::class)
             override fun initializeVisionRequest(visionRequest: VisionRequest<*>?) {
@@ -321,18 +319,12 @@ class GroceryCameraAddActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         override fun onPostExecute(result: String) {
-            Log.e("영수증 인식 아웃풋", result)
             val activity = mActivityWeakReference.get()
             val temp: ArrayList<String> = ArrayList(GroceryDataProcess.getInstence().returnData(result))
-//            var groceryDatas : ArrayList<GroceryData> = ArrayList()
-//            temp.forEach {
-//                groceryDatas.add(GroceryData(-1, "기타", it))
-//            }
-            Log.e("영수증 인식 아웃풋", temp.toString())
+
             temp.forEach {
                 activity!!.addGroceryDataAdapter.addGrocery(GroceryData(-1, "기타", it))
             }
-            //activity!!.setGroceryDataAdapter(groceryDatas)
             if (mProgressDialog.isShowing) {
                 mProgressDialog.dismiss()
             }
