@@ -14,9 +14,6 @@ class AddGroceryRecyclerAdapter(val ctx : Context, val groceryDatas : ArrayList<
     private lateinit var onItemClick : View.OnClickListener
     private lateinit var onRemoveClick : View.OnClickListener
 
-    fun setOnRemoveClickListener(l : View.OnClickListener){
-        onRemoveClick = l
-    }
     fun setOnItemClickListener(l : View.OnClickListener){
         onItemClick = l
     }

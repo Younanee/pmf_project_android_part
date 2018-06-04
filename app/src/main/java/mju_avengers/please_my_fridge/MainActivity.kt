@@ -149,7 +149,6 @@ class MainActivity : AppCompatActivity() {
 
         val allRecipeID = IntArray(5023, { i -> i })
         var ids = allRecipeID.toList() as ArrayList<Int>
-        //먹은 음식 불러오고 빼주기
         DataOpenHelper.getInstance(this!!).getEatenFoodDatas().forEach {
             ids.remove(it.toInt())
         }
@@ -160,7 +159,6 @@ class MainActivity : AppCompatActivity() {
             val rec = mRecommeders.recognize(id, it)
             foodPoints.add(FoodPointData(rec.label, rec.conf))
         }
-        //여기서 검색된것만 뽑아내기
 
         foodPoints.sortByDescending { foodPointData -> foodPointData.point }
 
@@ -168,20 +166,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun getSearchedComponentData(keyword: String): ArrayList<FoodPersentData>? {
-        var foodComponentsDatas: ArrayList<FoodComponentsData> = getComponentsData()
-        var temp: ArrayList<FoodComponentsData> = ArrayList()
-        foodComponentsDatas.forEach {
-            if (it.components.contains(keyword)) {
-                temp.add(it)
-            }
-        }
-        return if (temp.size == 0) {
-            null
-        } else {
-            CalculateMatchPercent(this).matchPercentCalculator(temp)
-        }
-    }
 
     //새 데이터를 얻기 위해 HomeTab과 SearchTab에서 사용
     fun getNewMatchPercentData(): ArrayList<FoodPersentData> {

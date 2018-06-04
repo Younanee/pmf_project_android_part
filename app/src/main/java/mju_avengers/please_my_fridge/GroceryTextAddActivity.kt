@@ -38,7 +38,6 @@ class GroceryTextAddActivity : AppCompatActivity(), View.OnClickListener {
                         if (groceryName.text.isNotEmpty() && groceryCatagory.checkedRadioButtonId != -1) {
                             var selectedRadioButton: RadioButton = groceryCatagory.findViewById(groceryCatagory.checkedRadioButtonId) as RadioButton
                             addGroceryDataAdapter.addGrocery(GroceryData(-1, selectedRadioButton.text.toString(), groceryName.text.toString()))
-                            //이거추가하면?! 지워도되긴함.
                             addGroceryDataAdapter.notifyDataSetChanged()
                             if (groceryDatas.size > 0) {
                                 add_notice_tv.visibility = View.INVISIBLE

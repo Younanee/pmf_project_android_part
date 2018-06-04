@@ -1,5 +1,7 @@
 package mju_avengers.please_my_fridge
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
@@ -17,6 +19,7 @@ class DetailedFoodActivity : AppCompatActivity() {
     lateinit var foodData: FoodData
     lateinit var matchPercent: String
     var isEaten: Boolean = false
+    var firstIsEaten : Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detailed_food)
@@ -29,11 +32,12 @@ class DetailedFoodActivity : AppCompatActivity() {
             isEaten = DataOpenHelper.getInstance(this!!).getEatenFoodDatas().contains(childId)
         }
 
-
-        if (isEaten) {
+        firstIsEaten = if (isEaten) {
             detailed_food_appbar_add_eaten_btn.setImageResource(R.drawable.ic_star_yellow_24dp)
+            true
         } else {
             detailed_food_appbar_add_eaten_btn.setImageResource(R.drawable.ic_star_border_black_24dp)
+            false
         }
         detailed_food_appbar_add_eaten_btn.setOnClickListener {
             checkEatenBtn()
@@ -43,10 +47,19 @@ class DetailedFoodActivity : AppCompatActivity() {
 
 
         detailed_food_appbar_back_btn.setOnClickListener {
+            closeDetailedActivity()
+        }
+    }
+
+    fun closeDetailedActivity(){
+        if (firstIsEaten == isEaten){
+            Log.e("변화 체크", "데이터 변동 없음")
+            finish()
+        } else {
+            Log.e("변화 체크", "데이터 변동 있음!!!")
+            setResult(Activity.RESULT_OK, Intent())
             finish()
         }
-        //configureTabLayout()
-        //readDetailedFoodData(childId)
     }
 
     fun checkEatenBtn() {
@@ -131,6 +144,11 @@ class DetailedFoodActivity : AppCompatActivity() {
             }
         })
     }
+
+    override fun onBackPressed() {
+        closeDetailedActivity()
+    }
+
 
 
 }

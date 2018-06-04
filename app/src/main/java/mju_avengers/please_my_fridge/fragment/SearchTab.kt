@@ -30,6 +30,7 @@ import org.jetbrains.anko.support.v4.indeterminateProgressDialog
 import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.uiThread
 
 
 class SearchTab : Fragment(), View.OnClickListener {
@@ -44,6 +45,8 @@ class SearchTab : Fragment(), View.OnClickListener {
             return searchTabFragment
         }
     }
+
+    private var isLoading : Boolean = false
     private var mParam : ArrayList<SimpleFoodData>? = null
     private var dataSize = 0
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,19 +103,22 @@ class SearchTab : Fragment(), View.OnClickListener {
                     true
                 }
                 R.id.action_grocery -> {
-                    MaterialDialog.Builder(activity!!)
-                            .title("식재료 검색")
-                            .positiveText("검색")
-                            .negativeText("취소")
-                            .customView(R.layout.dialog_search_food, true)
-                            .onPositive { dialog, which ->
-                                var keyword : TextInputEditText = dialog.findViewById(R.id.dialog_search_food_name_tv) as TextInputEditText
-                                if (keyword.text.isNotEmpty()){
-                                    searchFoodData(keyword.text.toString())
+                    if (!isLoading){
+                        MaterialDialog.Builder(activity!!)
+                                .title("식재료 검색")
+                                .positiveText("검색")
+                                .negativeText("취소")
+                                .customView(R.layout.dialog_search_food, true)
+                                .onPositive { dialog, which ->
+                                    var keyword : TextInputEditText = dialog.findViewById(R.id.dialog_search_food_name_tv) as TextInputEditText
+                                    if (keyword.text.isNotEmpty()){
+                                        isLoading = true
+                                        search_food_refresh_srl.isRefreshing = true
+                                        searchFoodData(keyword.text.toString())
+                                    }
                                 }
-                            }
-                            .show()
-
+                                .show()
+                    }
                     true
                 }
                 R.id.action_info -> {
@@ -131,32 +137,55 @@ class SearchTab : Fragment(), View.OnClickListener {
             }
         }
     }
-    fun refreshSearchFoodData(){
-        newSampleFoodDatas = ArrayList()
-        search_food_refresh_srl.isRefreshing = true
-        doAsync {
-            val newFoodDataIds = (activity as MainActivity).getNewMatchPercentData()
-            dataSize = newFoodDataIds.size
-            newFoodDataIds.forEach {
-                getNewSimpleFoodData(it)
+    private fun refreshSearchFoodData(){
+        if (!isLoading){
+            isLoading = true
+            search_food_refresh_srl.isRefreshing = true
+            newSampleFoodDatas = ArrayList()
+            setSearchFoodRecyclerAdapter(newSampleFoodDatas)
+            doAsync {
+                val newFoodDataIds = (activity as MainActivity).getNewMatchPercentData()
+                dataSize = newFoodDataIds.size
+                newFoodDataIds.forEach {
+                    getNewSimpleFoodData(it)
+                }
             }
         }
     }
 
 
     private fun searchFoodData(keyword : String){
-        //val newFoodDataIds : ArrayList<FoodPersentData>? = (activity!! as MainActivity).getSearchedComponentData(keyword)
-        val newFoodDataIds : ArrayList<FoodPersentData>? = getSearchedComponentData(keyword)
-        if (newFoodDataIds == null) {
-            longToast("추천 레시피 중 \"$keyword\"를 재료로 쓰는 요리가 없습니다.")
-        } else {
-            search_food_refresh_srl.isRefreshing = true
-            newSampleFoodDatas = ArrayList()
-            dataSize = newFoodDataIds.size
-            newFoodDataIds.forEach {
-                getSearchedSimpleFoodData(it)
+        newSampleFoodDatas = ArrayList()
+        setSearchFoodRecyclerAdapter(newSampleFoodDatas)
+        doAsync {
+            val newFoodDataIds : ArrayList<FoodPersentData>? = getSearchedComponentData(keyword)
+            if (newFoodDataIds == null){
+                uiThread {
+                    isLoading = false
+                    search_food_refresh_srl.isRefreshing = false
+                    toast("추천 레시피 중 \"$keyword\"를 재료로 쓰는 요리가 없습니다.")
+                }
+            } else {
+                dataSize = newFoodDataIds.size
+                newFoodDataIds.forEach {
+                    getSearchedSimpleFoodData(it)
+                }
             }
         }
+
+
+
+//        val newFoodDataIds : ArrayList<FoodPersentData>? = getSearchedComponentData(keyword)
+//        if (newFoodDataIds == null) {
+//            toast("추천 레시피 중 \"$keyword\"를 재료로 쓰는 요리가 없습니다.")
+//        } else {
+//            search_food_refresh_srl.isRefreshing = true
+//            newSampleFoodDatas = ArrayList()
+//            dataSize = newFoodDataIds.size
+//            newFoodDataIds.forEach {
+//                getSearchedSimpleFoodData(it)
+//            }
+//        }
     }
 
     private fun setSearchFoodRecyclerAdapter(data : ArrayList<SimpleFoodData>?) {
@@ -167,6 +196,7 @@ class SearchTab : Fragment(), View.OnClickListener {
         search_food_rv.itemAnimator = SlideInLeftAnimator()
         search_food_rv.adapter = slideInfoRecyclerAdapter
     }
+
     private fun getNewSimpleFoodData(childData : FoodPersentData){
         UseFirebaseDatabase.getInstence().readFBData(childData.id, object : OnGetDataListener{
             override fun onStart() {
@@ -183,8 +213,10 @@ class SearchTab : Fragment(), View.OnClickListener {
                 if (dataSize == newSampleFoodDatas!!.size) {
                     dataSize = 0
                     //newSampleFoodDatas!!.sortByDescending { it.percent }
-                    isNotSearched = true
+
                     setSearchFoodRecyclerAdapter(newSampleFoodDatas)
+                    isNotSearched = true
+                    isLoading = false
                     search_food_refresh_srl.isRefreshing = false
                 }
             }
@@ -209,8 +241,10 @@ class SearchTab : Fragment(), View.OnClickListener {
 
                 if (dataSize == newSampleFoodDatas!!.size) {
                     dataSize = 0
-                    isNotSearched = false
+                    newSampleFoodDatas!!.sortByDescending { it.percent }
                     setSearchFoodRecyclerAdapter(newSampleFoodDatas)
+                    isLoading = false
+                    isNotSearched = false
                     search_food_refresh_srl.isRefreshing = false
                     longToast("검색 완료")
                 }
@@ -221,27 +255,6 @@ class SearchTab : Fragment(), View.OnClickListener {
         })
     }
 
-
-
-    private fun loadModel(): ArrayList<FoodPointData> {
-        var mRecommeders = TensorflowRecommend.create(context!!.assets, "Keras",
-                "opt_recipe.pb", "label.txt", "embedding_1_input", "embedding_2_input",
-                "merge_1/ExpandDims")
-        val allRecipeID = IntArray(5023, { i -> i})
-        var ids = allRecipeID.toList() as ArrayList<Int>
-        DataOpenHelper.getInstance(activity!!).getEatenFoodDatas().forEach {
-            ids.remove(it.toInt())
-        }
-
-        val id = 0
-        var foodPoints: ArrayList<FoodPointData> = ArrayList()
-        ids.forEach {
-            val rec = mRecommeders.recognize(id, it)
-            foodPoints.add(FoodPointData(rec.label, rec.conf))
-        }
-        foodPoints.sortByDescending { foodPointData -> foodPointData.point }
-        return foodPoints.take(20) as ArrayList<FoodPointData>
-    }
     private fun loadModelByKeyword(keyword : String): ArrayList<FoodPointData>{
         var mRecommeders = TensorflowRecommend.create(context!!.assets, "Keras",
                 "opt_recipe.pb", "label.txt", "embedding_1_input", "embedding_2_input",

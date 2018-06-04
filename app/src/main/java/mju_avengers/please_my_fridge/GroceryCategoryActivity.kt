@@ -54,7 +54,6 @@ class GroceryCategoryActivity : AppCompatActivity() {
                     .negativeText("바로 닫기")
                     .negativeColor(resources.getColor(R.color.colorPrimaryDark))
                     .onPositive { dialog, which ->
-                        //saveGroceryDatas()
                         DataOpenHelper.getInstance(this).removeGroceryDatas(groceryCategoryRecyclerAdapter.removedDatas)
                         toast("상태 저장 완료")
                         super.onBackPressed()

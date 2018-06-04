@@ -34,8 +34,6 @@ class GroceryCategoryRecyclerAdapter(val ctx : Context, val datas: ArrayList<Gro
         holder.groceryRemoveBtn.setOnClickListener {
             removedDatas.add(datas[position].id)
             removeGrocery(position)
-            //실제 데이터베이스에서도 지우는 기능 넣기
-            //아예 리사이클뷰 다시달아버리면 인덱스 에러 안뜸
         }
     }
 

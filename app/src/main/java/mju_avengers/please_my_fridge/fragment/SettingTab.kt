@@ -1,6 +1,8 @@
 package mju_avengers.please_my_fridge.fragment
 
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -27,9 +29,12 @@ import mju_avengers.please_my_fridge.db.DataOpenHelper
 import mju_avengers.please_my_fridge.match_persent.CalculateMatchPercent
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.uiThread
 
 
 class SettingTab : Fragment(), View.OnClickListener{
+    private val REQUEST_CODE_SETTING_TAB = 3334
+
     override fun onClick(v: View?) {
         val idx: Int = setting_eaten_food_list_rv.getChildAdapterPosition(v)
         var childId : String
@@ -37,7 +42,12 @@ class SettingTab : Fragment(), View.OnClickListener{
         childId = myFoodRecyclerAdapter.simpleFoodItems!![idx].id
         matchPercent = myFoodRecyclerAdapter.simpleFoodItems!![idx].percent
 
-        startActivity<DetailedFoodActivity>("childId" to childId, "matchPercent" to String.format("%.2f", matchPercent))
+        //startActivity<DetailedFoodActivity>("childId" to childId, "matchPercent" to String.format("%.2f", matchPercent))
+
+        val intent = Intent(context, DetailedFoodActivity::class.java)
+        intent.putExtra("childId", childId)
+        intent.putExtra("matchPercent", String.format("%.2f", matchPercent))
+        startActivityForResult(intent, REQUEST_CODE_SETTING_TAB)
     }
 
     lateinit var myFoodRecyclerAdapter : SearchFoodRecyclerAdapter
@@ -95,14 +105,20 @@ class SettingTab : Fragment(), View.OnClickListener{
     fun refreshEatenFoodData(){
         myEatenFoodData = ArrayList()
         setting_refresh_srl.isRefreshing = true
-        doAsync {
-            val newFoodDataIds = DataOpenHelper.getInstance(activity!!).getEatenFoodDatas()
+        val newFoodDataIds = DataOpenHelper.getInstance(activity!!).getEatenFoodDatas()
+        dataSize = newFoodDataIds.size
+        if (dataSize!=0){
             val foodComponentsData : ArrayList<FoodComponentsData>? = DataOpenHelper.getInstance(activity!!).mappingDBDataToFoodComponentsData(newFoodDataIds)
             val foodPercentData : ArrayList<FoodPersentData> = CalculateMatchPercent(context!!).matchPercentCalculator(foodComponentsData!!)
-            dataSize = foodPercentData.size
-            foodPercentData.forEach {
-                getNewEatenFoodData(it)
+            doAsync {
+                foodPercentData.forEach {
+                    getNewEatenFoodData(it)
+                }
             }
+        } else {
+            setEatenFoodRecyclerAdapter(myEatenFoodData)
+            setting_refresh_srl.isRefreshing = false
+
         }
     }
     private fun setEatenFoodRecyclerAdapter(data : ArrayList<SimpleFoodData>) {
@@ -129,6 +145,7 @@ class SettingTab : Fragment(), View.OnClickListener{
                 myEatenFoodData!!.add(SimpleFoodData(id, url, title, percent, starRate))
 
                 if (dataSize == myEatenFoodData!!.size){
+                    Log.e("무한 로딩", "무한로딩 구역 1-3")
                     dataSize = 0
                     //myEatenFoodData!!.sortByDescending { it.percent }
                     setEatenFoodRecyclerAdapter(myEatenFoodData)
@@ -136,8 +153,20 @@ class SettingTab : Fragment(), View.OnClickListener{
                 }
             }
             override fun onFailed(databaseError: DatabaseError) {
+                Log.e("무한 로딩", "무한로딩 구역 3")
                 Log.e("FireBase DB Error", databaseError.toString())
             }
         })
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_SETTING_TAB){
+            if (resultCode == Activity.RESULT_OK){
+                Log.e("데이터 변동 체크", "데이터 변화 감지")
+                refreshEatenFoodData()
+            }
+        }
     }
 }

@@ -11,6 +11,7 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import mju_avengers.please_my_fridge.data.InitFoodGroceryData
 import mju_avengers.please_my_fridge.db.DataOpenHelper
+import org.jetbrains.anko.startActivity
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -52,19 +53,15 @@ class AppInitActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RC_SIGN_IN) {
-            var response: IdpResponse = IdpResponse.fromResultIntent(data)!!
             if (resultCode == Activity.RESULT_OK) {
-                val user = FirebaseAuth.getInstance().currentUser
-
                 if (!DataOpenHelper.getInstance(this).isCompletedInitDataSetting()) {
                     initDataBaseInsert()
                     Log.e("초기 데이터 작업중", "데이터 들어갔습니다.")
                 }
-
                 var intent = Intent(applicationContext, MainActivity::class.java)
                 startActivity(intent)
             } else {
-                //로그인 실패
+                Log.e("login failed", "firebase login fail")
             }
         }
     }

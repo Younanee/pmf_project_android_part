@@ -1,5 +1,7 @@
 package mju_avengers.please_my_fridge.fragment
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -24,9 +26,14 @@ class HomeTab : Fragment(), View.OnClickListener{
         val idx : Int = home_food_rv.getChildAdapterPosition(v)
         val childId = foodInfoDataAdapter.simpleFoodData!![idx].id
         val matchPercent = foodInfoDataAdapter.simpleFoodData!![idx].percent
-        startActivity<DetailedFoodActivity>("childId" to childId, "matchPercent" to String.format("%.2f", matchPercent))
+//        startActivity<DetailedFoodActivity>("childId" to childId, "matchPercent" to String.format("%.2f", matchPercent))
+        val intent = Intent(context, DetailedFoodActivity::class.java)
+        intent.putExtra("childId", childId)
+        intent.putExtra("matchPercent", String.format("%.2f", matchPercent))
+        startActivityForResult(intent, REQUEST_CODE_HOME_TAB)
     }
-
+    private var isLoading : Boolean = false
+    private val REQUEST_CODE_HOME_TAB = 3331
     private var mParam : ArrayList<SimpleFoodData>? = null
     private lateinit var newSampleFoodDatas : ArrayList<SimpleFoodData>
     private lateinit var foodInfoDataAdapter : FoodInfoRecyclerAdapter
@@ -55,8 +62,6 @@ class HomeTab : Fragment(), View.OnClickListener{
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.fragment_home, container, false)
-
-
         return v
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -72,6 +77,16 @@ class HomeTab : Fragment(), View.OnClickListener{
             refreshHomeTabListDataList()
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_HOME_TAB){
+            if (resultCode== Activity.RESULT_OK){
+                refreshHomeTabListDataList()
+            }
+        }
+
+    }
     private fun setHomeFoodAdapter(data : ArrayList<SimpleFoodData>?){
         foodInfoDataAdapter = FoodInfoRecyclerAdapter(context!!, data!!)
         foodInfoDataAdapter.setOnItemClickListener(this)
@@ -81,22 +96,22 @@ class HomeTab : Fragment(), View.OnClickListener{
     }
 
 
-    fun refreshHomeTabListDataList(){
-        newSampleFoodDatas = ArrayList()
-        home_food_refresh_srl.isRefreshing = true
-        doAsync {
-            val newFoodDataIds = (activity as MainActivity).getNewMatchPercentData()
-            dataSize = newFoodDataIds.size
-            newFoodDataIds.forEach {
-                getNewSimpleFoodData(it)
+    private fun refreshHomeTabListDataList(){
+        if (!isLoading){
+            isLoading = true
+            home_food_refresh_srl.isRefreshing = true
+            newSampleFoodDatas = ArrayList()
+            setHomeFoodAdapter(newSampleFoodDatas)
+            doAsync {
+                val newFoodDataIds = (activity as MainActivity).getNewMatchPercentData()
+                dataSize = newFoodDataIds.size
+                newFoodDataIds.forEach {
+                    getNewSimpleFoodData(it)
+                }
             }
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.e("홈 탭 mParam 데이터 갯수 : " , mParam!!.size.toString())
-    }
 
     private fun getNewSimpleFoodData(childData : FoodPersentData){
         UseFirebaseDatabase.getInstence().readFBData(childData.id, object : OnGetDataListener{
@@ -115,6 +130,7 @@ class HomeTab : Fragment(), View.OnClickListener{
                     dataSize = 0
                     newSampleFoodDatas!!.sortByDescending { it.percent }
                     setHomeFoodAdapter(newSampleFoodDatas)
+                    isLoading = false
                     home_food_refresh_srl.isRefreshing = false
 
                 }
