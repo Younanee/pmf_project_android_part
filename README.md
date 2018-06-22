@@ -22,5 +22,5 @@
  - 조우준 : jowoojun77@gmail.com
  - 남윤환 : nyounh@gmail.com
  - 권순목 : tnsahr2580@gmail.com 
- - 김재한 
+ - 김재한 : mju6013@naver.com
  - 김명재 : rlaaud30@gmail.com
