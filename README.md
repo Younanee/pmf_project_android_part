@@ -19,7 +19,7 @@
  - jp.wasabeef:recyclerview-animators
 
 # 팀원
- - 조우준
+ - 조우준 : jowoojun77@gmail.com
  - 남윤환 : nyounh@gmail.com
  - 권순목 : tnsahr2580@gmail.com 
  - 김재한 
