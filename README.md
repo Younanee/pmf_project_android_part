@@ -17,3 +17,10 @@
  - com.github.markushi:circlebutton
  - com.github.Omega-R:OmegaRecyclerView
  - jp.wasabeef:recyclerview-animators
+
+# 팀원
+ - 조우준
+ - 남윤환 : nyounh@gmail.com
+ - 권순목 : tnsahr2580@gmail.com 
+ - 김재한 
+ - 김명재 : rlaaud30@gmail.com
